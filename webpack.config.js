@@ -7,7 +7,7 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name].js",
-        // publicPath: "./"
+        // publicPath: "./src/images"
     },
     module: {
         rules: [
@@ -33,7 +33,15 @@ const config = {
                 test: /\.(png|jpg|jpeg|gif|svg)$/,
                 use: [ // use 作用是使用多个loader
                     {
-                        loader: 'file-loader'
+                        loader: 'file-loader?name=images/[name].[ext]'
+                    }
+                ]
+            },
+            {
+                test: /\.(mp3)$/,
+                use: [ // use 作用是使用多个loader
+                    {
+                        loader: 'file-loader?name=music/[name].[ext]'
                     }
                 ]
             },
@@ -46,25 +54,22 @@ const config = {
                 loader: 'babel-loader',
                 options: {
                     presets: ['react', 'es2015'],
-                    // plugins: ['transform-object-rest-spread']
                 }
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader'
             }
-        ]
+        ],
     },
     resolve: {
         enforceModuleExtension: false,
-        extensions: ['.js', '.jsx', '.css', '.less'],
-        alias: {
-            'vue': 'vue/dist/vue.common.js'
-        }
+        extensions: ['.js', '.jsx', '.css', '.less']
     },
-    // externals: {
-    //     // react: 'react'
-    // },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
         compress: true,
-        port: 8000
+        port: 3000
     },
     plugins: [
         new ExtractTextPlugin({
