@@ -1,9 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
-const { entry, html } = require('./fileList');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const { entry, html } = require('./fileList');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const config = {
-    entry,
+    entry: './main.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name].js",
@@ -86,8 +87,15 @@ const config = {
                 warnings: false,
                 drop_console: false,
             }
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: './index.html',
+            // chunks: [html.substring(0, html.indexOf('.'))], // 允许添加的模块 js / css
+            inject:'true',
+            hasg:'true'
         })
-    ].concat(html)
+    ]
 }
 
 module.exports = config;

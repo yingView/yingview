@@ -2,6 +2,11 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Router, Route, Link, hashHistory } from 'react-router';
 
+import Main from './src/Pages/Main';
+
+require('./style');
+
+
 const App = React.createClass({
     render() {
         return (
@@ -42,15 +47,15 @@ const Message = React.createClass({
 
 render((
     <Router history={hashHistory}>
-        <Route path="/" component={App}>
+        <Route path="/" component={Main}>
             <Route path="about" component={About} />
             <Route path="inbox" component={Inbox}>
                 <Route path="messages/:id" component={Message} />
             </Route>
         </Route>
-        <Route path="/index" component={App}>
-            <Route path="/about" component={About} />
-            <Route path="/inbox" component={Inbox}>
+        <Route path="/index" component={Main}>
+            <Route path="about" component={About} />
+            <Route path="inbox" component={Inbox}>
                 <Route path="messages/:id" component={Message} />
             </Route>
         </Route>
