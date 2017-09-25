@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from 'yingview-form';
+
 
 import Header from '../../components/Header';
 import Carousel from '../../components/Carousel';
