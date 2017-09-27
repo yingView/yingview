@@ -24,6 +24,10 @@ class Carousel extends Component {
     this.timer = setInterval(() => {
       this.play(this.number);
       this.number += 1;
+      if (!this.move || !this.move.style) {
+        clearInterval(this.timer)
+        return;
+      }
       if (this.number === imgs.length + 1) {
         this.setState({ now: 0 });
         setTimeout(() => {

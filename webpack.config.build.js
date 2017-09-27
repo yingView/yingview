@@ -8,7 +8,8 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name].js",
-        // publicPath: "./src/images"
+        // publicPath: "./src/images",
+        chunkFilename: '[name].[chunkhash:5].chunk.js'
     },
     module: {
         rules: [
