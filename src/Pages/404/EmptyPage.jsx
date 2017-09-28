@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-class Login extends Component {
+class EmptyPage extends Component {
     render() {
         return (
-            <div>登录</div>
+            <div>404</div>
         )
     }
 
 }
 
-export default Login;
+export default EmptyPage;

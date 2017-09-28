@@ -1,2 +1,3 @@
 import Login from './Login';
-export default Login;
+require('./style');
+module.exports = Login;

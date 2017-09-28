@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-class Login extends Component {
+class Artical extends Component {
     render() {
         return (
-            <div>登录</div>
+            <div>文章</div>
         )
     }
 
 }
 
-export default Login;
+export default Artical;

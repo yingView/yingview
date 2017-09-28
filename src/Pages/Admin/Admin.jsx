@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-class Login extends Component {
+class Admin extends Component {
     render() {
         return (
-            <div>登录</div>
+            <div>注册</div>
         )
     }
-
 }
 
-export default Login;
+export default Admin;

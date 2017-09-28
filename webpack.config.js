@@ -7,9 +7,9 @@ const config = {
     entry: './main.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name].js",
-        // publicPath: "./src/images",
-        chunkFilename: '[name].[chunkhash:5].chunk.js'
+        filename: 'main.js',
+        // publicPath: './',
+        chunkFilename: '[name].[chunkhash:6].chunk.js'
     },
     module: {
         rules: [
@@ -86,7 +86,6 @@ const config = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './index.html',
-            // chunks: [html.substring(0, html.indexOf('.'))], // 允许添加的模块 js / css
             inject:'true',
             hasg:'true'
         })

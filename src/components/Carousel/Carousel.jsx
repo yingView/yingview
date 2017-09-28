@@ -5,7 +5,9 @@ class Carousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      now: 0
+      now: 0,
+      className: 'move-wrap',
+      nowImgIdx: 0
     }
     this.number = 1;
   }
@@ -17,35 +19,31 @@ class Carousel extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   autoPlay() {
     const { time, imgs, width } = this.props;
-    const left = imgs.length * 34;
-    this.tabs.style.left = ((width - left) / 2) + 'px';
     this.timer = setInterval(() => {
       this.play(this.number);
       this.number += 1;
-      if (!this.move || !this.move.style) {
-        clearInterval(this.timer)
-        return;
-      }
       if (this.number === imgs.length + 1) {
         this.setState({ now: 0 });
         setTimeout(() => {
-          this.move.className = 'default-position';
-          this.move.style.transform = 'translateX(0px)';
+          this.setState({ className: 'default-position' });
+          this.setState({ nowImgIdx: 0 });
           setTimeout(() => {
-            this.move.className = 'move-wrap';
+            this.setState({ className: 'move-wrap' })
           }, 500)
-        }, 600);
+        }, 500);
         this.number = 1;
       }
     }, time)
   }
 
   play(number) {
-    this.setState({ now: number });
-    const { width } = this.props;
-    this.move.style.transform = 'translateX(-' + width * number + 'px)';
+    this.setState({ now: number, nowImgIdx: number });
   }
 
   render() {
@@ -62,7 +60,7 @@ class Carousel extends Component {
             }
           }}
         >
-          <ul className="move-wrap" ref={c => this.move = c}>
+          <ul className={this.state.className} style={{ transform: `translateX(-${width * this.state.nowImgIdx}px)` }}>
             {
               imgs && imgs.map((item, idx) => {
                 const { img, href, tab } = item;
@@ -73,10 +71,10 @@ class Carousel extends Component {
               imgs ? <li><a href={imgs[0].href} target={imgs[0].tab}><img src={imgs[0].img} alt="banner" /></a></li> : null
             }
           </ul>
-          <ul className="tab-radius"  ref={c => this.tabs = c}>
+          <ul className="tab-radius" style={{ left: ((width - (imgs.length * 34)) / 2) + 'px' }}>
             {
               imgs && imgs.map((item, idx) => {
-                return (<li key={idx} style={ idx === this.state.now ? { opacity: 1 } : { opacity: 0.6}} onClick={() => {
+                return (<li key={idx} style={idx === this.state.now ? { opacity: 1 } : { opacity: 0.6 }} onClick={() => {
                   this.number = idx;
                   this.play(idx);
                 }} />);
