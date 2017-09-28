@@ -23,7 +23,17 @@ export default {
 				require.ensure([], (require) => {
 					cb(null, require('./src/Pages/Login'))
 				}, 'Login').default
-			}
+			},
+			childRoutes: [
+				{
+					path: 'register',
+					getComponent(nextState, cb) {
+						require.ensure([], (require) => {
+							cb(null, require('./src/Pages/Register'))
+						}, 'Register').default
+					}
+				}
+			]
 		},
 		{
 			path: 'register',
