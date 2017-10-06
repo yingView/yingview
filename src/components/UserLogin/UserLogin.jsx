@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Input, CheckBoxItem, Button } from 'yingview-ui';
+import { Input, CheckBoxItem, Button } from 'yingview-form';
 
 class UserLogin extends Component {
     render() {

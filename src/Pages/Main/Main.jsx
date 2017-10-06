@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Pagination } from 'yingview-form';
 
-
 import Header from '../../components/Header';
 import Carousel from '../../components/Carousel';
 import Footer from '../../components/Footer';

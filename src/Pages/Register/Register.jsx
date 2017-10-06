@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Input, Radio, Button, Calendar, Select } from 'yingview-ui';
+import { Input, Radio, Button, Calendar, Select } from 'yingview-form';
 
 class Register extends Component {
 
