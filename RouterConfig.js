@@ -23,17 +23,7 @@ export default {
 				require.ensure([], (require) => {
 					cb(null, require('./src/Pages/Login'))
 				}, 'Login').default
-			},
-			childRoutes: [
-				{
-					path: 'register',
-					getComponent(nextState, cb) {
-						require.ensure([], (require) => {
-							cb(null, require('./src/Pages/Register'))
-						}, 'Register').default
-					}
-				}
-			]
+			}
 		},
 		{
 			path: 'register',
@@ -52,11 +42,11 @@ export default {
 			}
 		},
 		{
-			path: 'artical',
+			path: 'articallist',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
 					cb(null, require('./src/Pages/Artical'))
-				}, 'Artical').default
+				}, 'ArticalList').default
 			}
 		},
 		{

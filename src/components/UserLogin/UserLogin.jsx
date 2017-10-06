@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router';
 import { Input, CheckBoxItem, Button } from 'yingview-form';
 
 class UserLogin extends Component {
@@ -32,7 +33,9 @@ class UserLogin extends Component {
                         type='submit'
                     />
                     <span style={{ padding: '0 12px' }} />
+                    <Link to="register">
                     <Button text='注册' />
+                    </Link>
                 </div>
                 <div className="button username-password" />
             </div>

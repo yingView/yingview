@@ -15,9 +15,9 @@ class EmptyPage extends Component {
                         404 NOT FOND
                     </div>
                 </div>
-                <div style={{ position: 'absolute', bottom: '0', width: '100%'}}>
+                {/* <div style={{ position: 'absolute', bottom: '0', width: '100%'}}>
                     <Footer />
-                </div>
+                </div> */}
             </div>
         )
     }

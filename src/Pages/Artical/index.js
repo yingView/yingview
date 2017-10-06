@@ -1,3 +1,3 @@
-import Artical from './Artical';
+import ArticalList from './ArticalList';
 require('./style');
-module.exports = Artical;
+module.exports = ArticalList;
