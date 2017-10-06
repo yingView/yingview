@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router';
 const logo = require('./../../images/logo.jpg');
 class Header extends Component {
     render() {
@@ -7,20 +8,24 @@ class Header extends Component {
             <div id="ying-view-header">
                 <div className="logo-title">
                     <div className="logo-name">
-                        <a href="#"><img src={logo} alt="login"/></a>
+                        <a href="#"><img src={logo} alt="login" /></a>
                     </div>
                     <div className="search-part">
                         <div className="select">
                             <span>全站</span><span className="icon"></span>
                         </div>
-                        <input type="text" className="search-input"/>
+                        <input type="text" className="search-input" />
                         <button className="search-botton">
                             <span></span>
                         </button>
                     </div>
                     <div className="login-or-sign">
-                        <button className="login">登录</button>
-                        <button className="resgister">注册</button>
+                        <Link to="login">
+                            <button className="login">登录</button>
+                        </Link>
+                        <Link to="register">
+                            <button className="resgister">注册</button>
+                        </Link>
                     </div>
                 </div>
                 <div className="ying-nav">
@@ -36,7 +41,7 @@ class Header extends Component {
                             <li><a href="#">更多</a></li>
                             <li><a href="#">首页</a></li>
                         </ul>
-                        <div className="publish" onSelectStart={() => {console.log(123)}}>
+                        <div className="publish" onSelectStart={() => { console.log(123) }}>
                             <div className="publish-text">发布作品</div>
                         </div>
                     </div>

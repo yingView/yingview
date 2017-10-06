@@ -3,13 +3,9 @@ import ReactDOM from 'react-dom';
 import { Input, CheckBoxItem, Button } from 'yingview-ui';
 
 class UserLogin extends Component {
-
     render() {
         return (
             <div id="ying-view-user-login">
-                <div className="img-banner">
-                    12145
-                </div>
                 <div className="username username-password">
                     <Input
                         type='text'
