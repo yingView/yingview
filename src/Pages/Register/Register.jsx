@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Input, Radio, Button, Calendar, Select, Dialog, Ajax, Utils } from 'yingview-ui';
+import { Input, Radio, Button, Calendar, Select, Dialog, Ajax, Utils } from 'yingview-form';
 
 class Register extends Component {
     constructor(props) {
         super(props);
         this.sendData = {
-            username: '',
+            username: this.props.location.query.username || '',
             password: '',
             repassword: '',
-            sax: '',
-            job: '',
+            sax: 'man',
+            job: 'it',
             email: ''
         }
     }
@@ -39,13 +39,29 @@ class Register extends Component {
             return;
         }
 
-        // Ajax.post({
-        //     url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
-        //     data: {wd: 1230},
-        //     success: function(res) {
-        //         console.log(res);
-        //     }
-        // })
+        Ajax.get({
+            url: 'http://127.0.0.1:8080/user.json',
+            data: {
+                method: 'regist',
+                content: JSON.stringify({
+                    username,
+                    password,
+                    sax,
+                    job: job.key,
+                    email,
+                    birthday: ''
+                })
+            },
+            dataType: 'json',
+            success: function (res) {
+                const { content } = res;
+                if (content.isSuccess) {
+                    Dialog.success({ content: content.message });
+                } else {
+                    Dialog.info({ content: content.message });
+                }
+            }
+        })
     }
     render() {
         return (
@@ -62,6 +78,7 @@ class Register extends Component {
                                     type='word'
                                     fileName='用户名'
                                     placeholder='用户名/英文/数字'
+                                    value={this.sendData.username}
                                     onChange={(value) => { this.sendData.username = value; }}
                                 />
                             </div>
@@ -71,6 +88,7 @@ class Register extends Component {
                                     type='word'
                                     fileName='密码'
                                     placeholder='密码/英文/数字'
+                                    value={this.sendData.password}
                                     onChange={(value) => { this.sendData.password = value; }}
                                 />
                             </div>
@@ -80,6 +98,7 @@ class Register extends Component {
                                     type='word'
                                     fileName='确认密码'
                                     placeholder='密码/英文/数字'
+                                    value={this.sendData.repassword}
                                     onChange={(value) => { this.sendData.repassword = value; }}
                                 />
                             </div>
@@ -95,7 +114,7 @@ class Register extends Component {
                                 <span>性别:</span>
                                 <Radio
                                     options={{ man: '男', woman: '女' }}
-                                    value="man"
+                                    value={this.sendData.sax}
                                     onChange={(value) => { this.sendData.sax = value; }}
                                 />
                             </div>
@@ -103,7 +122,7 @@ class Register extends Component {
                                 <span>职业:</span>
                                 <Select
                                     options={{ it: '互联网', eb: '电商', des: '设计' }}
-                                    value={'it'}
+                                    value={this.sendData.job}
                                     onChange={(value) => { this.sendData.job = value; }}
                                 />
                             </div>
@@ -114,6 +133,7 @@ class Register extends Component {
                                     required
                                     fileName='激活邮箱'
                                     placeholder='请输入邮箱'
+                                    value={this.sendData.email}
                                     onChange={(value) => { this.sendData.email = value; }}
                                 />
                             </div>
