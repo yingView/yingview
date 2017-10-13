@@ -60,6 +60,53 @@
             line-height: 50px;
             text-align: right;
             width: 260px;
+            .user-info {
+                position: relative;
+                height: 50px;
+                .photo {
+                    position: absolute;
+                    right: 0;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    .user_photo {
+                        width: 50px;
+                        height: 50px;
+                        display: block;
+                        border: none;
+                    }
+                    .nav {
+                        display: none;
+                        position: absolute;
+                        top: 50px;
+                        left: -9px;
+                        z-index: 100;
+                        box-shadow: 1px 1px 5px #d1d1d1;
+                        -webkit-box-shadow: 1px 1px 5px #d1d1d1;
+                        -moz-box-shadow: 1px 1px 5px #d1d1d1;
+                        -o-box-shadow: 1px 1px 5px #d1d1d1;
+                        background: #fff;
+                        width: 68px;
+                        li {
+                            list-style: none;
+                            height: 26px;
+                            width: 50px;
+                            line-height: 26px;
+                            text-align: left;
+                            padding: 0 9px;
+                        }
+                        li:hover {
+                            background: #3385ff;
+                            color: #fff;
+                        }
+                    }
+                }
+                .photo:hover {
+                    .nav {
+                        display: block;
+                    }
+                }
+            }
             button {
                 background: none;
                 color: #fff;

@@ -9,6 +9,10 @@ import Footer from '../../components/Footer';
 import ArticalLine from '../../components/ArticalLine';
 
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
   render() {
     return (
       <div id="ying-view-home">
@@ -20,7 +24,7 @@ class Main extends React.Component {
           <div className="content-title clearfix">
             <h2>最新作品</h2>
             <p>
-              <Link to={{ pathname: '/articallist', query: { keyword: 'new' } }}>
+              <Link to={{ pathname: '/articallist', query: { keyword: 'new' } }} target='_blank'>
                 <span className="more">更多&gt;&gt;</span>
               </Link>
             </p>
@@ -31,7 +35,7 @@ class Main extends React.Component {
           <div className="content-title clearfix">
             <h2>精品推荐</h2>
             <p>
-              <Link to={{ pathname: '/articallist', query: { keyword: 'great' } }}>
+              <Link to={{ pathname: '/articallist', query: { keyword: 'great' } }} target='_blank'>
                 <span className="more">更多&gt;&gt;</span>
               </Link>
             </p>
@@ -42,7 +46,7 @@ class Main extends React.Component {
           <div className="content-title clearfix">
             <h2>热门文章</h2>
             <p>
-              <Link to={{ pathname: '/articallist', query: { keyword: 'hot' } }}>
+              <Link to={{ pathname: '/articallist', query: { keyword: 'hot' } }} target='_blank'>
                 <span className="more">更多&gt;&gt;</span>
               </Link>
             </p>

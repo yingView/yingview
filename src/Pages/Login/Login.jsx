@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import UserLogin from '../../components/UserLogin';
 
 class Login extends Component {
-
     render() {
         return (
             <div id="ying-view-login">
@@ -11,7 +10,7 @@ class Login extends Component {
                     <div className="head-ying-view">
                         用户登录
                     </div>
-                    <UserLogin />
+                    <UserLogin submit={() => { window.location.href = '/'; }} />
                 </div>
             </div>
         )

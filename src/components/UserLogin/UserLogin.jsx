@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Input, CheckBoxItem, Button, Dialog, Ajax } from 'yingview-form';
+import { Input, CheckBoxItem, Button, Dialog, Ajax, Utils } from 'yingview-ui';
+const { setCookie } = Utils;
+
 
 class UserLogin extends Component {
     constructor(props) {
@@ -12,7 +14,7 @@ class UserLogin extends Component {
         this.sendData = {
             username: '',
             password: '',
-            remain: false
+            remain: true
         }
     }
 
@@ -39,10 +41,17 @@ class UserLogin extends Component {
                 password
             },
             dataType: 'json',
-            success: function (res) {
+            success: (res) => {
                 const { content } = res;
                 if (content.isSuccess) {
-                    Dialog.success({ content: content.message });
+                    const cookie = {
+                        nickname: content.user.nickname,
+                        username: content.user.username,
+                        passcode: content.user.passcode
+                    }
+                    const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
+                    setCookie('user', JSON.stringify(cookie), time);
+                    Dialog.success({ content: content.message, submit: this.props.submit });
                 } else {
                     Dialog.info({ content: content.message });
                 }
@@ -59,7 +68,7 @@ class UserLogin extends Component {
                         fileName='用户名/英文/数字'
                         placeholder='用户名/英文/数字'
                         value={this.sendData.username}
-                        onChange={(value) => { this.sendData.username = value; this.setState({username: value}) }}
+                        onChange={(value) => { this.sendData.username = value; this.setState({ username: value }) }}
                     />
                 </div>
                 <div className="password username-password">
@@ -86,7 +95,7 @@ class UserLogin extends Component {
                         onClick={this.sendAjax.bind(this)}
                     />
                     <span style={{ padding: '0 12px' }} />
-                    <Link to={{ pathname: '/register', query: this.sendData.username ? { username: decodeURI(this.sendData.username)} : {} }}>
+                    <Link to={{ pathname: '/register', query: this.sendData.username ? { username: decodeURI(this.sendData.username) } : {} }}>
                         <Button text='注册' />
                     </Link>
                 </div>

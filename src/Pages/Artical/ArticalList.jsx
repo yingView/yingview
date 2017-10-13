@@ -7,22 +7,55 @@ import Footer from '../../components/Footer';
 import ArticalLine from '../../components/ArticalLine';
 
 class ArticalList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            keyword: this.props.location.query.keyword
+        }
+        this.current = 1;
+    }
+
+    queryList() {
+        console.log('查询接口');
+    }
+
+    setKeyWord(keyword) {
+        if (keyword === this.state.keyword) {
+            return;
+        }
+        this.state.keyword = keyword;
+        this.setState({ keyword });
+        this.queryList();
+    }
     render() {
+        const { keyword } = this.state;
         return (
             <div id="ying-view-artical">
                 <Header />
                 <div className="artical-content">
                     <div className="tag-nav clearfix">
-                        <div className="checked nav-button">
+                        <div
+                            className={`${!keyword ? 'checked ' : ''}nav-button`}
+                            onClick={this.setKeyWord.bind(this, '')}
+                        >
                             所有文章
                         </div>
-                        <div className="new-artical nav-button">
+                        <div
+                            className={`${keyword === 'new' ? 'checked ' : ''}new-artical nav-button`}
+                            onClick={this.setKeyWord.bind(this, 'new')}
+                        >
                             最新作品
                         </div>
-                        <div className="great-artical nav-button">
+                        <div
+                            className={`${keyword === 'great' ? 'checked ' : ''}great-artical nav-button`}
+                            onClick={this.setKeyWord.bind(this, 'great')}
+                        >
                             精品推荐
                         </div>
-                        <div className="hot-artical nav-button">
+                        <div
+                            className={`${keyword === 'hot' ? 'checked ' : ''}hot-artical nav-button`}
+                            onClick={this.setKeyWord.bind(this, 'hot')}
+                        >
                             热门文章
                         </div>
                         <div className="add-artical">
@@ -33,7 +66,11 @@ class ArticalList extends Component {
                         <ArticalLine data={[1, 2, 3, 4, 5, 6, 7, 8]} />
                     </div>
                     <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                        <Pagination />
+                        <Pagination
+                            onChange={(value) => { this.current = value; this.queryList() }}
+                            current={this.current}
+                            total={100}
+                        />
                     </div>
                 </div>
                 <Footer />

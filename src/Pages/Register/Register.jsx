@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Input, Radio, Button, Calendar, Select, Dialog, Ajax, Utils } from 'yingview-form';
+import { Input, Radio, Button, Calendar, Select, Dialog, Ajax, Utils } from 'yingview-ui';
+const { setCookie } = Utils;
 
 class Register extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ class Register extends Component {
             username: this.props.location.query.username || '',
             password: '',
             repassword: '',
+            nickname: '',
             sax: 'man',
             job: 'it',
             email: ''
@@ -17,10 +19,13 @@ class Register extends Component {
 
     sendAjax() {
 
-        const { username, password, repassword, sax, job, email } = this.sendData;
+        const { username, password, repassword, nickname, sax, job, email } = this.sendData;
         let message = null;
         if (!email || !Utils.isEmail(email)) {
             message = '邮箱格式不正确';
+        }
+        if (!nickname) {
+            message = '请填写昵称';
         }
         if (password !== repassword) {
             message = '两次密码不一致';
@@ -39,13 +44,14 @@ class Register extends Component {
             return;
         }
 
-        Ajax.get({
+        Ajax.post({
             url: 'http://127.0.0.1:8080/user.json',
             data: {
                 method: 'regist',
                 content: JSON.stringify({
                     username,
                     password,
+                    nickname,
                     sax,
                     job: job.key,
                     email,
@@ -53,11 +59,19 @@ class Register extends Component {
                 })
             },
             dataType: 'json',
-            success: function (res) {
+            success: (res) => {
                 const { content } = res;
                 if (content.isSuccess) {
-                    Dialog.success({ content: content.message });
+                    const cookie = {
+                        nickname: content.user.nickname,
+                        username: content.user.username,
+                        passcode: content.user.passcode
+                    }
+                    const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
+                    setCookie('user', JSON.stringify(cookie), time);
+                    Dialog.success({ content: content.message, submit: () => { window.location.href = '/' } });
                 } else {
+                    setCookie('user', '', -1);
                     Dialog.info({ content: content.message });
                 }
             }
@@ -100,6 +114,16 @@ class Register extends Component {
                                     placeholder='密码/英文/数字'
                                     value={this.sendData.repassword}
                                     onChange={(value) => { this.sendData.repassword = value; }}
+                                />
+                            </div>
+                            <div className="info-form">
+                                <span>昵称:</span>
+                                <Input
+                                    type='text'
+                                    fileName='昵称'
+                                    placeholder='请填写你喜欢的名字'
+                                    value={this.sendData.nickname}
+                                    onChange={(value) => { this.sendData.nickname = value; }}
                                 />
                             </div>
                             {/* <div className="info-form">
