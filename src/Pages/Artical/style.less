@@ -47,3 +47,117 @@
         }
     }
 }
+
+#ying-view-artical-eidt {
+    .artical-edit-wrap {
+        background: #eee;
+        overflow: hidden;
+        .artical-edit {
+            background: #fff;
+            width: 1200px;
+            margin: 20px auto;
+            .head-tab {
+                display: flex;
+                height: 52px;
+                background: #eee;
+                line-height: 50px;
+                .tab {
+                    font-size: 18px;
+                    width: 168px;
+                    text-align: center;
+                    color: #777;
+                    height: 50px;
+                    border-top: 2px solid #eee;
+                }
+                .info {
+                    font-size: 14px;
+                    float: right;
+                    width: 864px;
+                    text-align: right;
+                }
+                .tab:hover {
+                    background: #fff;
+                    color: #178bf7;
+                    border-top: 2px solid #178bf7; 
+                }
+                .active {
+                    background: #fff;
+                    color: #178bf7;
+                    border-top: 2px solid #178bf7;
+                }
+            }
+            .artical-content {
+                padding: 20px;
+                table {
+                    .title {
+                        width: 110px;
+                        padding: 15px;
+                        height: 40px;
+                        font-size: 16px;
+                        text-align: right;
+                        color: #333333;
+                    }
+                    .title2 {
+                        width: 110px;
+                        padding: 15px;
+                        vertical-align: middle;
+                        font-size: 16px;
+                        text-align: right;
+                        color: #333333;
+                    }
+                    .content2 {
+                        padding: 15px;
+                        padding-left: 0;
+                        div {
+                            height: 180px;
+                            width: 290px;
+                            border: 2px dashed #ccc;
+                        }
+                    }
+                    .content {
+                        padding: 15px;
+                        padding-left: 0;
+                        height: 40px;
+                        .text {
+                            box-sizing: border-box;
+                            height: 40px;
+                            border: 1px solid #eee;
+                            border-radius: 3px;
+                            width: 600px;
+                            font-size: 16px;
+                            text-indent: 5px;
+                            outline: none;
+                        }
+                        .text:focus {
+                            border: 1px solid #178bf7;
+                        }
+                        .text-area {
+                            box-sizing: border-box;
+                            padding: 5px;
+                            height: 120px;
+                            border: 1px solid #eee;
+                            border-radius: 3px;
+                            width: 600px;
+                            font-size: 14px;
+                            text-indent: 5px;
+                            outline: none;
+                            resize: none;
+                        }
+                        .text-area:focus {
+                            border: 1px solid #178bf7;
+                        }
+                        .artical-value {
+                            height: 410px;
+                            width: 960px;
+                            overflow-y: auto;
+                        }
+                    }
+                }
+            }
+            .artical-button-wrap {
+                text-align: center;
+                padding: 26px;
+            }
+        }
+    }
+}

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router';
 import { Pagination } from 'yingview-form';
 
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import ArticalLine from '../../components/ArticalLine';
 
 class ArticalList extends Component {
@@ -31,7 +30,6 @@ class ArticalList extends Component {
         const { keyword } = this.state;
         return (
             <div id="ying-view-artical">
-                <Header />
                 <div className="artical-content">
                     <div className="tag-nav clearfix">
                         <div
@@ -58,9 +56,9 @@ class ArticalList extends Component {
                         >
                             热门文章
                         </div>
-                        <div className="add-artical">
-                            发布作品
-                        </div>
+                        <Link to="/index/person/articaledit" target='_blank'>
+                            <div className="add-artical">发布作品</div>
+                        </Link>
                     </div>
                     <div className="content">
                         <ArticalLine data={[1, 2, 3, 4, 5, 6, 7, 8]} />
@@ -73,7 +71,6 @@ class ArticalList extends Component {
                         />
                     </div>
                 </div>
-                <Footer />
             </div>
         )
     }

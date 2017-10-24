@@ -98,8 +98,10 @@ class Header extends Component {
                                 ))
                             }
                         </ul>
-                        <div className="publish" onSelectStart={() => { console.log(123) }}>
-                            <div className="publish-text">发布作品</div>
+                        <div className="publish">
+                            <Link to="/index/person/articaledit" target='_blank'>
+                                <div className="publish-text">发布作品</div>
+                            </Link>
                         </div>
                     </div>
                 </div>
