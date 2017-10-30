@@ -8,14 +8,14 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            navs: []
+            navList: []
         }
-        this.nickName = getCookie('user') ? JSON.parse(getCookie('user')).nickname : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
         this.queryNavList();
     }
 
     queryNavList() {
-        Ajax.get({
+        Ajax.post({
             url: 'http://127.0.0.1:8080/query.json',
             data: {
                 method: 'navlist'
@@ -24,12 +24,12 @@ class Header extends Component {
             success: (res) => {
                 const { content } = res;
                 if (content.isSuccess) {
-                    this.setState({ navs: content.navs });
+                    this.setState({ navList: content.navList });
                 } else {
                     Dialog.info({ content: content.message });
                 }
             }
-        })
+        });
     }
 
     logOut() {
@@ -46,7 +46,7 @@ class Header extends Component {
         })
     }
     render() {
-        const { navs } = this.state;
+        const { navList } = this.state;
         return (
             <div id="ying-view-header">
                 <div className="logo-title">
@@ -64,10 +64,10 @@ class Header extends Component {
                     </div>
                     <div className="login-or-sign">
                         {
-                            this.nickName ?
+                            this.userInfo ?
                                 <div className="user-info">
                                     <div className="photo">
-                                        <img src="" alt={this.nickName} className="user_photo" />
+                                        <img src={this.userInfo.photoadd} alt={this.userInfo.nickName} className="user_photo" />
                                         <ul className="nav">
                                             <li>个人中心</li>
                                             <li>账号设置</li>
@@ -91,7 +91,7 @@ class Header extends Component {
                     <div className="nav-wrap">
                         <ul className="nav">
                             {
-                                navs.map((item, idx) => (
+                                navList.map((item, idx) => (
                                     <li>
                                         <Link to={item.url} target={item.target}>{item.navname}</Link>
                                     </li>

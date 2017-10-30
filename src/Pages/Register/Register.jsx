@@ -54,8 +54,7 @@ class Register extends Component {
                     nickname,
                     sax,
                     job: job.key,
-                    email,
-                    birthday: ''
+                    email
                 })
             },
             dataType: 'json',
@@ -65,7 +64,10 @@ class Register extends Component {
                     const cookie = {
                         nickname: content.user.nickname,
                         username: content.user.username,
-                        passcode: content.user.passcode
+                        passcode: content.user.passcode,
+                        photoadd: content.user.photoadd,
+                        userid: content.user.userId,
+                        job: content.user.job
                     }
                     const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
                     setCookie('user', JSON.stringify(cookie), time);
@@ -137,9 +139,9 @@ class Register extends Component {
                             <div className="info-form">
                                 <span>性别:</span>
                                 <Radio
-                                    options={{ man: '男', woman: '女' }}
+                                    options={[{ key: 'men', value: '男' }, {key: 'woman', value: '女'}]}
                                     value={this.sendData.sax}
-                                    onChange={(value) => { this.sendData.sax = value; }}
+                                    onChange={(value) => { this.sendData.sax = value.key; }}
                                 />
                             </div>
                             <div className="info-form">
