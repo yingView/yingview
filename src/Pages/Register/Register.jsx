@@ -53,7 +53,7 @@ class Register extends Component {
                     password,
                     nickname,
                     sax,
-                    job: job.key,
+                    userjob: job.key,
                     email
                 })
             },
@@ -67,7 +67,7 @@ class Register extends Component {
                         passcode: content.user.passcode,
                         photoadd: content.user.photoadd,
                         userid: content.user.userId,
-                        job: content.user.job
+                        userjob: content.user.userjob
                     }
                     const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
                     setCookie('user', JSON.stringify(cookie), time);

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination } from 'yingview-form';
+import { Pagination, Ajax } from 'yingview-ui';
 
 import Carousel from '../../components/Carousel';
 import ArticalLine from '../../components/ArticalLine';
@@ -9,6 +9,22 @@ import ArticalLine from '../../components/ArticalLine';
 class Main extends React.Component {
   constructor(props) {
     super(props);
+  }
+  componentDidMount() {
+    // Ajax.post({
+    //   url: 'http://127.0.0.1:8080/artical.json',
+    //   data: {
+    //       method: 'querylist',
+    //       needType: 'indexlist'
+    //   },
+    //   dataType: 'json',
+    //   success: (res) => {
+    //       const { content } = res;
+    //       if (content.isSuccess) {
+    //           this.setState({ data: content.articallist});
+    //       }
+    //     }
+    // })
   }
   render() {
     return (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination } from 'yingview-form';
+import { Pagination, Ajax } from 'yingview-ui';
 
 import ArticalLine from '../../components/ArticalLine';
 
@@ -9,13 +9,36 @@ class ArticalList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            keyword: this.props.location.query.keyword
+            keyword: this.props.location.query.keyword,
+            total: 0
         }
         this.current = 1;
     }
 
+    componentDidMount() {
+        this.queryList();
+    }
+
     queryList() {
-        console.log('查询接口');
+        Ajax.post({
+            url: 'http://127.0.0.1:8080/artical.json',
+            data: {
+                method: 'querylist',
+                needType: this.state.keyword || null,
+                current: this.current,
+                size: 40
+            },
+            dataType: 'json',
+            success: (res) => {
+                const { content } = res;
+                if (content.isSuccess) {
+                    this.setState({
+                        data: content.retValue.articalList, 
+                        total: Math.ceil(content.retValue.total/40)
+                    });
+                }
+            }
+        })
     }
 
     setKeyWord(keyword) {
@@ -23,11 +46,11 @@ class ArticalList extends Component {
             return;
         }
         this.state.keyword = keyword;
-        this.setState({ keyword });
-        this.queryList();
+        this.setState({ keyword }, this.queryList);
+
     }
     render() {
-        const { keyword } = this.state;
+        const { keyword, data, total } = this.state;
         return (
             <div id="ying-view-artical">
                 <div className="artical-content">
@@ -61,14 +84,17 @@ class ArticalList extends Component {
                         </Link>
                     </div>
                     <div className="content">
-                        <ArticalLine data={[1, 2, 3, 4, 5, 6, 7, 8]} />
+                        <ArticalLine data={data} />
                     </div>
                     <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                        <Pagination
-                            onChange={(value) => { this.current = value; this.queryList() }}
-                            current={this.current}
-                            total={100}
-                        />
+                        {
+                            total ?
+                                <Pagination
+                                    onChange={(value) => { this.current = value; this.queryList() }}
+                                    current={this.current}
+                                    total={total && 5}
+                                /> : null
+                        }
                     </div>
                 </div>
             </div>

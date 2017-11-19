@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-const artical = require('../../images/artical.png');
 class ArticalLine extends Component {
+  constructor(props) {
+    super(props);
+    this.now = (new Date()).getTime();
+  }
+
+  beforeDate(time) {
+    let day = Math.floor((this.now - time)/86400000);
+    if (day > 0) {
+      day += '天前';
+    } else {
+      day = '今天';
+    }
+    return day;
+  }
+
   render() {
     const { data } = this.props;
+    
     if (!data || !data.length) {
       return null;
     }
@@ -27,30 +42,31 @@ class ArticalLine extends Component {
                   return (
                     <dl className={idx === 3 && 'last'}>
                       <dt>
-                        <Link to={{ pathname: 'index/articaldetail', query: { code: '1111' } }} target='_blank'>
-                          <img src={artical} alt="artical-photo" />
+                        <Link to={{ pathname: 'index/articaldetail', query: { code: item.articalcode } }} target='_blank'>
+                          <div className="artical-photo" style={{ backgroundImage: `url(${item.articalphoto || ''})`}}/>
                         </Link>
                       </dt>
                       <dd>
                         <h3>
-                          <Link to={{ pathname: 'index/articaldetail', query: { code: '1111' } }} target='_blank'>
-                            官网设计 | 酷九设计品牌官网
+                          <Link to={{ pathname: 'index/articaldetail', query: { code: item.articalcode } }} target='_blank'>
+                            {item.articaltitle}
                         </Link>
                         </h3>
                       </dd>
                       <dd>
-                        <div className="look">1</div>
-                        <div className="mark">1</div>
-                        <div className="say">1</div>
+                        <div className="look">{item.articalview}</div>
+                        <div className="mark">{item.articalmark}</div>
+                        <div className="say">{item.articalcommentNum}</div>
                       </dd>
                       <dd className="clearfix">
                         <a href="#" target="_blank">
                           <div className="user">
-                            <div className="photo"></div>
-                            <div className="name">古川</div>
+                            <div className="user-photo" style={{ backgroundImage: `url(${item.photoadd || ''})`}}>
+                            </div>
+                            <div className="name">{item.nickname}</div>
                           </div>
                         </a>
-                        <div className="time">20天前</div>
+                        <div className="time">{this.beforeDate(item.articalcreateDate)}</div>
                       </dd>
                     </dl>
                   );

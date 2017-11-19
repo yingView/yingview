@@ -12,7 +12,7 @@ class ArticalEdit extends Component {
     super(props);
     this.state = {
       page: 'artical',
-      data: { type: 'artical' },
+      data: { articaltype: 'artical' },
       photoIdx: 1,
       typeList: []
     }
@@ -45,7 +45,7 @@ class ArticalEdit extends Component {
   }
 
   deletePhoto() {
-    this.state.data.photo = null;
+    this.state.data.articalphoto = null;
     this.setState({ photoIdx: this.state.photoIdx += 1 });
   }
 
@@ -58,27 +58,27 @@ class ArticalEdit extends Component {
       return;
     }
 
-    if (!data.title) {
+    if (!data.articaltitle) {
       Dialog.info({content: '请填写标题'});
     }
     if (!data.typeId) {
       Dialog.info({content: '请选择分类'});
     }
-    if (!data.photo) {
+    if (!data.articalphoto) {
       Dialog.info({content: '请上传封面'});
     }
-    if (!data.content && data.type === 'artical') {
+    if (!data.articalcontent && data.articaltype === 'artical') {
       Dialog.info({content: '请填写正文'});
     }
-    if (!data.content && data.type === 'image') {
+    if (!data.articalcontent && data.articaltype === 'image') {
       Dialog.info({content: '请填写作品说明'});
     }
-    if (!data.images && data.type === 'image') {
+    if (!data.articalimages && data.articaltype === 'image') {
       Dialog.info({content: '请填写正文'});
     }
 
     data.userId = userInfo.userid;
-    data.photo = data.photo && data.photo.viewAdd;
+    data.articalphoto = data.articalphoto && data.articalphoto.fileviewAdd;
     Ajax.post({
       url: 'http://127.0.0.1:8080/artical.json',
       data: {
@@ -107,11 +107,11 @@ class ArticalEdit extends Component {
             <div className="head-tab">
               <p
                 className={`${page === 'artical' ? 'active ' : ''}tab`}
-                onClick={() => { this.setState({ page: 'artical' }); data.type = 'artical'; }}
+                onClick={() => { this.setState({ page: 'artical' }); data.articaltype = 'artical'; }}
               >发布文章</p>
               <p
                 className={`${page === 'img' ? 'active ' : ''}tab`}
-                onClick={() => { this.setState({ page: 'img' }); data.type = 'image'; }}
+                onClick={() => { this.setState({ page: 'img' }); data.articaltype = 'image'; }}
               >发布作品</p>
               <p className="info">Hi，蜗牛视界，请确认您拥有该作品的版权；带有 * 的项目是必填的哦。</p>
             </div>
@@ -120,7 +120,7 @@ class ArticalEdit extends Component {
                 <tr>
                   <td className="title">文章标题</td>
                   <td className="content">
-                    <input type="text" className="text" onChange={(e) => { data.title = e.target.value; }} />
+                    <input type="text" className="text" onChange={(e) => { data.articaltitle = e.target.value; }} />
                   </td>
                 </tr>
                 <tr>
@@ -128,6 +128,7 @@ class ArticalEdit extends Component {
                   <td className="content">
                     <Radio
                       options={typeList}
+                      value={data.typeId}
                       onChange={(value) => { data.typeId = value.key; }}
                     />
                   </td>
@@ -141,7 +142,7 @@ class ArticalEdit extends Component {
                       tip={'图片尺寸： 290 * 180 px单个文件最大支持200k超过否则将无法显示'}
                       accept={['.jpg', '.jpeg', '.gif', '.png']}
                       onChange={(value) => {
-                        data.photo = value[value.length - 1];
+                        data.articalphoto = value[value.length - 1];
                         if (value.length) {
                           this.setState({ photoIdx: this.state.photoIdx += 1 });
                         }
@@ -154,10 +155,10 @@ class ArticalEdit extends Component {
                   <td className="content2">
                     <div className="photo-wrap" key={this.state.photoIdx}>
                       {
-                        data.photo && <img src={data.photo.viewAdd} alt={data.photo.name} />
+                        data.articalphoto && <img src={data.articalphoto.fileviewAdd} alt={data.articalphoto.filename} />
                       }
                       {
-                        data.photo && <div className="delete-photo" onClick={this.deletePhoto.bind(this)}>删除</div>
+                        data.articalphoto && <div className="delete-photo" onClick={this.deletePhoto.bind(this)}>删除</div>
                       }
                     </div>
                   </td>
@@ -169,7 +170,7 @@ class ArticalEdit extends Component {
                       <td className="content">
                         <div className="artical-value">
                           <EditText
-                            onChange={(value) => { data.content = value; }}
+                            onChange={(value) => { data.articalcontent = value; }}
                             value={'<p>徐志飞测试</p><p>徐志飞测试2</p>'}
                           />
                         </div>
@@ -181,7 +182,7 @@ class ArticalEdit extends Component {
                         <textarea
                           className="text-area"
                           onChange={(e) => {
-                            data.content = e.target.value;
+                            data.articalcontent = e.target.value;
                           }}
                         ></textarea>
                       </td>
@@ -199,7 +200,7 @@ class ArticalEdit extends Component {
                           accept={['.jpg', '.jpeg', '.gif', '.png']}
                           showFiles
                           onChange={(value) => {
-                            data.images = value;
+                            data.articalimages = value;
                           }}
                         />
                       </td>

@@ -93,7 +93,7 @@ class Header extends Component {
                             {
                                 navList.map((item, idx) => (
                                     <li>
-                                        <Link to={item.url} target={item.target}>{item.navname}</Link>
+                                        <Link to={item.navurl} target={item.navtarget}>{item.navname}</Link>
                                     </li>
                                 ))
                             }

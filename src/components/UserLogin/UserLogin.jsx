@@ -51,7 +51,7 @@ class UserLogin extends Component {
                         photoadd: content.user.photoadd,
                         usercode: content.user.usercode,
                         userid: content.user.userId,
-                        job: content.user.job
+                        userjob: content.user.userjob
                     }
                     const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
                     setCookie('user', JSON.stringify(cookie), time);
