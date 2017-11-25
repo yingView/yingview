@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination, Ajax } from 'yingview-ui';
+import { Pagination, Ajax } from 'yingview-form';
 
 import ArticalLine from '../../components/ArticalLine';
 

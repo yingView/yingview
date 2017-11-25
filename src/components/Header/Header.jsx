@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Pagination, Ajax, Utils } from 'yingview-ui';
+import { Pagination, Ajax, Utils } from 'yingview-form';
 import { Link } from 'react-router';
 const { getCookie, setCookie } = Utils;
 const logo = require('./../../images/logo.jpg');

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Radio, FileUpload, Button } from 'yingview-ui';
+import { Radio, FileUpload, Button } from 'yingview-form';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';

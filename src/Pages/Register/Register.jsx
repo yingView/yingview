@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Input, Radio, Button, Calendar, Select, Dialog, Ajax, Utils } from 'yingview-ui';
+import { Input, Radio, Button, Calendar, Select, Dialog, Ajax, Utils } from 'yingview-form';
 const { setCookie } = Utils;
 
 class Register extends Component {

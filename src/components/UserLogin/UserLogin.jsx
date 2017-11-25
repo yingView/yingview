@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Input, CheckBoxItem, Button, Dialog, Ajax, Utils } from 'yingview-ui';
+import { Input, CheckBoxItem, Button, Dialog, Ajax, Utils } from 'yingview-form';
 const { setCookie } = Utils;
 
 
