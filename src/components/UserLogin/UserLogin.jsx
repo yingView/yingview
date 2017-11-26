@@ -34,9 +34,10 @@ class UserLogin extends Component {
         }
 
         Ajax.get({
-            url: 'http://127.0.0.1:8080/user.json',
+            url: window.hostname + '',
             data: {
                 method: 'login',
+                rpcname: 'user',
                 username,
                 password
             },
@@ -48,9 +49,9 @@ class UserLogin extends Component {
                         nickname: content.user.nickname,
                         username: content.user.username,
                         passcode: content.user.passcode,
-                        photoadd: content.user.photoadd,
+                        photoimage: content.user.photoimage,
                         usercode: content.user.usercode,
-                        userid: content.user.userId,
+                        usercode: content.user.usercode,
                         userjob: content.user.userjob
                     }
                     const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;

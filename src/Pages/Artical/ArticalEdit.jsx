@@ -77,7 +77,7 @@ class ArticalEdit extends Component {
       Dialog.info({content: '请填写正文'});
     }
 
-    data.userId = userInfo.userid;
+    data.usercode = userInfo.usercode;
     data.articalphoto = data.articalphoto && data.articalphoto.fileviewAdd;
     Ajax.post({
       url: 'http://127.0.0.1:8080/artical.json',

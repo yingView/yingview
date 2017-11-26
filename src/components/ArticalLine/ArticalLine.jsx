@@ -61,7 +61,7 @@ class ArticalLine extends Component {
                       <dd className="clearfix">
                         <a href="#" target="_blank">
                           <div className="user">
-                            <div className="user-photo" style={{ backgroundImage: `url(${item.photoadd || ''})`}}>
+                            <div className="user-photo" style={{ backgroundImage: `url(${item.photoimage || ''})`}}>
                             </div>
                             <div className="name">{item.nickname}</div>
                           </div>

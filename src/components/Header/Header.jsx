@@ -35,9 +35,10 @@ class Header extends Component {
     logOut() {
         setCookie('user', '', -1);
         Ajax.get({
-            url: 'http://127.0.0.1:8080/user.json',
+            url: window.hostname + '',
             data: {
-                method: 'logout'
+                method: 'logout',
+                rpcname: 'user',
             },
             dataType: 'json',
             success: (res) => {
@@ -67,7 +68,7 @@ class Header extends Component {
                             this.userInfo ?
                                 <div className="user-info">
                                     <div className="photo">
-                                        <img src={this.userInfo.photoadd} alt={this.userInfo.nickName} className="user_photo" />
+                                        <img src={this.userInfo.photoimage} alt={this.userInfo.nickName} className="user_photo" />
                                         <ul className="nav">
                                             <li>个人中心</li>
                                             <li>账号设置</li>

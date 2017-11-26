@@ -11,8 +11,8 @@ class Register extends Component {
             password: '',
             repassword: '',
             nickname: '',
-            sax: 'man',
-            job: 'it',
+            sax: 1,
+            job: {key: 'it', value: '互联网'},
             email: ''
         }
     }
@@ -44,10 +44,11 @@ class Register extends Component {
             return;
         }
 
-        Ajax.post({
-            url: 'http://127.0.0.1:8080/user.json',
+        Ajax.get({
+            url: window.hostname + '',
             data: {
                 method: 'regist',
+                rpcname: 'user',
                 content: JSON.stringify({
                     username,
                     password,
@@ -65,8 +66,8 @@ class Register extends Component {
                         nickname: content.user.nickname,
                         username: content.user.username,
                         passcode: content.user.passcode,
-                        photoadd: content.user.photoadd,
-                        userid: content.user.userId,
+                        photoimage: content.user.photoimage,
+                        usercode: content.user.usercode,
                         userjob: content.user.userjob
                     }
                     const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
@@ -139,7 +140,7 @@ class Register extends Component {
                             <div className="info-form">
                                 <span>性别:</span>
                                 <Radio
-                                    options={[{ key: 'men', value: '男' }, {key: 'woman', value: '女'}]}
+                                    options={[{ key: 1, value: '男' }, {key: 0, value: '女'}]}
                                     value={this.sendData.sax}
                                     onChange={(value) => { this.sendData.sax = value.key; }}
                                 />
@@ -148,7 +149,7 @@ class Register extends Component {
                                 <span>职业:</span>
                                 <Select
                                     options={{ it: '互联网', eb: '电商', des: '设计' }}
-                                    value={this.sendData.job}
+                                    value={this.sendData.job.key}
                                     onChange={(value) => { this.sendData.job = value; }}
                                 />
                             </div>
