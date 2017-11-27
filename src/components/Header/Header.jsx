@@ -15,8 +15,8 @@ class Header extends Component {
     }
 
     queryNavList() {
-        Ajax.post({
-            url: 'http://127.0.0.1:8080/query.json',
+        Ajax.get({
+            url: window.hostname + '',
             data: {
                 method: 'navlist'
             },
@@ -68,7 +68,7 @@ class Header extends Component {
                             this.userInfo ?
                                 <div className="user-info">
                                     <div className="photo">
-                                        <img src={this.userInfo.photoimage} alt={this.userInfo.nickName} className="user_photo" />
+                                        <img src={this.userInfo.photoImage} alt={this.userInfo.nickName} className="user_photo" />
                                         <ul className="nav">
                                             <li>个人中心</li>
                                             <li>账号设置</li>
@@ -94,7 +94,7 @@ class Header extends Component {
                             {
                                 navList.map((item, idx) => (
                                     <li>
-                                        <Link to={item.navurl} target={item.navtarget}>{item.navname}</Link>
+                                        <Link to={item.navUrl} target={item.navTarget}>{item.navName}</Link>
                                     </li>
                                 ))
                             }

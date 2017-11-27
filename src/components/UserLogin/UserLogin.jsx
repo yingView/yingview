@@ -9,10 +9,10 @@ class UserLogin extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: ''
+            userName: ''
         }
         this.sendData = {
-            username: '',
+            userName: '',
             password: '',
             remain: true
         }
@@ -20,12 +20,12 @@ class UserLogin extends Component {
 
     sendAjax() {
 
-        const { username, password, remain } = this.sendData;
+        const { userName, password, remain } = this.sendData;
         let message = null;
         if (!password) {
             message = '请填写密码';
         }
-        if (!username) {
+        if (!userName) {
             message = '请填写用户名';
         }
         if (message) {
@@ -38,7 +38,7 @@ class UserLogin extends Component {
             data: {
                 method: 'login',
                 rpcname: 'user',
-                username,
+                userName,
                 password
             },
             dataType: 'json',
@@ -46,13 +46,12 @@ class UserLogin extends Component {
                 const { content } = res;
                 if (content.isSuccess) {
                     const cookie = {
-                        nickname: content.user.nickname,
-                        username: content.user.username,
-                        passcode: content.user.passcode,
-                        photoimage: content.user.photoimage,
-                        usercode: content.user.usercode,
-                        usercode: content.user.usercode,
-                        userjob: content.user.userjob
+                        nickName: content.user.nickName,
+                        userName: content.user.userName,
+                        passCode: content.user.passCode,
+                        photoImage: content.user.photoImage,
+                        userCode: content.user.userCode,
+                        userJob: content.user.userJob
                     }
                     const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
                     setCookie('user', JSON.stringify(cookie), time);
@@ -72,8 +71,8 @@ class UserLogin extends Component {
                         type='word'
                         fileName='用户名/英文/数字'
                         placeholder='用户名/英文/数字'
-                        value={this.sendData.username}
-                        onChange={(value) => { this.sendData.username = value; this.setState({ username: value }) }}
+                        value={this.sendData.userName}
+                        onChange={(value) => { this.sendData.userName = value; this.setState({ userName: value }) }}
                     />
                 </div>
                 <div className="password username-password">
@@ -100,7 +99,7 @@ class UserLogin extends Component {
                         onClick={this.sendAjax.bind(this)}
                     />
                     <span style={{ padding: '0 12px' }} />
-                    <Link to={{ pathname: '/register', query: this.sendData.username ? { username: decodeURI(this.sendData.username) } : {} }}>
+                    <Link to={{ pathname: '/register', query: this.sendData.userName ? { userName: decodeURI(this.sendData.userName) } : {} }}>
                         <Button text='注册' />
                     </Link>
                 </div>

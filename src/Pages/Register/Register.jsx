@@ -7,10 +7,10 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.sendData = {
-            username: this.props.location.query.username || '',
+            userName: this.props.location.query.userName || '',
             password: '',
-            repassword: '',
-            nickname: '',
+            rePassword: '',
+            nickName: '',
             sax: 1,
             job: {key: 'it', value: '互联网'},
             email: ''
@@ -19,24 +19,24 @@ class Register extends Component {
 
     sendAjax() {
 
-        const { username, password, repassword, nickname, sax, job, email } = this.sendData;
+        const { userName, password, rePassword, nickName, sax, job, email } = this.sendData;
         let message = null;
         if (!email || !Utils.isEmail(email)) {
             message = '邮箱格式不正确';
         }
-        if (!nickname) {
+        if (!nickName) {
             message = '请填写昵称';
         }
-        if (password !== repassword) {
+        if (password !== rePassword) {
             message = '两次密码不一致';
         }
-        if (!repassword) {
+        if (!rePassword) {
             message = '请填写确认密码';
         }
         if (!password) {
             message = '请填写密码';
         }
-        if (!username) {
+        if (!userName) {
             message = '请填写用户名';
         }
         if (message) {
@@ -50,11 +50,11 @@ class Register extends Component {
                 method: 'regist',
                 rpcname: 'user',
                 content: JSON.stringify({
-                    username,
+                    userName,
                     password,
-                    nickname,
+                    nickName,
                     sax,
-                    userjob: job.key,
+                    userJob: job.key,
                     email
                 })
             },
@@ -63,12 +63,12 @@ class Register extends Component {
                 const { content } = res;
                 if (content.isSuccess) {
                     const cookie = {
-                        nickname: content.user.nickname,
-                        username: content.user.username,
-                        passcode: content.user.passcode,
-                        photoimage: content.user.photoimage,
-                        usercode: content.user.usercode,
-                        userjob: content.user.userjob
+                        nickName: content.user.nickName,
+                        userName: content.user.userName,
+                        passCode: content.user.passCode,
+                        photoImage: content.user.photoImage,
+                        userCode: content.user.userCode,
+                        userJob: content.user.userJob
                     }
                     const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
                     setCookie('user', JSON.stringify(cookie), time);
@@ -95,8 +95,8 @@ class Register extends Component {
                                     type='word'
                                     fileName='用户名'
                                     placeholder='用户名/英文/数字'
-                                    value={this.sendData.username}
-                                    onChange={(value) => { this.sendData.username = value; }}
+                                    value={this.sendData.userName}
+                                    onChange={(value) => { this.sendData.userName = value; }}
                                 />
                             </div>
                             <div className="info-form">
@@ -115,8 +115,8 @@ class Register extends Component {
                                     type='word'
                                     fileName='确认密码'
                                     placeholder='密码/英文/数字'
-                                    value={this.sendData.repassword}
-                                    onChange={(value) => { this.sendData.repassword = value; }}
+                                    value={this.sendData.rePassword}
+                                    onChange={(value) => { this.sendData.rePassword = value; }}
                                 />
                             </div>
                             <div className="info-form">
@@ -125,8 +125,8 @@ class Register extends Component {
                                     type='text'
                                     fileName='昵称'
                                     placeholder='请填写你喜欢的名字'
-                                    value={this.sendData.nickname}
-                                    onChange={(value) => { this.sendData.nickname = value; }}
+                                    value={this.sendData.nickName}
+                                    onChange={(value) => { this.sendData.nickName = value; }}
                                 />
                             </div>
                             {/* <div className="info-form">
