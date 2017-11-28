@@ -8,7 +8,7 @@ class ArticalLine extends Component {
   }
 
   beforeDate(time) {
-    let day = Math.floor((this.now - time)/86400000);
+    let day = Math.floor((this.now - time * 1000)/86400000);
     if (day > 0) {
       day += '天前';
     } else {
@@ -39,34 +39,35 @@ class ArticalLine extends Component {
             <div className="content-part clearfix" key={idx}>
               {
                 item && item.map((item, idx) => {
+                  console.log(item);
                   return (
                     <dl className={idx === 3 && 'last'}>
                       <dt>
                         <Link to={{ pathname: 'index/articaldetail', query: { code: item.articalcode } }} target='_blank'>
-                          <div className="artical-photo" style={{ backgroundImage: `url(${item.articalphoto || ''})`}}/>
+                          <div className="artical-photo" style={{ backgroundImage: `url(${window.hostname}yingview.php?fileCode=${item.articalPhoto}&method=miniImage)`}}/>
                         </Link>
                       </dt>
                       <dd>
                         <h3>
                           <Link to={{ pathname: 'index/articaldetail', query: { code: item.articalcode } }} target='_blank'>
-                            {item.articaltitle}
+                            {item.articalTitle}
                         </Link>
                         </h3>
                       </dd>
                       <dd>
-                        <div className="look">{item.articalview}</div>
-                        <div className="mark">{item.articalmark}</div>
-                        <div className="say">{item.articalcommentNum}</div>
+                        <div className="look">{item.articalView}</div>
+                        <div className="mark">{item.articalMark}</div>
+                        <div className="say">{item.articalCommentNum}</div>
                       </dd>
                       <dd className="clearfix">
                         <a href="#" target="_blank">
                           <div className="user">
-                            <div className="user-photo" style={{ backgroundImage: `url(${item.photoimage || ''})`}}>
+                            <div className="user-photo" style={{ backgroundImage: `url(${item.photoImage || ''})`}}>
                             </div>
-                            <div className="name">{item.nickname}</div>
+                            <div className="name">{item.nickName}</div>
                           </div>
                         </a>
-                        <div className="time">{this.beforeDate(item.articalcreateDate)}</div>
+                        <div className="time">{this.beforeDate(item.articalCreateDate)}</div>
                       </dd>
                     </dl>
                   );

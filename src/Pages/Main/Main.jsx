@@ -9,24 +9,40 @@ import ArticalLine from '../../components/ArticalLine';
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      newData: [],
+      greatData: [],
+      hotData: [],
+      total: 0
+    }
+    this.current = 1;
   }
   componentDidMount() {
-    // Ajax.post({
-    //   url: 'http://127.0.0.1:8080/artical.json',
-    //   data: {
-    //       method: 'querylist',
-    //       needType: 'indexlist'
-    //   },
-    //   dataType: 'json',
-    //   success: (res) => {
-    //       const { content } = res;
-    //       if (content.isSuccess) {
-    //           this.setState({ data: content.articallist});
-    //       }
-    //     }
-    // })
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        method: 'articalQuery',
+        rpcname: 'artical',
+        needType: null,
+        current: this.current,
+        size: 8
+      },
+      dataType: 'json',
+      success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          this.setState({
+            newData: content.retValue.new.articalList,
+            greatData: content.retValue.great.articalList,
+            hotData: content.retValue.hot.articalList,
+            total: content.retValue.hot.total
+          });
+        }
+      }
+    })
   }
   render() {
+    const {newData, greatData, hotData, total} = this.state;
     return (
       <div id="ying-view-home">
         <div style={{ padding: '10px 0' }}>
@@ -42,7 +58,7 @@ class Main extends React.Component {
             </p>
           </div>
           <div className="content">
-            <ArticalLine data={[1, 2, 3, 4, 5, 6, 7, 8]} />
+            <ArticalLine data={newData} />
           </div>
           <div className="content-title clearfix">
             <h2>精品推荐</h2>
@@ -53,7 +69,7 @@ class Main extends React.Component {
             </p>
           </div>
           <div className="content">
-            <ArticalLine data={[1, 2, 3, 4, 5, 6, 7, 8]} />
+            <ArticalLine data={greatData} />
           </div>
           <div className="content-title clearfix">
             <h2>热门文章</h2>
@@ -64,10 +80,10 @@ class Main extends React.Component {
             </p>
           </div>
           <div className="content">
-            <ArticalLine data={[1, 2, 3, 4, 5, 6, 7, 8]} />
+            <ArticalLine data={hotData} />
           </div>
           <div style={{ textAlign: 'center', padding: '24px 0' }}>
-            <Pagination />
+            <Pagination total={total} />
           </div>
         </div>
       </div>

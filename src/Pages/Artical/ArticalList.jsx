@@ -20,11 +20,12 @@ class ArticalList extends Component {
     }
 
     queryList() {
-        Ajax.post({
-            url: 'http://127.0.0.1:8080/artical.json',
+        Ajax.get({
+            url: window.hostname + 'yingview.php',
             data: {
-                method: 'querylist',
-                needType: this.state.keyword || null,
+                method: 'articalQuery',
+                rpcname: 'artical',
+                needType: this.state.keyword || 'all',
                 current: this.current,
                 size: 40
             },
@@ -33,8 +34,8 @@ class ArticalList extends Component {
                 const { content } = res;
                 if (content.isSuccess) {
                     this.setState({
-                        data: content.retValue.articalList, 
-                        total: Math.ceil(content.retValue.total/40)
+                        data: content.retValue.articalList,
+                        total: content.retValue.total
                     });
                 }
             }

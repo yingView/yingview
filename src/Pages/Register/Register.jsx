@@ -45,7 +45,7 @@ class Register extends Component {
         }
 
         Ajax.get({
-            url: window.hostname + '',
+            url: window.hostname + 'yingview.php',
             data: {
                 method: 'regist',
                 rpcname: 'user',

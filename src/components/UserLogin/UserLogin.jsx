@@ -2,26 +2,36 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { Input, CheckBoxItem, Button, Dialog, Ajax, Utils } from 'yingview-form';
-const { setCookie } = Utils;
+const { setCookie, getCookie } = Utils;
 
 
 class UserLogin extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: ''
+            userName: '',
+            captcha: false,
+            captchaIdx: 1
+        }
+        // 验证码
+        if (getCookie('captcha') >= 3) {
+            this.state.captcha = true;
         }
         this.sendData = {
             userName: '',
             password: '',
+            captcha: '',
             remain: true
         }
     }
 
     sendAjax() {
 
-        const { userName, password, remain } = this.sendData;
+        const { userName, password, captcha, remain } = this.sendData;
         let message = null;
+        if (!captcha && this.state.captcha) {
+            message = '请填写验证码';
+        }
         if (!password) {
             message = '请填写密码';
         }
@@ -34,12 +44,13 @@ class UserLogin extends Component {
         }
 
         Ajax.get({
-            url: window.hostname + '',
+            url: window.hostname + 'yingview.php',
             data: {
                 method: 'login',
                 rpcname: 'user',
                 userName,
-                password
+                password,
+                captcha
             },
             dataType: 'json',
             success: (res) => {
@@ -57,6 +68,12 @@ class UserLogin extends Component {
                     setCookie('user', JSON.stringify(cookie), time);
                     Dialog.success({ content: content.message, submit: this.props.submit });
                 } else {
+                    let captcha = Number(getCookie('captcha') || 0);
+                    captcha += 1;
+                    setCookie('captcha', captcha, 86400);
+                    if (captcha >= 3) {
+                        this.setState({ captcha: true });
+                    }
                     Dialog.info({ content: content.message });
                 }
             }
@@ -84,6 +101,23 @@ class UserLogin extends Component {
                         onChange={(value) => { this.sendData.password = value; }}
                     />
                 </div>
+                {
+                    this.state.captcha ?
+                    <div className="password username-password" style={{display: 'flex'}}>
+                        <div>
+                            <Input
+                                type='word'
+                                fileName='验证码'
+                                placeholder='请输入验证码'
+                                value={this.sendData.captcha}
+                                onChange={(value) => { this.sendData.captcha = value; }}
+                            />
+                        </div>
+                        <div style={{paddingLeft: '12px', paddingTop: '1px'}} onClick={() => { this.setState({ captchaIdx: Math.random() })}}>
+                            <img src={window.hostname + '?method=getCaptcha&tem=' + this.state.captchaIdx} alt="验证码" style={{height: '30px'}}/>
+                        </div>
+                    </div> : null
+                }
                 <div className="checkbox username-password">
                     <CheckBoxItem
                         text='记住密码'

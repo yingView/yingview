@@ -16,7 +16,7 @@ class Header extends Component {
 
     queryNavList() {
         Ajax.get({
-            url: window.hostname + '',
+            url: window.hostname + 'yingview.php',
             data: {
                 method: 'navlist'
             },
@@ -35,7 +35,7 @@ class Header extends Component {
     logOut() {
         setCookie('user', '', -1);
         Ajax.get({
-            url: window.hostname + '',
+            url: window.hostname + 'yingview.php',
             data: {
                 method: 'logout',
                 rpcname: 'user',

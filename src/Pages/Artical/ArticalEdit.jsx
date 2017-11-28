@@ -11,16 +11,17 @@ class ArticalEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'artical',
+      page: 'img',
       data: { articalType: 0, articalContent: '<p>徐志飞测试</p><p>徐志飞测试2</p>' },
       photoIdx: 1,
       categoryList: []
     }
     this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
   }
+
   componentDidMount() {
     Ajax.get({
-      url: window.hostname + '',
+      url: window.hostname + 'yingview.php',
       data: {
         method: 'category'
       },
@@ -51,14 +52,11 @@ class ArticalEdit extends Component {
   }
 
   submit(operate) {
-    const { data } = this.state;
-
+    const data = Utils.deepCopy(this.state.data);
     if (!this.userInfo) {
-      // Dialog.info({ content: "请登录", submit: () => { window.location.href = '/#/login'; } });
       window.location.href = '/#/login';
       return;
     }
-
     if (!data.articalTitle) {
       Dialog.info({ content: '请填写标题' });
     }
@@ -74,14 +72,19 @@ class ArticalEdit extends Component {
     if (!data.articalContent && data.articalType === 1) {
       Dialog.info({ content: '请填写作品说明' });
     }
-    if (!data.ararticalImages && data.articalType === 1) {
-      Dialog.info({ content: '请填写正文' });
+    if (!data.articalImages && data.articalType === 1) {
+      Dialog.info({ content: '请上传作品' });
     }
+    const arr = [];
+    data.articalImages && data.articalImages.forEach(item => {
+      arr.push(item.fileCode);
+    });
 
+    data.articalImages = String(arr);
     data.userCode = this.userInfo.userCode;
-    data.articalPhoto = data.articalPhoto && data.articalPhoto.fileviewAdd;
+    data.articalPhoto = data.articalPhoto && data.articalPhoto.fileCode;
     Ajax.post({
-      url: window.hostname + '',
+      url: window.hostname + 'yingview.php',
       data: {
         method: 'edit',
         rpcname: 'artical',
@@ -149,10 +152,9 @@ class ArticalEdit extends Component {
                     <FileUpload
                       text='上传封面'
                       showFiles={false}
-                      // multiple
                       tip={'图片尺寸： 290 * 180 px单个文件最大支持200k超过否则将无法显示'}
                       accept={['.jpg', '.jpeg', '.gif', '.png']}
-                      params={{type: 1, userCode: this.userInfo.userCode}}
+                      params={{ type: 1, userCode: this.userInfo.userCode }}
                       onChange={(value) => {
                         data.articalPhoto = value[value.length - 1];
                         if (value.length) {
@@ -167,7 +169,7 @@ class ArticalEdit extends Component {
                   <td className="content2">
                     <div className="photo-wrap" key={this.state.photoIdx}>
                       {
-                        data.articalPhoto && <img src={data.articalPhoto.fileviewAdd} alt={data.articalPhoto.filename} />
+                        data.articalPhoto && <img src={window.hostname + data.articalPhoto.mineImage} alt={data.articalPhoto.fileName} />
                       }
                       {
                         data.articalPhoto && <div className="delete-photo" onClick={this.deletePhoto.bind(this)}>删除</div>
@@ -211,9 +213,11 @@ class ArticalEdit extends Component {
                           tip={'图片尺寸： 290 * 180 px单个文件最大支持200k超过否则将无法显示'}
                           accept={['.jpg', '.jpeg', '.gif', '.png']}
                           showFiles
-                          // url={window.hostname}
+                          multiple
+                          data={data.articalImages}
+                          params={{ type: 2, userCode: this.userInfo.userCode }}
                           onChange={(value) => {
-                            data.ararticalImages = value;
+                            data.articalImages = value;
                           }}
                         />
                       </td>
