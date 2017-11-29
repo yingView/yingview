@@ -68,7 +68,7 @@ class Header extends Component {
                             this.userInfo ?
                                 <div className="user-info">
                                     <div className="photo">
-                                        <img src={this.userInfo.photoImage} alt={this.userInfo.nickName} className="user_photo" />
+                                        <img src={window.hostname + this.userInfo.photoImage} alt={this.userInfo.nickName} className="user_photo" />
                                         <ul className="nav">
                                             <li>个人中心</li>
                                             <li>账号设置</li>

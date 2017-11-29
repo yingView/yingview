@@ -39,7 +39,6 @@ class ArticalLine extends Component {
             <div className="content-part clearfix" key={idx}>
               {
                 item && item.map((item, idx) => {
-                  console.log(item);
                   return (
                     <dl className={idx === 3 && 'last'}>
                       <dt>

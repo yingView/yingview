@@ -1,3 +1,23 @@
+const getCookie = (name) => {
+    let i;
+    let cookie;
+    let cookieStr;
+    const cookies = document.cookie.split(';');
+    for (i = 0; i < cookies.length; i++) {
+        cookie = cookies[i];
+        cookieStr = cookie.split('=');
+        if (cookieStr && cookieStr[0].replace(/^(\s*)|(\s*)$/g, '') === name) {
+            return unescape(cookieStr[1]);
+        }
+    }
+    return null;
+};
+
+// 是否有用户信息
+let retView = false;
+if (getCookie('user') && JSON.parse(getCookie('user')).userCode) {
+	retView = true;
+}
 
 export default {
 	path: '/',
@@ -42,6 +62,10 @@ export default {
 				{
 					path: 'person',
 					getComponent(nextState, cb) {
+						if (!retView) { // 如果没有登录, 限制访问
+							window.location.href = '/#/login';
+							return;
+						}
 						require.ensure([], (require) => {
 							cb(null, require('./src/Pages/Person'))
 						}, 'person').default
@@ -51,6 +75,10 @@ export default {
 							path: '',
 							indexRoute: {
 								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
 									require.ensure([], (require) => {
 										cb(null, require('./src/Pages/Main'))
 									}, 'Main')
@@ -60,6 +88,10 @@ export default {
 						{
 							path: 'articaledit',
 							getComponent(nextState, cb) {
+								if (!retView) { // 如果没有登录, 限制访问
+									window.location.href = '/#/login';
+									return;
+								}
 								require.ensure([], (require) => {
 									cb(null, require('./src/Pages/Artical/ArticalEdit'))
 								}, 'articaledit').default

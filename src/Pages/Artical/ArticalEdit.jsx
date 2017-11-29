@@ -6,13 +6,15 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const { getCookie } = Utils;
+
 require('./style.less');
+
 class ArticalEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'img',
-      data: { articalType: 0, articalContent: '<p>徐志飞测试</p><p>徐志飞测试2</p>' },
+      page: 'artical',
+      data: { articalType: 0, articalContent: '<p>徐志飞测试</p><p>徐志飞测试2</p>', articalText: '123', articalDesc: '作品说明' },
       photoIdx: 1,
       categoryList: []
     }
@@ -33,7 +35,7 @@ class ArticalEdit extends Component {
             const categoryList = [];
             content.categoryList.forEach((item) => {
               categoryList.push({
-                key: item.categoryId,
+                key: item.categoryCode,
                 value: item.categoryName
               })
             })
@@ -53,36 +55,58 @@ class ArticalEdit extends Component {
 
   submit(operate) {
     const data = Utils.deepCopy(this.state.data);
-    if (!this.userInfo) {
-      window.location.href = '/#/login';
-      return;
-    }
     if (!data.articalTitle) {
       Dialog.info({ content: '请填写标题' });
+      return;
     }
-    if (!data.categoryId) {
+    if (!data.categoryCode && data.articalType !== 2) {
       Dialog.info({ content: '请选择分类' });
+      return;
     }
-    if (!data.articalPhoto) {
+    if (!data.bookId && data.articalType === 2) {
+      Dialog.info({ content: '请选择专栏' });
+      return;
+    }
+    if (!data.articalPhoto && data.articalType !== 2) {
       Dialog.info({ content: '请上传封面' });
+      return;
     }
-    if (!data.articalContent && data.articalType === 0) {
+
+    if ((!data.articalContent || !data.articalText) && data.articalType !== 1) {
       Dialog.info({ content: '请填写正文' });
+      return;
     }
-    if (!data.articalContent && data.articalType === 1) {
+
+    if (!data.articalDesc && data.articalType === 1) {
       Dialog.info({ content: '请填写作品说明' });
+      return;
     }
+
     if (!data.articalImages && data.articalType === 1) {
       Dialog.info({ content: '请上传作品' });
+      return;
     }
+
     const arr = [];
     data.articalImages && data.articalImages.forEach(item => {
       arr.push(item.fileCode);
     });
 
+    if (data.articalType === 2) {
+      data.articalContent = data.articalText;
+      data.articalPhoto = 1;
+      data.categoryCode = 1;
+      delete data.articalText;
+    }
+    if (data.articalType === 1) {
+      data.articalContent = data.articalDesc;
+      delete data.articalDesc;
+    }
+
     data.articalImages = String(arr);
     data.userCode = this.userInfo.userCode;
-    data.articalPhoto = data.articalPhoto && data.articalPhoto.fileCode;
+    // 存储附件的名字 + mine
+    data.articalPhoto = data.articalPhoto && data.articalPhoto.fileName;
     Ajax.post({
       url: window.hostname + 'yingview.php',
       data: {
@@ -105,9 +129,6 @@ class ArticalEdit extends Component {
 
   render() {
     const { page, categoryList, data } = this.state;
-    if (!this.userInfo) { // 没有登录信息;
-      window.location.href = '/#/login';
-    }
     return (
       <div id="ying-view-artical-eidt">
         <div className="artical-edit-wrap">
@@ -121,6 +142,10 @@ class ArticalEdit extends Component {
                 className={`${page === 'img' ? 'active ' : ''}tab`}
                 onClick={() => { this.setState({ page: 'img' }); data.articalType = 1; }}
               >发布作品</p>
+              <p
+                className={`${page === 'book' ? 'active ' : ''}tab`}
+                onClick={() => { this.setState({ page: 'book' }); data.articalType = 2; }}
+              >专栏作品</p>
               <p className="info">{`Hi，${this.userInfo.nickName}，请确认您拥有该作品的版权；带有 * 的项目是必填的哦。`}</p>
             </div>
             <div className="artical-content">
@@ -136,47 +161,66 @@ class ArticalEdit extends Component {
                     />
                   </td>
                 </tr>
-                <tr>
-                  <td className="title">文章分类</td>
-                  <td className="content">
-                    <Radio
-                      options={categoryList}
-                      value={data.categoryId}
-                      onChange={(value) => { data.categoryId = value.key; }}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="title">上传封面</td>
-                  <td className="content">
-                    <FileUpload
-                      text='上传封面'
-                      showFiles={false}
-                      tip={'图片尺寸： 290 * 180 px单个文件最大支持200k超过否则将无法显示'}
-                      accept={['.jpg', '.jpeg', '.gif', '.png']}
-                      params={{ type: 1, userCode: this.userInfo.userCode }}
-                      onChange={(value) => {
-                        data.articalPhoto = value[value.length - 1];
-                        if (value.length) {
-                          this.setState({ photoIdx: this.state.photoIdx += 1 });
-                        }
-                      }}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="title2">封面预览</td>
-                  <td className="content2">
-                    <div className="photo-wrap" key={this.state.photoIdx}>
-                      {
-                        data.articalPhoto && <img src={window.hostname + data.articalPhoto.mineImage} alt={data.articalPhoto.fileName} />
-                      }
-                      {
-                        data.articalPhoto && <div className="delete-photo" onClick={this.deletePhoto.bind(this)}>删除</div>
-                      }
-                    </div>
-                  </td>
-                </tr>
+                {
+                  page === 'book' ?
+                    <tr>
+                      <td className="title">专栏选择</td>
+                      <td className="content">
+                        <Radio
+                          options={categoryList}
+                          value={data.bookId}
+                          onChange={(value) => { data.bookId = value.key; }}
+                        />
+                      </td>
+                    </tr> :
+                    <tr>
+                      <td className="title">文章分类</td>
+                      <td className="content">
+                        <Radio
+                          options={categoryList}
+                          value={data.categoryCode}
+                          onChange={(value) => { data.categoryCode = value.key; }}
+                        />
+                      </td>
+                    </tr>
+                }
+                {
+                  page === 'book' ? null :
+                    <tr>
+                      <td className="title">上传封面</td>
+                      <td className="content">
+                        <FileUpload
+                          text='上传封面'
+                          showFiles={false}
+                          tip={'图片尺寸： 290 * 180 px单个文件最大支持200k超过将无法显示'}
+                          accept={['.jpg', '.jpeg', '.gif', '.png']}
+                          params={{ type: 1, userCode: this.userInfo.userCode }}
+                          onChange={(value) => {
+                            data.articalPhoto = value[value.length - 1];
+                            if (value.length) {
+                              this.setState({ photoIdx: this.state.photoIdx += 1 });
+                            }
+                          }}
+                        />
+                      </td>
+                    </tr>
+                }
+                {
+                  page === 'book' ? null :
+                    <tr>
+                      <td className="title2">封面预览</td>
+                      <td className="content2">
+                        <div className="photo-wrap" key={this.state.photoIdx}>
+                          {
+                            data.articalPhoto && <img src={window.hostname + data.articalPhoto.url} alt={data.articalPhoto.fileName} />
+                          }
+                          {
+                            data.articalPhoto && <div className="delete-photo" onClick={this.deletePhoto.bind(this)} />
+                          }
+                        </div>
+                      </td>
+                    </tr>
+                }
                 {
                   page === 'artical' ?
                     <tr>
@@ -189,28 +233,31 @@ class ArticalEdit extends Component {
                           />
                         </div>
                       </td>
-                    </tr> :
+                    </tr> : null
+                }
+                {
+                  page === 'img' ?
                     <tr>
                       <td className="title">作品说明</td>
                       <td className="content">
                         <textarea
                           className="text-area"
+                          defaultValue={data.articalDesc}
                           onChange={(e) => {
-                            data.articalContent = e.target.value;
+                            data.articalDesc = e.target.value;
                           }}
                         ></textarea>
                       </td>
-                    </tr>
+                    </tr> : null
                 }
                 {
-                  page === 'artical' ?
-                    null :
+                  page === 'img' ?
                     <tr>
                       <td className="title">上传作品</td>
                       <td className="content">
                         <FileUpload
                           text='上传作品'
-                          tip={'图片尺寸： 290 * 180 px单个文件最大支持200k超过否则将无法显示'}
+                          tip={'支持格式jpg、jpeg、git、png, 最多可上传20张'}
                           accept={['.jpg', '.jpeg', '.gif', '.png']}
                           showFiles
                           multiple
@@ -221,7 +268,22 @@ class ArticalEdit extends Component {
                           }}
                         />
                       </td>
-                    </tr>
+                    </tr> : null
+                }
+                {
+                  page === 'book' ?
+                    <tr>
+                      <td className="title">文章内容</td>
+                      <td className="content">
+                        <div className="artical-value">
+                          <textarea
+                            defaultValue={data.articalText}
+                            className="textarea-text"
+                            onChange={(e) => { const value = e.target.value; data.articalText = value; }}
+                          />
+                        </div>
+                      </td>
+                    </tr> : null
                 }
               </table>
             </div>
