@@ -43,7 +43,7 @@ class ArticalLine extends Component {
                     <dl className={idx === 3 && 'last'}>
                       <dt>
                         <Link to={{ pathname: 'index/articaldetail', query: { code: item.articalcode } }} target='_blank'>
-                          <div className="artical-photo" style={{ backgroundImage: `url(${window.hostname}yingview.php?fileCode=${item.articalPhoto}&method=miniImage)`}}/>
+                          <div className="artical-photo" style={{ backgroundImage: `url(${window.hostname + item.articalPhoto})`}}/>
                         </Link>
                       </dt>
                       <dd>
@@ -61,7 +61,7 @@ class ArticalLine extends Component {
                       <dd className="clearfix">
                         <a href="#" target="_blank">
                           <div className="user">
-                            <div className="user-photo" style={{ backgroundImage: `url(${item.photoImage || ''})`}}>
+                            <div className="user-photo" style={{ backgroundImage: `url(${window.hostname + item.photoImage})`}}>
                             </div>
                             <div className="name">{item.nickName}</div>
                           </div>

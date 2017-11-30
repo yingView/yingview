@@ -37,6 +37,7 @@ class ArticalList extends Component {
                         data: content.retValue.articalList,
                         total: content.retValue.total
                     });
+                    this.current = content.retValue.current
                 }
             }
         })
@@ -92,8 +93,8 @@ class ArticalList extends Component {
                             total ?
                                 <Pagination
                                     onChange={(value) => { this.current = value; this.queryList() }}
-                                    current={this.current}
-                                    total={total && 5}
+                                    total={total} current={this.current} 
+                                    pageSize={40} 
                                 /> : null
                         }
                     </div>

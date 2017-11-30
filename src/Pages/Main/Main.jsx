@@ -35,14 +35,38 @@ class Main extends React.Component {
             newData: content.retValue.new.articalList,
             greatData: content.retValue.great.articalList,
             hotData: content.retValue.hot.articalList,
-            total: content.retValue.hot.total
+            total: content.retValue.hot.total,
+            current: content.retValue.hot.current
           });
         }
       }
     })
   }
+  queryhotData() {
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        method: 'articalQuery',
+        rpcname: 'artical',
+        needType: 'hot',
+        current: this.current,
+        size: 8
+      },
+      dataType: 'json',
+      success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          this.setState({
+            hotData: content.retValue.articalList,
+            total: content.retValue.total
+          });
+          this.current = content.retValue.current;
+        }
+      }
+    })
+  }
   render() {
-    const {newData, greatData, hotData, total} = this.state;
+    const { newData, greatData, hotData, total } = this.state;
     return (
       <div id="ying-view-home">
         <div style={{ padding: '10px 0' }}>
@@ -83,7 +107,12 @@ class Main extends React.Component {
             <ArticalLine data={hotData} />
           </div>
           <div style={{ textAlign: 'center', padding: '24px 0' }}>
-            <Pagination total={total} />
+            <Pagination
+              onChange={(value) => { this.current = value; this.queryhotData() }}
+              total={total}
+              current={this.current}
+              pageSize={8}
+            />
           </div>
         </div>
       </div>
