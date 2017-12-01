@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 class ArticalLine extends Component {
   constructor(props) {
     super(props);
-    this.now = (new Date()).getTime();
   }
 
   beforeDate(time) {
+    this.now = (new Date()).getTime();
     let day = Math.floor((this.now - time * 1000)/86400000);
     if (day > 0) {
       day += '天前';
@@ -42,13 +42,13 @@ class ArticalLine extends Component {
                   return (
                     <dl className={idx === 3 && 'last'}>
                       <dt>
-                        <Link to={{ pathname: 'index/articaldetail', query: { code: item.articalcode } }} target='_blank'>
+                        <Link to={{ pathname: 'index/articaldetail', query: { articalCode: item.articalCode } }} target='_blank'>
                           <div className="artical-photo" style={{ backgroundImage: `url(${window.hostname + item.articalPhoto})`}}/>
                         </Link>
                       </dt>
                       <dd>
                         <h3>
-                          <Link to={{ pathname: 'index/articaldetail', query: { code: item.articalcode } }} target='_blank'>
+                          <Link to={{ pathname: 'index/articaldetail', query: { articalCode: item.articalCode } }} target='_blank'>
                             {item.articalTitle}
                         </Link>
                         </h3>

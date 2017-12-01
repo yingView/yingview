@@ -19,6 +19,9 @@ class ArticalEdit extends Component {
       categoryList: []
     }
     this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+    if (props.location.query.articalCode) {
+      this.queryList();
+    }
   }
 
   componentDidMount() {
@@ -41,6 +44,28 @@ class ArticalEdit extends Component {
             })
             this.setState({ categoryList });
           }
+        } else {
+          Dialog.info({ content: content.message });
+        }
+      }
+    })
+  }
+
+  queryList() {
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        rpcname: 'artical',
+        method: 'GetArticalByCode',
+        articalCode: this.props.location.query.articalCode
+      },
+      dataType: 'json',
+      success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          this.setState({
+            data: content.articalInfo
+          });
         } else {
           Dialog.info({ content: content.message });
         }
@@ -89,7 +114,7 @@ class ArticalEdit extends Component {
 
     const arr = [];
     data.articalImages && data.articalImages.forEach(item => {
-      arr.push(item.fileCode);
+      arr.push(item.fileName);
     });
 
     if (data.articalType === 2) {

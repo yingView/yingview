@@ -54,7 +54,7 @@ class ArticalList extends Component {
     render() {
         const { keyword, data, total } = this.state;
         return (
-            <div id="ying-view-artical">
+            <div id="ying-view-artical-list">
                 <div className="artical-content">
                     <div className="tag-nav clearfix">
                         <div
