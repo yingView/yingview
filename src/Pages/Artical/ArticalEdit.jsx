@@ -5,7 +5,7 @@ import { Radio, FileUpload, Button, EditText, Ajax, Utils, Dialog } from 'yingvi
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-const { getCookie } = Utils;
+const { getCookie, decodeHTML } = Utils;
 
 require('./style.less');
 
@@ -14,13 +14,13 @@ class ArticalEdit extends Component {
     super(props);
     this.state = {
       page: 'artical',
-      data: { articalType: 0, articalContent: '<p>徐志飞测试</p><p>徐志飞测试2</p>', articalText: '123', articalDesc: '作品说明' },
+      data: { articalType: 0, articalContent: '', articalText: '', articalDesc: '' },
       photoIdx: 1,
       categoryList: []
     }
     this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
     if (props.location.query.articalCode) {
-      this.queryList();
+      this.queryDetail();
     }
   }
 
@@ -51,7 +51,7 @@ class ArticalEdit extends Component {
     })
   }
 
-  queryList() {
+  queryDetail() {
     Ajax.get({
       url: window.hostname + 'yingview.php',
       data: {
@@ -63,8 +63,17 @@ class ArticalEdit extends Component {
       success: (res) => {
         const { content } = res;
         if (content.isSuccess) {
+          content.articalInfo.articalContent = decodeHTML(content.articalInfo.articalContent);
+          let page = 'artical';
+          if (content.articalInfo.articalType === '1') {
+            content.articalInfo.articalDesc = content.articalInfo.articalContent
+            page = 'img';
+          } else if (content.articalInfo.articalType === '2') {
+            page = 'book';
+          }
           this.setState({
-            data: content.articalInfo
+            data: content.articalInfo,
+            page
           });
         } else {
           Dialog.info({ content: content.message });
@@ -84,30 +93,29 @@ class ArticalEdit extends Component {
       Dialog.info({ content: '请填写标题' });
       return;
     }
-    if (!data.categoryCode && data.articalType !== 2) {
+    if (!data.categoryCode && data.articalType != 2) {
       Dialog.info({ content: '请选择分类' });
       return;
     }
-    if (!data.bookId && data.articalType === 2) {
+    if (!data.bookId && data.articalType == 2) {
       Dialog.info({ content: '请选择专栏' });
       return;
     }
-    if (!data.articalPhoto && data.articalType !== 2) {
+    if (!data.articalPhoto && data.articalType != 2) {
       Dialog.info({ content: '请上传封面' });
       return;
     }
-
-    if ((!data.articalContent || !data.articalText) && data.articalType !== 1) {
+    if (!data.articalContent && !data.articalText && data.articalType != 1) {
       Dialog.info({ content: '请填写正文' });
       return;
     }
 
-    if (!data.articalDesc && data.articalType === 1) {
+    if (!data.articalDesc && data.articalType == 1) {
       Dialog.info({ content: '请填写作品说明' });
       return;
     }
 
-    if (!data.articalImages && data.articalType === 1) {
+    if (!data.articalImages && data.articalType == 1) {
       Dialog.info({ content: '请上传作品' });
       return;
     }
@@ -181,6 +189,7 @@ class ArticalEdit extends Component {
                     <input
                       type="text"
                       className="text"
+                      value={data.articalTitle}
                       placeholder="请填写文章标题"
                       onChange={(e) => { data.articalTitle = e.target.value; }}
                     />

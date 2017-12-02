@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router';
 import { Pagination, Ajax, Utils } from 'yingview-form';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-const { decodeHTML } = Utils;
+const { decodeHTML, getCookie } = Utils;
 
 require('./style.less');
 
@@ -15,19 +16,20 @@ class ArticalDetail extends Component {
         this.state = {
             data: null
         }
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
         this.queryList();
     }
 
     beforeDate(time) {
         this.now = (new Date()).getTime();
-        let day = Math.floor((this.now - time * 1000)/86400000);
+        let day = Math.floor((this.now - time * 1000) / 86400000);
         if (day > 0) {
-          day += '天前';
+            day += '天前';
         } else {
-          day = '今天';
+            day = '今天';
         }
         return day;
-      }
+    }
 
     queryList() {
         Ajax.get({
@@ -64,6 +66,12 @@ class ArticalDetail extends Component {
                             <div className="title">
                                 <h1>{data.articalTitle}</h1>
                                 <div className="mark">标签</div>
+                                {
+                                    data.userCode === this.userInfo.userCode ?
+                                        <Link to={{ pathname: 'index/person/articaledit', query: { articalCode: data.articalCode } }} target='_blank'>
+                                            <div className="artical-edit">编辑</div>
+                                        </Link> : null
+                                }
                             </div>
                             <p className="category-date">
                                 <span className="category">{data.categoryCode}</span>
