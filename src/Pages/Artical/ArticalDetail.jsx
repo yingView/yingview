@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination, Ajax, Utils } from 'yingview-form';
+import { Pagination, Ajax, Utils, Dialog } from 'yingview-form';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import CommentList from '../../components/CommentList';
 
 const { decodeHTML, getCookie } = Utils;
 
@@ -14,10 +15,27 @@ class ArticalDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            style: {},
+            comment: [],
+            total: 0,
+            showComment: false
         }
+        this.current = 1;
+        this.comment = ''; // 评论内容
         this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
-        this.queryList();
+        this.queryDetail();
+    }
+
+    componentDidMount() {
+        Ajax.get({
+            url: window.hostname + 'yingview.php',
+            data: {
+                rpcname: 'artical',
+                method: 'articalView',
+                articalCode: this.props.location.query.articalCode
+            }
+        })
     }
 
     beforeDate(time) {
@@ -31,12 +49,12 @@ class ArticalDetail extends Component {
         return day;
     }
 
-    queryList() {
+    queryDetail() {
         Ajax.get({
             url: window.hostname + 'yingview.php',
             data: {
                 rpcname: 'artical',
-                method: 'GetArticalByCode',
+                method: 'getArticalByCode',
                 articalCode: this.props.location.query.articalCode
             },
             dataType: 'json',
@@ -46,6 +64,7 @@ class ArticalDetail extends Component {
                     this.setState({
                         data: content.articalInfo
                     });
+                    this.queryComment();
                 } else {
                     Dialog.info({ content: content.message });
                 }
@@ -53,8 +72,115 @@ class ArticalDetail extends Component {
         })
     }
 
-    render() {
+    articalMark() {
+        if (!this.userInfo) {
+            Dialog.info({ content: '您还没有登录' });
+            return;
+        }
+        Ajax.get({
+            url: window.hostname + 'yingview.php',
+            data: {
+                rpcname: 'artical',
+                method: 'articalMark',
+                articalCode: this.props.location.query.articalCode,
+                userCode: this.userInfo.userCode
+            },
+            dataType: 'json',
+            success: (res) => {
+                const { content } = res;
+                if (content.isSuccess) {
+                    this.setState({ style: { fontSize: '16px', transform: 'translateY(-50px)', opacity: 1 } });
+                }
+            }
+        })
+    }
+
+    focueUser() {
+        if (!this.userInfo) {
+            Dialog.info({ content: '您还没有登录' });
+            return;
+        }
+        Ajax.get({
+            url: window.hostname + 'yingview.php',
+            data: {
+                rpcname: 'user',
+                method: 'follow',
+                followUserCode: this.state.data.userCode,
+                visitorCode: this.userInfo.userCode
+            },
+            dataType: 'json',
+            success: (res) => {
+                const { content } = res;
+                if (content.isSuccess) {
+                    Dialog.info({ content: content.message });
+                } else {
+                    Dialog.error({ content: content.message });
+                }
+            }
+        })
+    }
+
+    addComment() {
+        if (!this.userInfo) {
+            Dialog.info({ content: '您还没有登录' });
+            return;
+        }
+        if (!this.comment) {
+            Dialog.info({ content: '请填写评论内容' });
+            return;
+        }
         const { data } = this.state;
+        Ajax.get({
+            url: window.hostname + 'yingview.php',
+            data: {
+                rpcname: 'comment',
+                method: 'addComment',
+                articalCode: data.articalCode,
+                userCode: this.userInfo.userCode,
+                bookCode: null,
+                comContent: this.comment,
+                comParentType: 0,
+                comParentCode: data.articalCode
+            },
+            dataType: 'json',
+            success: (res) => {
+                const { content } = res;
+                if (content.isSuccess) {
+                    Dialog.info({ content: content.message });
+                    this.queryComment();
+                } else {
+                    Dialog.error({ content: content.message });
+                }
+            }
+        })
+    }
+
+    queryComment() {
+        Ajax.get({
+            url: window.hostname + 'yingview.php',
+            data: {
+                rpcname: 'comment',
+                method: 'queryCommentByArticalCode',
+                articalCode: this.state.data.articalCode,
+                current: this.current,
+                size: 10
+            },
+            dataType: 'json',
+            success: (res) => {
+                const { content } = res;
+                if (content.isSuccess) {
+                    const arr = [];
+                    for (const i in content.commentList) {
+                        arr.push(content.commentList[i]);
+                    }
+                    this.setState({ comment: arr, total: content.total });
+                }
+            }
+        })
+    }
+
+    render() {
+        const { data, comment, total, showComment } = this.state;
         if (!data) {
             return null;
         }
@@ -68,7 +194,7 @@ class ArticalDetail extends Component {
                                 <div className="mark">标签</div>
                                 {
                                     data.userCode === this.userInfo.userCode ?
-                                        <Link to={{ pathname: 'index/person/articaledit', query: { articalCode: data.articalCode } }} target='_blank'>
+                                        <Link to={{ pathname: 'index/articaledit', query: { articalCode: data.articalCode } }} target='_blank'>
                                             <div className="artical-edit">编辑</div>
                                         </Link> : null
                                 }
@@ -95,7 +221,7 @@ class ArticalDetail extends Component {
                                     <div className="user-level">{data.userLevel}陆地飞仙</div>
                                 </div>
                                 <div className="operation">
-                                    <button>关注</button>
+                                    <button onClick={this.focueUser.bind(this)}>关注</button>
                                     <button>私信</button>
                                 </div>
                             </div>
@@ -122,8 +248,9 @@ class ArticalDetail extends Component {
                         }
                     </div>
                     <div className="zan-button">
-                        <div>
-                            赞
+                        <div onClick={this.articalMark.bind(this)}>
+                            <span className="add-shadow" style={this.state.style}>+1</span>
+                            <span>赞</span>
                         </div>
                     </div>
                 </div>
@@ -145,93 +272,21 @@ class ArticalDetail extends Component {
                 </div>
                 <div className="commente-wrap">
                     <h3 className="comment-title">作者很希望看到你的用心评论哦</h3>
-                    <textarea className="comment-text" />
+                    <textarea className="comment-text" onChange={(e) => { const value = e.target.value; this.comment = value; }} />
                     <div className="button-wrap">
-                        <button>评&nbsp;论</button>
+                        <button onClick={this.addComment.bind(this)}>评&nbsp;论</button>
                     </div>
                     <div className="all-comment">
-                        <p>全部评论(11)</p>
-                        <ul className="comment-list">
-                            <li className="line">
-                                <div className="user-info">
-                                    <div className="photo" />
-                                    <div className="user-name-talk">
-                                        <div className="user-name">
-                                            <span className="name">我的名字是什么</span>
-                                            <span className="date">20天前</span>
-                                        </div>
-                                        <div className="user-talking">
-                                            我说把啦啦啦啦啦啦啦啦啦
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="operate">
-                                    <button>赞</button>
-                                    <button>评论</button>
-                                    <button>删除</button>
-                                </div>
-                            </li>
-                            <li className="line">
-                                <div className="user-info">
-                                    <div className="photo" />
-                                    <div className="user-name-talk">
-                                        <div className="user-name">
-                                            <span className="name">我的名字是什么</span>
-                                            <span className="date">20天前</span>
-                                        </div>
-                                        <div className="user-talking">
-                                            我说把啦啦啦啦啦啦啦啦啦
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="operate">
-                                    <button>赞</button>
-                                    <button>评论</button>
-                                    <button>删除</button>
-                                </div>
-                            </li>
-                            <li className="line">
-                                <div className="user-info">
-                                    <div className="photo" />
-                                    <div className="user-name-talk">
-                                        <div className="user-name">
-                                            <span className="name">我的名字是什么</span>
-                                            <span className="date">20天前</span>
-                                        </div>
-                                        <div className="user-talking">
-                                            我说把啦啦啦啦啦啦啦啦啦
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="operate">
-                                    <button>赞</button>
-                                    <button>评论</button>
-                                    <button>删除</button>
-                                </div>
-                            </li>
-                            <li className="line">
-                                <div className="user-info">
-                                    <div className="photo" />
-                                    <div className="user-name-talk">
-                                        <div className="user-name">
-                                            <span className="name">我的名字是什么</span>
-                                            <span className="date">20天前</span>
-                                        </div>
-                                        <div className="user-talking">
-                                            我说把啦啦啦啦啦啦啦啦啦
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="operate">
-                                    <button>赞</button>
-                                    <button>评论</button>
-                                    <button>删除</button>
-                                </div>
-                            </li>
-                        </ul>
+                        <p>全部评论({total})</p>
+                        <CommentList data={comment} queryComment={this.queryComment.bind(this)} />
                     </div>
                     <div className="page-change-wrap">
-                        <Pagination />
+                        <Pagination
+                            onChange={(value) => { this.current = value; this.queryComment(); }}
+                            total={total}
+                            current={this.current}
+                            pageSize={10}
+                        />
                     </div>
                 </div>
             </div>

@@ -1,0 +1,161 @@
+#ying-view-header {
+  width: 100%;
+  clear: both;
+  background: #1886e3;
+}
+#ying-view-header .logo-title {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  padding: 30px 0;
+  height: 50px;
+}
+#ying-view-header .logo-title .logo-name {
+  width: 450px;
+}
+#ying-view-header .logo-title .search-part {
+  padding: 4px 0;
+  display: flex;
+}
+#ying-view-header .logo-title .search-part .select {
+  height: 42px;
+  width: 96px;
+  background: #e5f5ff;
+  line-height: 42px;
+  font-size: 14px;
+  color: #666;
+  text-indent: 22px;
+  display: flex;
+}
+#ying-view-header .logo-title .search-part .select .icon {
+  width: 16px;
+  height: 16px;
+  background: url(../../images/icon_16.png) no-repeat 0 0px;
+  margin: auto;
+}
+#ying-view-header .logo-title .search-part .search-input {
+  height: 42px;
+  border: none;
+  outline: none;
+  background: #fff;
+  width: 342px;
+  text-indent: 5px;
+  font-size: 16px;
+  color: #333;
+}
+#ying-view-header .logo-title .search-part .search-botton {
+  height: 42px;
+  border: none;
+  width: 42px;
+  outline: none;
+  background: #0062bd;
+  cursor: pointer;
+}
+#ying-view-header .logo-title .search-part .search-botton span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  background: url(../../images/icon_16.png) no-repeat 0 -32px;
+}
+#ying-view-header .logo-title .login-or-sign {
+  line-height: 50px;
+  text-align: right;
+  width: 260px;
+}
+#ying-view-header .logo-title .login-or-sign .user-info {
+  position: relative;
+  height: 50px;
+}
+#ying-view-header .logo-title .login-or-sign .user-info .photo {
+  position: absolute;
+  right: 0;
+  width: 50px;
+  height: 50px;
+}
+#ying-view-header .logo-title .login-or-sign .user-info .photo .user_photo {
+  width: 50px;
+  height: 50px;
+  display: block;
+  border: none;
+  border-radius: 50%;
+}
+#ying-view-header .logo-title .login-or-sign .user-info .photo .nav {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: -9px;
+  z-index: 100;
+  box-shadow: 1px 1px 5px #d1d1d1;
+  -webkit-box-shadow: 1px 1px 5px #d1d1d1;
+  -moz-box-shadow: 1px 1px 5px #d1d1d1;
+  -o-box-shadow: 1px 1px 5px #d1d1d1;
+  background: #fff;
+  width: 68px;
+}
+#ying-view-header .logo-title .login-or-sign .user-info .photo .nav li {
+  list-style: none;
+  height: 26px;
+  width: 50px;
+  line-height: 26px;
+  text-align: left;
+  padding: 0 9px;
+}
+#ying-view-header .logo-title .login-or-sign .user-info .photo .nav li:hover {
+  background: #3385ff;
+  color: #fff;
+}
+#ying-view-header .logo-title .login-or-sign .user-info .photo:hover .nav {
+  display: block;
+}
+#ying-view-header .logo-title .login-or-sign button {
+  background: none;
+  color: #fff;
+  border: none;
+  outline: none;
+}
+#ying-view-header .logo-title .login-or-sign button:hover {
+  text-decoration: underline;
+}
+#ying-view-header .ying-nav {
+  background: #036fd3;
+}
+#ying-view-header .ying-nav .nav-wrap {
+  width: 1200px;
+  height: 44px;
+  display: flex;
+  margin: 0 auto;
+}
+#ying-view-header .ying-nav .nav-wrap .nav {
+  display: flex;
+  width: 1030px;
+}
+#ying-view-header .ying-nav .nav-wrap .nav li {
+  line-height: 44px;
+  padding: 0 30px;
+  color: #FFF;
+  font-size: 14px;
+}
+#ying-view-header .ying-nav .nav-wrap .nav li:hover {
+  background: #0062bd;
+  color: yellow;
+}
+#ying-view-header .ying-nav .nav-wrap .publish {
+  width: 170px;
+  background: #0062bd;
+  height: 20px;
+  padding: 12px 0;
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+#ying-view-header .ying-nav .nav-wrap .publish .publish-text {
+  font-size: 14px;
+  color: #fff;
+  background: url(../../images/icon_26.png) no-repeat 0 -600px;
+  height: 20px;
+  text-indent: 28px;
+  width: 100px;
+  margin: 0 auto;
+}

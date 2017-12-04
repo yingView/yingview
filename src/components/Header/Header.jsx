@@ -70,9 +70,9 @@ class Header extends Component {
                                     <div className="photo">
                                         <img src={window.hostname + this.userInfo.photoImage} alt={this.userInfo.nickName} className="user_photo" />
                                         <ul className="nav">
-                                            <li>个人中心</li>
-                                            <li>账号设置</li>
-                                            <li>作品管理</li>
+                                            <Link to="/index/person"><li>个人中心</li></Link>
+                                            <Link to="/index/person"><li>账号设置</li></Link>
+                                            <Link to="/index/person"><li>作品管理</li></Link>
                                             <li onClick={this.logOut.bind(this)}>退出</li>
                                         </ul>
                                     </div>
@@ -93,14 +93,14 @@ class Header extends Component {
                         <ul className="nav">
                             {
                                 navList.map((item, idx) => (
-                                    <li>
-                                        <Link to={item.navUrl} target={item.navTarget}>{item.navName}</Link>
-                                    </li>
+                                    <Link to={item.navUrl} target={item.navTarget}>
+                                        <li>{item.navName}</li>
+                                    </Link>
                                 ))
                             }
                         </ul>
                         <div className="publish">
-                            <Link to="/index/person/articaledit" target='_blank'>
+                            <Link to="/index/articaledit" target='_blank'>
                                 <div className="publish-text">发布作品</div>
                             </Link>
                         </div>

@@ -81,7 +81,7 @@ class ArticalList extends Component {
                         >
                             热门文章
                         </div>
-                        <Link to="/index/person/articaledit" target='_blank'>
+                        <Link to="/index/articaledit" target='_blank'>
                             <div className="add-artical">发布作品</div>
                         </Link>
                     </div>

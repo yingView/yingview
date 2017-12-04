@@ -60,6 +60,18 @@ export default {
 					}
 				},
 				{
+					path: 'articaledit',
+					getComponent(nextState, cb) {
+						if (!retView) { // 如果没有登录, 限制访问
+							window.location.href = '/#/login';
+							return;
+						}
+						require.ensure([], (require) => {
+							cb(null, require('./src/Pages/Artical/ArticalEdit'))
+						}, 'articaledit').default
+					}
+				},
+				{
 					path: 'person',
 					getComponent(nextState, cb) {
 						if (!retView) { // 如果没有登录, 限制访问
@@ -83,18 +95,6 @@ export default {
 										cb(null, require('./src/Pages/Main'))
 									}, 'Main')
 								},
-							}
-						},
-						{
-							path: 'articaledit',
-							getComponent(nextState, cb) {
-								if (!retView) { // 如果没有登录, 限制访问
-									window.location.href = '/#/login';
-									return;
-								}
-								require.ensure([], (require) => {
-									cb(null, require('./src/Pages/Artical/ArticalEdit'))
-								}, 'articaledit').default
 							}
 						}
 					]
