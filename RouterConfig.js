@@ -80,11 +80,26 @@ export default {
 						}
 						require.ensure([], (require) => {
 							cb(null, require('./src/Pages/Person'))
-						}, 'person').default
+						}, 'Person').default
 					},
 					childRoutes: [
 						{
-							path: '',
+							path: '', // 文章
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/Artical.jsx'))
+									}, 'Artical')
+								},
+							}
+						},
+						{
+							path: 'artical', // 文章
 							indexRoute: {
 								getComponent(nextState, cb) {
 									if (!retView) { // 如果没有登录, 限制访问
@@ -92,8 +107,106 @@ export default {
 										return;
 									}
 									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Main'))
-									}, 'Main')
+										cb(null, require('./src/Pages/Person/Artical.jsx'))
+									}, 'Artical')
+								},
+							}
+						},
+						{
+							path: 'special', // 专栏
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/SpecialColumn.jsx'))
+									}, 'SpecialColumn')
+								},
+							}
+						},
+						{
+							path: 'album', // 相册
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/Album.jsx'))
+									}, 'Album')
+								},
+							}
+						},
+						{
+							path: 'comment', // 评论
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/Comment.jsx'))
+									}, 'Comment')
+								},
+							}
+						},
+						{
+							path: 'fans', // 粉丝
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/Fans.jsx'))
+									}, 'Fans')
+								},
+							}
+						},
+						{
+							path: 'follow', // 关注
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/Follow.jsx'))
+									}, 'Follow')
+								},
+							}
+						},
+						{
+							path: 'setup', // 设置
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/Setup.jsx'))
+									}, 'Setup')
+								},
+							}
+						},
+						{
+							path: 'email', // 站内信
+							indexRoute: {
+								getComponent(nextState, cb) {
+									if (!retView) { // 如果没有登录, 限制访问
+										window.location.href = '/#/login';
+										return;
+									}
+									require.ensure([], (require) => {
+										cb(null, require('./src/Pages/Person/Email.jsx'))
+									}, 'Email')
 								},
 							}
 						}

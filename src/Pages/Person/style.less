@@ -1,4 +1,14 @@
+
 #ying-view-person {
+    @import './artical.less';
+    @import './album.less';
+    @import './comment.less';
+    @import './fans.less';
+    @import './follow.less';
+    @import './setup.less';
+    @import './specialcolumn.less';
+    @import './email.less';
+
     background: #eee;
     .user-top {
         padding-top: 12px;
@@ -84,8 +94,72 @@
     }
     .user-content {
         padding-top: 12px;
-        .content {
+        display: flex;
+        width: 1200px;
+        margin: 0 auto;
+        .user-part {
             background: #fff;
+            width: 27%;
+            box-sizing: border-box;
+            padding: 20px;
+            .visit-content{
+                .mark-list {
+                    li {
+                        display: flex;
+                        .user-item {
+                            padding: 5px;
+                            width: 84px;
+                            height: 84px;
+                            overflow: hidden;
+                            img {
+                                width: 84px;
+                                height: 84px;
+                                display: block;
+                                border: none;
+                                background: red;
+                            }
+                        }
+                    }
+                }
+            }
+            .education, .myself {
+                margin-top: 16px;
+                border-top: 1px solid #eee;
+                padding: 20px 0;
+                .education-title {
+                    color: #00c09a;
+                }
+                .education-item {
+                    padding: 8px 0;
+                }
+            }
+        }
+        .other-content {
+            background: #fff;
+            margin-left: 1%;
+            width: 72%;
+            box-sizing: border-box;
+            padding: 10px;
+            .user-nav {
+                padding-top: 20px;
+                display: flex;
+                .item {
+                    padding: 5px 20px;
+                    font-size: 14px;
+                    color: #333;
+                    border-bottom: 2px solid #fff;
+                    cursor: pointer;
+                }
+                .item:hover {
+                    color: #24d0fb;
+                    cursor: pointer;
+                    border-bottom: 2px solid #24d0fb;
+                }
+            }
+            .content {
+                background: #f5f5f5;
+                padding: 8px 18px;
+            }
         }
     }
 }
