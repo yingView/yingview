@@ -1,0 +1,80 @@
+.person-book-wrap {
+    width: 100%;
+    .person-book-list {
+        border: 1px solid transparent;
+        .person-book-item {
+            margin: 10px 0;
+            background: #fff;
+            display: flex;
+            position: relative;
+            .person-book-photo {
+                width: 180px;
+                height: 112px;
+                padding-right: 10px;
+                img {
+                    width: 180px;
+                    height: 112px;
+                    display: block;
+                }
+            }
+            .person-book-content {
+                width: 616px;
+                .person-book-title {
+                    display: flex;
+                    line-height: 34px;
+                    h3 {
+                        font-size: 16px;
+                        padding-right: 10px;
+                        color: #24d0fb;
+                        cursor: pointer;
+                    }
+                    p {
+                        padding-right: 10px;
+                        .title {
+                            padding-right: 5px;
+                        }
+                        .value {
+                            color: #ff701b;
+                        }
+                    }
+                }
+                .person-book-desc-wrap {
+                    width: 550px;
+                    height: 78px;
+                    overflow: hidden;
+                    .person-book-desc {
+                        text-indent: 2em;
+                        width: 550px;
+                        height: 78px;
+                        overflow: hidden;
+                    }
+                }
+            }
+            .person-book-operate {
+                position: absolute;
+                display: none;
+                right: 15px;
+                top: 8px;
+                li {
+                    color: #24d0fb;
+                    line-height: 24px;
+                    cursor: pointer;
+                }
+            }
+        }
+        .person-book-item:hover {
+            .person-book-operate {
+                display: block;
+            }
+        }
+        .person-book-empty {
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+        }
+    }
+    .person-book-pagination {
+        text-align: center;
+        padding: 10px 0;
+    }
+}

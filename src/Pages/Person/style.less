@@ -4,11 +4,12 @@
     @import './album.less';
     @import './comment.less';
     @import './fans.less';
-    @import './follow.less';
+    @import './focus.less';
     @import './setup.less';
     @import './specialcolumn.less';
     @import './email.less';
 
+    padding-bottom: 12px;
     background: #eee;
     .user-top {
         padding-top: 12px;
@@ -33,7 +34,6 @@
                             overflow: hidden;
                             border: none;
                         }
-                        background: red;
                     }
                     .user-name {
                         font-size: 16px;
@@ -57,24 +57,15 @@
             }
             .address {
                 padding-top: 12px;
+                .iconfont {
+                    position: relative;
+                    top: 2px;
+                    padding-right: 1px;
+                }
             }
             .operate {
                 text-align: center;
                 padding: 20px 0;
-                button {
-                    background: #24d0fb;
-                    border: none;
-                    outline: none;
-                    border-radius: 3px;
-                    color: #fff;
-                    padding: 5px 20px;
-                    margin-right: 20px;
-                }
-                button:nth-of-type(2) {
-                    background: #fff;
-                    border: 1px solid #ccc;
-                    color: #999;
-                }
             }
         }
         .user-banner {
@@ -109,14 +100,17 @@
                         .user-item {
                             padding: 5px;
                             width: 84px;
-                            height: 84px;
+                            height: 104px;
                             overflow: hidden;
                             img {
                                 width: 84px;
                                 height: 84px;
                                 display: block;
                                 border: none;
-                                background: red;
+                            }
+                            .nick-name {
+                                text-align: center;
+                                color: #24d0fb;
                             }
                         }
                     }
@@ -126,11 +120,37 @@
                 margin-top: 16px;
                 border-top: 1px solid #eee;
                 padding: 20px 0;
-                .education-title {
-                    color: #00c09a;
+                .title-and-opera {
+                    padding-right: 24px;
+                    .education-title {
+                        position: relative;
+                        float: left;
+                        span {
+                            color: #00c09a;
+                            padding-left: 22px;
+                        }
+                        .iconfont {
+                            color: #00c09a;
+                            font-size: 18px;
+                            position: absolute;
+                            left: 0;
+                            top: -2px;
+                        }
+                    }
+                    .edit-btn-icon {
+                        color: #24d0fb;
+                        float: right;
+                    }
                 }
                 .education-item {
                     padding: 8px 0;
+                }
+                .edit-description {
+                    padding-top: 15px;
+                    .edit-description-button {
+                        padding-top: 10px;
+                        text-align: center;
+                    }
                 }
             }
         }
@@ -151,6 +171,11 @@
                     cursor: pointer;
                 }
                 .item:hover {
+                    color: #24d0fb;
+                    cursor: pointer;
+                    border-bottom: 2px solid #24d0fb;
+                }
+                .active {
                     color: #24d0fb;
                     cursor: pointer;
                     border-bottom: 2px solid #24d0fb;

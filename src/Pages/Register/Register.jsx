@@ -12,7 +12,7 @@ class Register extends Component {
             rePassword: '',
             nickName: '',
             sax: 1,
-            job: {key: 'it', value: '互联网'},
+            job: 'it',
             email: ''
         }
     }
@@ -44,7 +44,7 @@ class Register extends Component {
             return;
         }
 
-        Ajax.get({
+        Ajax.post({
             url: window.hostname + 'yingview.php',
             data: {
                 method: 'regist',
@@ -54,7 +54,7 @@ class Register extends Component {
                     password,
                     nickName,
                     sax,
-                    userJob: job.key,
+                    userJob: job,
                     email
                 })
             },
@@ -66,7 +66,7 @@ class Register extends Component {
                         nickName: content.user.nickName,
                         userName: content.user.userName,
                         passCode: content.user.passCode,
-                        photoImage: content.user.photoImage,
+                        userPhoto: content.user.userPhoto,
                         userCode: content.user.userCode,
                         userJob: content.user.userJob
                     }
@@ -149,8 +149,8 @@ class Register extends Component {
                                 <span>职业:</span>
                                 <Select
                                     options={{ it: '互联网', eb: '电商', des: '设计' }}
-                                    value={this.sendData.job.key}
-                                    onChange={(value) => { this.sendData.job = value; }}
+                                    value={this.sendData.job}
+                                    onChange={(value) => { this.sendData.job = value.key; }}
                                 />
                             </div>
                             <div className="info-form">
@@ -165,7 +165,7 @@ class Register extends Component {
                                 />
                             </div>
                             <div className="info-form" style={{ textAlign: 'center' }}>
-                                <Button text='注册' type="submit" onClick={this.sendAjax.bind(this)} />
+                                <Button text='注 册' type="submit" onClick={this.sendAjax.bind(this)} />
                             </div>
                         </div>
                     </div>

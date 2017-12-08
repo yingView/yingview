@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination, Ajax, Utils, Dialog } from 'yingview-form';
+import { Pagination, Ajax, Utils, Dialog, Textarea, Button } from 'yingview-form';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import CommentList from '../../components/CommentList';
+import SendEmailModal from '../../components/SendEmailModal';
 
 const { decodeHTML, getCookie } = Utils;
 
@@ -40,7 +41,7 @@ class ArticalDetail extends Component {
 
     beforeDate(time) {
         this.now = (new Date()).getTime();
-        let day = Math.floor((this.now - time * 1000) / 86400000);
+        let day = Math.round((this.now - time * 1000) / 86400000);
         if (day > 0) {
             day += '天前';
         } else {
@@ -95,7 +96,7 @@ class ArticalDetail extends Component {
         })
     }
 
-    focueUser() {
+    focusUser() {
         if (!this.userInfo) {
             Dialog.info({ content: '您还没有登录' });
             return;
@@ -103,10 +104,10 @@ class ArticalDetail extends Component {
         Ajax.get({
             url: window.hostname + 'yingview.php',
             data: {
-                rpcname: 'user',
-                method: 'follow',
-                followUserCode: this.state.data.userCode,
-                visitorCode: this.userInfo.userCode
+                rpcname: 'focus',
+                method: 'addFocus',
+                byFocusUserCode: this.state.data.userCode,
+                focusUserCode: this.userInfo.userCode
             },
             dataType: 'json',
             success: (res) => {
@@ -134,7 +135,7 @@ class ArticalDetail extends Component {
             url: window.hostname + 'yingview.php',
             data: {
                 rpcname: 'comment',
-                method: 'addComment',
+                method: 'add',
                 articalCode: data.articalCode,
                 userCode: this.userInfo.userCode,
                 bookCode: null,
@@ -160,7 +161,7 @@ class ArticalDetail extends Component {
             url: window.hostname + 'yingview.php',
             data: {
                 rpcname: 'comment',
-                method: 'queryCommentByArticalCode',
+                method: 'queryByArticalCode',
                 articalCode: this.state.data.articalCode,
                 current: this.current,
                 size: 10
@@ -179,6 +180,21 @@ class ArticalDetail extends Component {
         })
     }
 
+    receiveEmail() {
+        
+        if (!this.userInfo) {
+            Dialog.info({ content: '您还没有登录' });
+            return;
+        }
+        const { data } = this.state;
+        SendEmailModal.show({
+            sendUserCode: this.userInfo.userCode,
+            ReceiveUserCode: data.userCode,
+            receiveName: data.nickName,
+            editReceive: false
+        });
+    }
+
     render() {
         const { data, comment, total, showComment } = this.state;
         if (!data) {
@@ -193,7 +209,7 @@ class ArticalDetail extends Component {
                                 <h1>{data.articalTitle}</h1>
                                 <div className="mark">标签</div>
                                 {
-                                    data.userCode === this.userInfo.userCode ?
+                                    this.userInfo && data.userCode === this.userInfo.userCode ?
                                         <Link to={{ pathname: 'index/articaledit', query: { articalCode: data.articalCode } }} target='_blank'>
                                             <div className="artical-edit">编辑</div>
                                         </Link> : null
@@ -213,16 +229,29 @@ class ArticalDetail extends Component {
                         </div>
                         <div className="user-info">
                             <div className="photo">
-                                <img src={window.hostname + data.photoImage} alt={data.nickName} />
+                                <Link to={{ pathname: '/index/person', query: { userCode: data.userCode, operate: 'view' } }} target='_blank'>
+                                    <img src={window.hostname + data.userPhoto} alt={data.nickName} />
+                                </Link>
                             </div>
                             <div className="user">
                                 <div className="user-infomation">
-                                    <div className="user-name">{data.nickName}</div>
+                                    <Link to={{ pathname: '/index/person', query: { userCode: data.userCode, operate: 'view' } }} target='_blank'>
+                                        <div className="user-name">{data.nickName}</div>
+                                    </Link>
                                     <div className="user-level">{data.userLevel}陆地飞仙</div>
                                 </div>
                                 <div className="operation">
-                                    <button onClick={this.focueUser.bind(this)}>关注</button>
-                                    <button>私信</button>
+                                    <Button
+                                        onClick={this.focusUser.bind(this)}
+                                        type={'submit'}
+                                        size={'smaller'}
+                                        text={'关注'}
+                                    />
+                                    <Button
+                                        size={'smaller'}
+                                        text={'私信'}
+                                        onClick={this.receiveEmail.bind(this)}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -272,9 +301,20 @@ class ArticalDetail extends Component {
                 </div>
                 <div className="commente-wrap">
                     <h3 className="comment-title">作者很希望看到你的用心评论哦</h3>
-                    <textarea className="comment-text" onChange={(e) => { const value = e.target.value; this.comment = value; }} />
+                    <Textarea
+                        // className="comment-text"
+                        fontSize={'14px'}
+                        width={'1200'}
+                        height={'130px'}
+                        onChange={(value) => { this.comment = value; }}
+                    />
                     <div className="button-wrap">
-                        <button onClick={this.addComment.bind(this)}>评&nbsp;论</button>
+                        <Button
+                            type={'submit'}
+                            size={'large'}
+                            text={'评  论'}
+                            onClick={this.addComment.bind(this)}
+                        />
                     </div>
                     <div className="all-comment">
                         <p>全部评论({total})</p>

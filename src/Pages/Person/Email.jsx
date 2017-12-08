@@ -10,8 +10,15 @@ class Email extends Component {
         return (
             <div className="person-email-wrap">
                 <div className="person-email-opera">
-                    <button>新建站内信</button>
-                    <button className="delete-button">删除站内信</button>
+                    <Button
+                        type={'submit'}
+                        size={'small'}
+                        text={'新建站内信'}
+                    />
+                    <Button
+                        size={'small'}
+                        text={'删除站内信'}
+                    />
                 </div>
                 <table style={{ width: '100%' }}>
                     <tr className="person-email-title">

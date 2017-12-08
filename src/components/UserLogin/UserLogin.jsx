@@ -60,7 +60,7 @@ class UserLogin extends Component {
                         nickName: content.user.nickName,
                         userName: content.user.userName,
                         passCode: content.user.passCode,
-                        photoImage: content.user.photoImage,
+                        userPhoto: content.user.userPhoto,
                         userCode: content.user.userCode,
                         userJob: content.user.userJob
                     }
@@ -128,13 +128,13 @@ class UserLogin extends Component {
                 </div>
                 <div className="button username-password" style={{ textAlign: 'center' }}>
                     <Button
-                        text='登录'
+                        text='登 录'
                         type='submit'
                         onClick={this.sendAjax.bind(this)}
                     />
                     <span style={{ padding: '0 12px' }} />
                     <Link to={{ pathname: '/register', query: this.sendData.userName ? { userName: decodeURI(this.sendData.userName) } : {} }}>
-                        <Button text='注册' />
+                        <Button text='注 册' />
                     </Link>
                 </div>
                 <div className="button username-password" />

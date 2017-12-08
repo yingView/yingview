@@ -18,7 +18,8 @@ class Header extends Component {
         Ajax.get({
             url: window.hostname + 'yingview.php',
             data: {
-                method: 'navlist'
+                method: 'navlist',
+                rpcname: 'nav'
             },
             dataType: 'json',
             success: (res) => {
@@ -68,12 +69,12 @@ class Header extends Component {
                             this.userInfo ?
                                 <div className="user-info">
                                     <div className="photo">
-                                        <img src={window.hostname + this.userInfo.photoImage} alt={this.userInfo.nickName} className="user_photo" />
+                                        <img src={window.hostname + this.userInfo.userPhoto} alt={this.userInfo.nickName} className="user_photo" />
                                         <ul className="nav">
-                                            <Link to="/index/person" target="_blank"><li>个人中心</li></Link>
-                                            <Link to="/index/person/setup" target="_blank"><li>账号设置</li></Link>
-                                            <Link to="/index/person/artical" target="_blank"><li>作品管理</li></Link>
-                                            <Link to="/index/person/comment" target="_blank"><li>评论管理</li></Link>
+                                            <Link to={{ pathname: '/index/person', query: { userCode: this.userInfo.userCode, operate: 'edit' } }} target="_blank"><li>个人中心</li></Link>
+                                            <Link to={{ pathname: '/index/person/setup', query: { userCode: this.userInfo.userCode, operate: 'edit' } }} target="_blank"><li>账号设置</li></Link>
+                                            <Link to={{ pathname: '/index/person/artical', query: { userCode: this.userInfo.userCode, operate: 'edit' } }} target="_blank"><li>作品管理</li></Link>
+                                            <Link to={{ pathname: '/index/person/comment', query: { userCode: this.userInfo.userCode, operate: 'edit' } }} target="_blank"><li>评论管理</li></Link>
                                             <li onClick={this.logOut.bind(this)}>退出</li>
                                         </ul>
                                     </div>

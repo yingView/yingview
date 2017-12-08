@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination, Ajax, Utils, Dialog } from 'yingview-form';
+import { Pagination, Ajax, Utils, Dialog, Textarea, Button } from 'yingview-form';
 
 const { decodeHTML, getCookie } = Utils;
 
@@ -22,7 +22,7 @@ class Comment extends Component {
 
     beforeDate(time) {
         this.now = (new Date()).getTime();
-        let day = Math.floor((this.now - time * 1000) / 86400000);
+        let day = Math.round((this.now - time * 1000) / 86400000);
         if (day > 0) {
             day += '天前';
         } else {
@@ -31,70 +31,99 @@ class Comment extends Component {
         return day;
     }
 
-    operaComment(opera, item) {
-        if (opera === 'addComment') {
-            this.state.data.forEach(item => {
-                item.showComment = false;
-            })
-            item.showComment = true;
-            this.setState({ data: this.state.data });
-            return;
-        }
-        const method = opera === 'delete' ? 'commentDelete' : 'commentMark';
-        Ajax.get({
-            url: window.hostname + 'yingview.php',
-            data: {
-                rpcname: 'comment',
-                method: method,
-                commentCode: item.commentCode,
-                userCode: this.userInfo.userCode
-            },
-            dataType: 'json',
-            success: (res) => {
-                const { content } = res;
-                if (content.isSuccess) {
-                    Dialog.info({ content: content.message });
-                    this.props.queryComment();
-                } else {
-                    Dialog.error({ content: content.message });
-                }
-            }
-        })
-    }
-
-    addComment(data) {
+    operaComment(method, item) {
         if (!this.userInfo) {
             Dialog.info({ content: '您还没有登录' });
             return;
         }
-        if (!this.comment) {
+
+        if (!this.comment && method === 'add') {
             Dialog.info({ content: '请填写评论内容' });
             return;
         }
-        Ajax.post({
-            url: window.hostname + 'yingview.php',
-            data: {
-                rpcname: 'comment',
-                method: 'addComment',
-                articalCode: data.articalCode,
-                userCode: this.userInfo.userCode,
-                bookCode: null,
-                comContent: this.comment,
-                comParentType: 1,
-                comParentCode: data.commentCode
-            },
-            dataType: 'json',
-            success: (res) => {
-                const { content } = res;
-                if (content.isSuccess) {
-                    Dialog.info({ content: content.message });
-                    this.props.queryComment();
-                } else {
-                    Dialog.error({ content: content.message });
+
+        if (method === 'delete') {
+            Dialog.warn({
+                content: '确定要删除该评论?',
+                submit: () => {
+                    Ajax.get({
+                        url: window.hostname + 'yingview.php',
+                        data: {
+                            rpcname: 'comment',
+                            method: method,
+                            commentCode: item.commentCode,
+                            userCode: this.userInfo.userCode,
+                            articalCode: item.articalCode,
+                            comParentType: item.comParentType,
+                            comParentCode: item.commentCode
+                        },
+                        dataType: 'json',
+                        success: (res) => {
+                            const { content } = res;
+                            if (content.isSuccess) {
+                                Dialog.info({ content: content.message });
+                                this.props.queryComment();
+                            } else {
+                                Dialog.error({ content: content.message });
+                            }
+                        }
+                    })
+                },
+                cancel: () => { }
+            })
+        } else {
+            Ajax.get({
+                url: window.hostname + 'yingview.php',
+                data: {
+                    rpcname: 'comment',
+                    method: method,
+                    commentCode: item.commentCode,
+                    userCode: this.userInfo.userCode,
+                    articalCode: item.articalCode,
+                    bookCode: null,
+                    comContent: this.comment,
+                    comParentType: 1,
+                    comParentCode: item.commentCode
+                },
+                dataType: 'json',
+                success: (res) => {
+                    const { content } = res;
+                    if (content.isSuccess) {
+                        Dialog.info({ content: content.message });
+                        this.props.queryComment();
+                    } else {
+                        Dialog.error({ content: content.message });
+                    }
                 }
-            }
-        })
+            })
+        }
     }
+
+    // addComment(data) {
+    //     Ajax.post({
+    //         url: window.hostname + 'yingview.php',
+    //         data: {
+    //             rpcname: 'comment',
+    //             method: 'add',
+    //             articalCode: data.articalCode,
+    //             userCode: this.userInfo.userCode,
+    //             bookCode: null,
+    //             comContent: this.comment,
+    //             comParentType: 1,
+    //             comParentCode: data.commentCode
+    //         },
+    //         dataType: 'json',
+    //         success: (res) => {
+    //             const { content } = res;
+    //             if (content.isSuccess) {
+    //                 Dialog.info({ content: content.message });
+    //                 this.props.queryComment();
+    //             } else {
+    //                 Dialog.error({ content: content.message });
+    //             }
+    //         }
+    //     })
+    // }
 
     render() {
         const { data, showComment } = this.state;
@@ -106,11 +135,15 @@ class Comment extends Component {
                             <li className="line clearfix">
                                 <div className="user-info">
                                     <div className="photo">
-                                        <img src={window.hostname + item.photoImage} alt={item.nickName} />
+                                        <Link to={{ pathname: '/index/person', query: { userCode: item.userCode, operate: 'view' } }} target='_blank'>
+                                            <img src={window.hostname + item.userPhoto} alt={item.nickName} />
+                                        </Link>
                                     </div>
                                     <div className="user-name-talk">
                                         <div className="user-name">
-                                            <span className="name">{item.nickName}</span>
+                                            <Link to={{ pathname: '/index/person', query: { userCode: item.userCode, operate: 'view' } }} target='_blank'>
+                                                <span className="name">{item.nickName}</span>
+                                            </Link>
                                             <span className="date">{this.beforeDate(item.comCreateDate)}</span>
                                         </div>
                                         <div className="user-talking">{item.comContent}</div>
@@ -118,9 +151,15 @@ class Comment extends Component {
                                 </div>
                                 <div className="operate">
                                     <button onClick={this.operaComment.bind(this, 'mark', item)}>赞({item.comMark})</button>
-                                    <button onClick={this.operaComment.bind(this, 'addComment', item)}>评论({item.comCommentNum})</button>
+                                    <button onClick={() => {
+                                        data.forEach(item => {
+                                            item.showComment = false;
+                                        })
+                                        item.showComment = true;
+                                        this.setState({ data });
+                                    }}>评论({item.children && item.children.length})</button>
                                     {
-                                        item.userCode === this.userInfo.userCode ?
+                                        this.userInfo && item.userCode === this.userInfo.userCode ?
                                             <button onClick={this.operaComment.bind(this, 'delete', item)}>删除</button>
                                             :
                                             null
@@ -133,7 +172,9 @@ class Comment extends Component {
                                                 <div className="user-info">
                                                     <div className="user-name-talk">
                                                         <div className="user-name">
-                                                            <span className="name">{item.nickName}</span>
+                                                            <Link to={{ pathname: '/index/person', query: { userCode: item.userCode, operate: 'view' } }} target='_blank'>
+                                                                <span className="name">{item.nickName}</span>
+                                                            </Link>
                                                             <span className="date">{this.beforeDate(item.comCreateDate)}</span>
                                                         </div>
                                                         <div className="user-talking">{item.comContent}</div>
@@ -142,7 +183,7 @@ class Comment extends Component {
                                                 <div className="operate">
                                                     <button onClick={this.operaComment.bind(this, 'mark', item)}>赞({item.comMark})</button>
                                                     {
-                                                        item.userCode === this.userInfo.userCode ?
+                                                        this.userInfo && item.userCode === this.userInfo.userCode ?
                                                             <button onClick={this.operaComment.bind(this, 'delete', item)}>删除</button>
                                                             :
                                                             null
@@ -154,9 +195,18 @@ class Comment extends Component {
                                     {
                                         item.showComment ?
                                             <div className="child-textarea">
-                                                <textarea onChange={(e) => { const value = e.target.value; this.comment = value; }} />
+                                                <Textarea
+                                                    width={'1144px'}
+                                                    height={'76px'}
+                                                    onChange={(value) => { this.comment = value; }}
+                                                />
                                                 <div>
-                                                    <button onClick={this.addComment.bind(this, item)}>评论</button>
+                                                    <Button
+                                                        text={'评 论'}
+                                                        type={'submit'}
+                                                        size={'small'}
+                                                        onClick={this.operaComment.bind(this, 'add',item)}
+                                                    />
                                                 </div>
                                             </div> : null
                                     }

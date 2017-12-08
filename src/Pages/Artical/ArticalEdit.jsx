@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Radio, FileUpload, Button, EditText, Ajax, Utils, Dialog } from 'yingview-form';
+import { Radio, FileUpload, Button, EditText, Ajax, Utils, Dialog, Input, Textarea } from 'yingview-form';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -28,6 +28,7 @@ class ArticalEdit extends Component {
     Ajax.get({
       url: window.hostname + 'yingview.php',
       data: {
+        rpcname: 'category',
         method: 'category'
       },
       dataType: 'json',
@@ -63,6 +64,9 @@ class ArticalEdit extends Component {
       success: (res) => {
         const { content } = res;
         if (content.isSuccess) {
+          if (content.articalInfo.userCode !== this.userInfo.userCode) { // 如果编辑人和文章作者不符合
+            window.location.href = '/#/index/articaldetail?articalCode=' + content.articalInfo.articalCode;
+          }
           content.articalInfo.articalContent = decodeHTML(content.articalInfo.articalContent);
           let page = 'artical';
           if (content.articalInfo.articalType === '1') {
@@ -186,12 +190,10 @@ class ArticalEdit extends Component {
                 <tr>
                   <td className="title">文章标题</td>
                   <td className="content">
-                    <input
+                    <Input
                       type="text"
-                      className="text"
                       value={data.articalTitle}
-                      placeholder="请填写文章标题"
-                      onChange={(e) => { data.articalTitle = e.target.value; }}
+                      onChange={(value) => { data.articalTitle = value; }}
                     />
                   </td>
                 </tr>
@@ -274,13 +276,14 @@ class ArticalEdit extends Component {
                     <tr>
                       <td className="title">作品说明</td>
                       <td className="content">
-                        <textarea
-                          className="text-area"
-                          defaultValue={data.articalDesc}
-                          onChange={(e) => {
-                            data.articalDesc = e.target.value;
+                        <Textarea
+                          width={'960px'}
+                          height={'130px'}
+                          value={data.articalDesc}
+                          onChange={(value) => {
+                            data.articalDesc = value;
                           }}
-                        ></textarea>
+                        />
                       </td>
                     </tr> : null
                 }
@@ -310,10 +313,11 @@ class ArticalEdit extends Component {
                       <td className="title">文章内容</td>
                       <td className="content">
                         <div className="artical-value">
-                          <textarea
-                            defaultValue={data.articalText}
-                            className="textarea-text"
-                            onChange={(e) => { const value = e.target.value; data.articalText = value; }}
+                          <Textarea
+                            value={data.articalText}
+                            height={'410px'}
+                            width={'960px'}
+                            onChange={(value) => {data.articalText = value; }}
                           />
                         </div>
                       </td>

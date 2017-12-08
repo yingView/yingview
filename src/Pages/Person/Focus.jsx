@@ -8,11 +8,11 @@ import Footer from '../../components/Footer';
 
 const { getCookie } = Utils;
 
-class Fans extends Component {
+class focus extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            focusList: [],
+            byFocusList: [],
             readOnly: false,
             total: 0
         }
@@ -21,12 +21,13 @@ class Fans extends Component {
         this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
         this.queryData();
     }
+
     queryData() {
         let { userCode, operate } = this.props.location.query;
         Ajax.get({
             url: window.hostname + 'yingview.php',
             data: {
-                method: 'queryFocusByUserCode',
+                method: 'queryByFocusByUserCode',
                 rpcname: 'focus',
                 userCode: userCode,
                 current: this.current,
@@ -41,7 +42,7 @@ class Fans extends Component {
                         this.props.location.query.readOnly = true;
                     }
                     this.setState({
-                        focusList: content.focusList,
+                        byFocusList: content.byFocusList,
                         total: content.total,
                         readOnly: this.state.readOnly
                     });
@@ -101,16 +102,16 @@ class Fans extends Component {
     }
 
     render() {
-        const { focusList, readOnly, total } = this.state;
+        const { byFocusList, readOnly, total } = this.state;
         return (
-            <div className="person-fans-wrap">
-                <ul className="person-fans-list clearfix">
+            <div className="person-focus-wrap">
+                <ul className="person-focus-list clearfix">
                     {
-                        focusList && focusList.length ? focusList.map((user) => (
+                        byFocusList && byFocusList.length ? byFocusList.map((user) => (
 
-                            <li className="person-fans-item">
-                                <div className="fans-content">
-                                    <div className="fans-photo">
+                            <li className="person-focus-item">
+                                <div className="focus-content">
+                                    <div className="focus-photo">
                                         <Link to={{ pathname: '/index/person', query: { userCode: user.userCode, operate: 'view' } }} target={'_blank'}>
                                             <img src={window.hostname + user.userPhoto} alt={user.nickName} />
                                         </Link>
@@ -139,12 +140,12 @@ class Fans extends Component {
 
                             </li>
                         )) :
-                            <li className="person-fans-empty">
+                            <li className="person-focus-empty">
                                 没有信息
                             </li>
                     }
                 </ul>
-                <div className="person-fans-pagination">
+                <div className="person-focus-pagination">
                     <Pagination
                         size={this.size}
                         current={this.current}
@@ -157,4 +158,4 @@ class Fans extends Component {
     }
 }
 
-module.exports = Fans;
+module.exports = focus;

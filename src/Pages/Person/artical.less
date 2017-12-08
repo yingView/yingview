@@ -14,7 +14,6 @@
                 img {
                     width: 180px;
                     height: 112px;
-                    background: red;
                     display: block;
                 }
             }
@@ -26,6 +25,8 @@
                     h3 {
                         font-size: 16px;
                         padding-right: 10px;
+                        color: #24d0fb;
+                        cursor: pointer;
                     }
                     p {
                         padding-right: 10px;
@@ -37,16 +38,23 @@
                         }
                     }
                 }
-                .person-artical-desc {
-                    text-indent: 2em;
+                .person-artical-desc-wrap {
                     width: 550px;
+                    height: 78px;
+                    overflow: hidden;
+                    .person-artical-desc {
+                        text-indent: 2em;
+                        width: 550px;
+                        height: 78px;
+                        overflow: hidden;
+                    }
                 }
             }
             .person-artical-operate {
                 position: absolute;
                 display: none;
                 right: 15px;
-                top: 20px;
+                top: 8px;
                 li {
                     color: #24d0fb;
                     line-height: 24px;
@@ -58,6 +66,11 @@
             .person-artical-operate {
                 display: block;
             }
+        }
+        .person-artical-empty {
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
         }
     }
     .person-artical-pagination {

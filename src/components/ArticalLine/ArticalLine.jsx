@@ -8,7 +8,7 @@ class ArticalLine extends Component {
 
   beforeDate(time) {
     this.now = (new Date()).getTime();
-    let day = Math.floor((this.now - time * 1000)/86400000);
+    let day = Math.round((this.now - time * 1000)/86400000);
     if (day > 0) {
       day += '天前';
     } else {
@@ -61,7 +61,7 @@ class ArticalLine extends Component {
                       <dd className="clearfix">
                         <a href="#" target="_blank">
                           <div className="user">
-                            <div className="user-photo" style={{ backgroundImage: `url(${window.hostname + item.photoImage})`}}>
+                            <div className="user-photo" style={{ backgroundImage: `url(${window.hostname + item.userPhoto})`}}>
                             </div>
                             <div className="name">{item.nickName}</div>
                           </div>
