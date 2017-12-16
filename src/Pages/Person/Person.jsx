@@ -19,7 +19,7 @@ class Person extends Component {
             readOnly: false
         }
         this.newDesc = '';
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
     }
 
     componentDidMount() {
@@ -106,7 +106,7 @@ class Person extends Component {
     }
 
     focusUser() {
-        if (!this.userInfo) {
+        if (!this.userInfo.userCode) {
             Dialog.info({ content: '您还没有登录' });
             return;
         }

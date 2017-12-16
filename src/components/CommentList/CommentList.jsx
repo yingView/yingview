@@ -13,7 +13,7 @@ class Comment extends Component {
             showComment: false
         }
         this.comment = ''; // 评论内容
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
     }
 
     componentWillReceiveProps(nextProps) {
@@ -32,7 +32,7 @@ class Comment extends Component {
     }
 
     operaComment(method, item) {
-        if (!this.userInfo) {
+        if (!this.userInfo.userCode) {
             Dialog.info({ content: '您还没有登录' });
             return;
         }
@@ -43,7 +43,7 @@ class Comment extends Component {
         }
 
         if (method === 'delete') {
-            Dialog.warn({
+            Dialog.confirm({
                 content: '确定要删除该评论?',
                 submit: () => {
                     Ajax.get({

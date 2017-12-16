@@ -14,7 +14,7 @@ class Setup extends Component {
             userInfo: null,
             readOnly: false
         }
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryData();
     }
 

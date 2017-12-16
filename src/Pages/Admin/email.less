@@ -1,0 +1,102 @@
+.admin-email-wrap {
+    .user-content-wrap {
+        position: relative;
+        .user-nav {
+          display: flex;
+          height: 30px;
+          background: #31373b;
+          color: #fff;
+          text-align: center;
+          border-radius: 3px;
+          overflow: hidden;
+          p {
+            width: 33.33%;
+            font-weight: 300;
+            padding: 0px;
+            margin: 0px;
+            line-height: 30px;
+          }
+          p:nth-of-type(3) {
+            width: 33.35%;
+          }
+          .focus {
+            background: #f1c40f;
+            color: #31373b;
+          }
+          p:hover {
+            background: #f1c40f;
+            color: #31373b;
+            cursor: pointer;
+          }
+        }
+        .add-user {
+          height: 34px;
+          margin: 15px 0 0 8px;
+          .message {
+            float: left;
+            font-size: 12px;
+            font-weight: 400;
+            span:nth-of-type(2) {
+              color: #68abf1;
+            }
+          }
+          .add-user-btn {
+            float: right;
+            border: none;
+            background: #f1c40f;
+            font-size: 12px;
+            border-radius: 3px;
+            padding: 3px 15px;
+            outline: none;
+            cursor: pointer;
+          }
+        }
+        .user-list {
+          min-height: 500px;
+          max-height: 550px;
+          overflow: auto;
+          width: 100%;
+          border-collapse: collapse;
+          .user-list-head {
+            background: #f2f2f2;
+            height: 36px;
+            display: flex;
+            li {
+              line-height: 36px;
+              width: 16.66%;
+              text-indent: 15px;
+            }
+          }
+          .user-list-item {
+            height: 46px;
+            display: flex;
+            margin: 2px 0;
+            li {
+              line-height: 46px;
+              width: 16.66%;
+              text-indent: 15px;
+            }
+            .iconfont {
+              margin: 0 8px;
+              cursor: pointer;
+            }
+          }
+          .user-list-item:nth-of-type(even) {
+            background: #fff;
+          }
+          .user-list-item:nth-of-type(odd) {
+            background: #f2f2f2;
+          }
+        }
+        .opera-user-box {
+          width: 100%;
+          height: 100%;
+          background: rgba(40,45,48, 0.1);
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+        }
+    }
+}

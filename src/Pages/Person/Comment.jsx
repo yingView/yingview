@@ -18,7 +18,7 @@ class Comment extends Component {
             total: 0
         }
         this.current = 1;
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryData();
     }
 
@@ -52,7 +52,7 @@ class Comment extends Component {
     }
 
     deletecomment(comment) {
-        Dialog.warn({
+        Dialog.confirm({
             content: '确定要删除该评论么?',
             submit: () => {
                 if (this.userInfo.userCode !== comment.userCode) {

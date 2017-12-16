@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 import rootRoute from './RouterConfig';
 
-window.hostname = 'http://127.0.0.1/';
+// window.hostname = 'http://127.0.0.1/';
+window.hostname = "";
 
 require('./style');
 

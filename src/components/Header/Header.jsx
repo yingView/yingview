@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Pagination, Ajax, Utils } from 'yingview-form';
+import { Pagination, Ajax, Utils, Dialog } from 'yingview-form';
 import { Link } from 'react-router';
 const { getCookie, setCookie } = Utils;
 const logo = require('./../../images/logo.jpg');
@@ -10,7 +10,7 @@ class Header extends Component {
         this.state = {
             navList: []
         }
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryNavList();
     }
 
@@ -66,7 +66,7 @@ class Header extends Component {
                     </div>
                     <div className="login-or-sign">
                         {
-                            this.userInfo ?
+                            this.userInfo.userPhoto ?
                                 <div className="user-info">
                                     <div className="photo">
                                         <img src={window.hostname + this.userInfo.userPhoto} alt={this.userInfo.nickName} className="user_photo" />
@@ -95,7 +95,7 @@ class Header extends Component {
                         <ul className="nav">
                             {
                                 navList.map((item, idx) => (
-                                    <Link to={item.navUrl} target={item.navTarget}>
+                                    <Link to={item.navUrl} target={item.navTarget === '0' ? '_blank' : 'self'}>
                                         <li>{item.navName}</li>
                                     </Link>
                                 ))

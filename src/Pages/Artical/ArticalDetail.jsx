@@ -24,7 +24,7 @@ class ArticalDetail extends Component {
         }
         this.current = 1;
         this.comment = ''; // 评论内容
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryDetail();
     }
 
@@ -74,7 +74,7 @@ class ArticalDetail extends Component {
     }
 
     articalMark() {
-        if (!this.userInfo) {
+        if (!this.userInfo.userCode) {
             Dialog.info({ content: '您还没有登录' });
             return;
         }
@@ -97,7 +97,7 @@ class ArticalDetail extends Component {
     }
 
     focusUser() {
-        if (!this.userInfo) {
+        if (!this.userInfo.userCode) {
             Dialog.info({ content: '您还没有登录' });
             return;
         }
@@ -122,7 +122,7 @@ class ArticalDetail extends Component {
     }
 
     addComment() {
-        if (!this.userInfo) {
+        if (!this.userInfo.userCode) {
             Dialog.info({ content: '您还没有登录' });
             return;
         }
@@ -180,18 +180,19 @@ class ArticalDetail extends Component {
         })
     }
 
-    receiveEmail() {
-        
-        if (!this.userInfo) {
+    sendEmail() {
+
+        if (!this.userInfo.userCode) {
             Dialog.info({ content: '您还没有登录' });
             return;
         }
         const { data } = this.state;
         SendEmailModal.show({
-            sendUserCode: this.userInfo.userCode,
-            ReceiveUserCode: data.userCode,
-            receiveName: data.nickName,
-            editReceive: false
+            data: {
+                sendUserCode: this.userInfo.userCode,
+                receiveUserCode: data.userCode,
+                receiveName: data.nickName
+            }
         });
     }
 
@@ -216,7 +217,15 @@ class ArticalDetail extends Component {
                                 }
                             </div>
                             <p className="category-date">
-                                <span className="category">{data.categoryCode}</span>
+                                <span className="category">
+                                    {
+                                        data.articalType === '2' ?
+                                            <Link to={{ pathname: 'index/book', query: { bookCode: data.bookCode } }} target='_blank'>
+                                                <span>{data.bookName}</span>
+                                            </Link>
+                                            : <span>{data.categoryCode}</span>
+                                    }
+                                </span>
                                 <span className="date">发布时间:</span>
                                 <span>{this.beforeDate(data.articalCreateDate)}</span>
                             </p>
@@ -250,7 +259,7 @@ class ArticalDetail extends Component {
                                     <Button
                                         size={'smaller'}
                                         text={'私信'}
-                                        onClick={this.receiveEmail.bind(this)}
+                                        onClick={this.sendEmail.bind(this)}
                                     />
                                 </div>
                             </div>
@@ -263,6 +272,9 @@ class ArticalDetail extends Component {
                     }
                     <div className="content">
                         {
+                            data.articalType === '0' ? <div className="text-warp" dangerouslySetInnerHTML={{ __html: decodeHTML(data.articalContent) }} /> : null
+                        }
+                        {
                             data.articalType === '1' ?
                                 <div>
                                     {
@@ -272,8 +284,14 @@ class ArticalDetail extends Component {
                                             </div>
                                         ))
                                     }
-                                </div> :
-                                <div className="text-warp" dangerouslySetInnerHTML={{ __html: decodeHTML(data.articalContent) }} />
+                                </div> : null
+
+                        }
+                        {
+                            data.articalType === '2' ?
+                                <div className="text-warp">
+                                    <pre>{data.articalContent}</pre>
+                                </div> : null
                         }
                     </div>
                     <div className="zan-button">

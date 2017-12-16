@@ -13,9 +13,11 @@ class Main extends React.Component {
       newData: [],
       greatData: [],
       hotData: [],
-      total: 0
+      total: 0,
+      bannerList: []
     }
     this.current = 1;
+    this.queryBanner();
   }
   componentDidMount() {
     Ajax.get({
@@ -42,6 +44,7 @@ class Main extends React.Component {
       }
     })
   }
+
   queryhotData() {
     Ajax.get({
       url: window.hostname + 'yingview.php',
@@ -65,8 +68,30 @@ class Main extends React.Component {
       }
     })
   }
+
+  queryBanner() {
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        method: 'queryBanner'
+      },
+      dataType: 'json',
+      success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          content.bannerList.forEach((item) => {
+            item.imgUrl = window.hostname + item.imgUrl;
+            item.href = item.toUrl;
+          })
+          this.setState({
+            bannerList: content.bannerList
+          });
+        }
+      }
+    })
+  }
   render() {
-    const { newData, greatData, hotData, total } = this.state;
+    const { newData, greatData, hotData, total, bannerList } = this.state;
     return (
       <div id="ying-view-home">
         <div style={{ padding: '10px 0' }}>

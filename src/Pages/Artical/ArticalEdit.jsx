@@ -16,9 +16,10 @@ class ArticalEdit extends Component {
       page: 'artical',
       data: { articalType: 0, articalContent: '', articalText: '', articalDesc: '' },
       photoIdx: 1,
-      categoryList: []
+      categoryList: [],
+      bookList: []
     }
-    this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+    this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
     if (props.location.query.articalCode) {
       this.queryDetail();
     }
@@ -47,6 +48,25 @@ class ArticalEdit extends Component {
           }
         } else {
           Dialog.info({ content: content.message });
+        }
+      }
+    })
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        rpcname: 'book',
+        method: 'getBookListByUserCode',
+        userCode: this.userInfo.userCode
+      },
+      dataType: 'json',
+      success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          content.bookList.forEach((item) => {
+            item.key = item.bookCode;
+            item.value = item.bookName;
+          })
+          this.setState({ bookList: content.bookList });
         }
       }
     })
@@ -101,7 +121,7 @@ class ArticalEdit extends Component {
       Dialog.info({ content: '请选择分类' });
       return;
     }
-    if (!data.bookId && data.articalType == 2) {
+    if (!data.bookCode && data.articalType == 2) {
       Dialog.info({ content: '请选择专栏' });
       return;
     }
@@ -131,8 +151,6 @@ class ArticalEdit extends Component {
 
     if (data.articalType === 2) {
       data.articalContent = data.articalText;
-      data.articalPhoto = 1;
-      data.categoryCode = 1;
       delete data.articalText;
     }
     if (data.articalType === 1) {
@@ -165,7 +183,7 @@ class ArticalEdit extends Component {
   }
 
   render() {
-    const { page, categoryList, data } = this.state;
+    const { page, categoryList, data, bookList } = this.state;
     return (
       <div id="ying-view-artical-eidt">
         <div className="artical-edit-wrap">
@@ -203,9 +221,13 @@ class ArticalEdit extends Component {
                       <td className="title">专栏选择</td>
                       <td className="content">
                         <Radio
-                          options={categoryList}
-                          value={data.bookId}
-                          onChange={(value) => { data.bookId = value.key; }}
+                          options={bookList}
+                          value={data.bookCode}
+                          onChange={(value) => {
+                            data.categoryCode = value.categoryCode;
+                            data.articalPhoto = value.bookPhoto;
+                            data.bookCode = value.key;
+                          }}
                         />
                       </td>
                     </tr> :
@@ -314,10 +336,10 @@ class ArticalEdit extends Component {
                       <td className="content">
                         <div className="artical-value">
                           <Textarea
-                            value={data.articalText}
+                            value={data.articalContent}
                             height={'410px'}
                             width={'960px'}
-                            onChange={(value) => {data.articalText = value; }}
+                            onChange={(value) => { data.articalText = value; }}
                           />
                         </div>
                       </td>

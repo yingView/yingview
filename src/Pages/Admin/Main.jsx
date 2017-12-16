@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog } from 'yingview-form';
 
 const { getCookie } = Utils;
-require('./artical.less');
+require('./main.less');
 
-class Artical extends Component {
+class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,11 +42,11 @@ class Artical extends Component {
     render() {
         const { photoList, readOnly, total } = this.state;
         return (
-            <div className="admin-artical-wrap">
+            <div className="admin-main-wrap">
                45478
             </div>
         )
     }
 }
 
-module.exports = Artical;
+module.exports = Main;

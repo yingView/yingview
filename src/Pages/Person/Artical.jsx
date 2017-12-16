@@ -18,7 +18,7 @@ class Artical extends Component {
             total: 0
         }
         this.current = 1;
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryData();
     }
 
@@ -53,7 +53,7 @@ class Artical extends Component {
     }
 
     deleteArtical(artical) {
-        Dialog.warn({
+        Dialog.confirm({
             content: '确定要删除该文章?',
             submit: () => {
                 if (this.userInfo.userCode !== artical.userCode) {

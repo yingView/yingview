@@ -223,10 +223,6 @@ export default {
 				{
 					path: 'book',
 					getComponent(nextState, cb) {
-						if (!retView) { // 如果没有登录, 限制访问
-							window.location.href = '/#/login';
-							return;
-						}
 						require.ensure([], (require) => {
 							cb(null, require('./src/Pages/Book'))
 						}, 'Book').default
@@ -265,98 +261,6 @@ export default {
 									}, 'BookEdit')
 								}
 							}
-						},
-						{
-							path: 'articalDetail', // 文章详情
-							indexRoute: {
-								getComponent(nextState, cb) {
-									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Book/ArticalDetail.jsx'))
-									}, 'ArticalDetail')
-								}
-							}
-						}
-					]
-				},
-				{
-					path: 'admin',
-					getComponent(nextState, cb) {
-						if (!retView) { // 如果没有登录, 限制访问
-							window.location.href = '/#/login';
-							return;
-						}
-						require.ensure([], (require) => {
-							cb(null, require('./src/Pages/Admin'))
-						}, 'Admin').default
-					},
-					childRoutes: [
-						{
-							path: '', // 管理页面
-							indexRoute: {
-								getComponent(nextState, cb) {
-									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Admin/index.js'))
-									}, 'index')
-								}
-							}
-						},
-						{
-							path: 'index', // 系统信息
-							indexRoute: {
-								getComponent(nextState, cb) {
-									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Admin/index.js'))
-									}, 'index')
-								}
-							}
-						},
-						{
-							path: 'setup', // 系统设置
-							indexRoute: {
-								getComponent(nextState, cb) {
-									if (!retView && !nextState.location.query.operate) { // 如果没有登录, 限制访问
-										window.location.href = '/#/login';
-										return;
-									}
-									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Admin/Setup.jsx'))
-									}, 'Setup')
-								}
-							}
-						},
-						{
-							path: 'user', // 用户管理
-							indexRoute: {
-								getComponent(nextState, cb) {
-									if (!retView && !nextState.location.query.operate) { // 如果没有登录, 限制访问
-										window.location.href = '/#/login';
-										return;
-									}
-									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Admin/User.jsx'))
-									}, 'User')
-								}
-							}
-						},
-						{
-							path: 'artical', // 文章管理
-							indexRoute: {
-								getComponent(nextState, cb) {
-									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Admin/Artical.jsx'))
-									}, 'Artical')
-								}
-							}
-						},
-						{
-							path: 'book', // 文章管理
-							indexRoute: {
-								getComponent(nextState, cb) {
-									require.ensure([], (require) => {
-										cb(null, require('./src/Pages/Admin/Book.jsx'))
-									}, 'Book')
-								}
-							}
 						}
 					]
 				}
@@ -377,6 +281,108 @@ export default {
 					cb(null, require('./src/Pages/Register'))
 				}, 'Register').default
 			}
+		},
+		{
+			path: 'admin',
+			getComponent(nextState, cb) {
+				if (!retView) { // 如果没有登录, 限制访问
+					window.location.href = '/#/login';
+					return;
+				}
+				require.ensure([], (require) => {
+					cb(null, require('./src/Pages/Admin'))
+				}, 'Admin').default
+			},
+			childRoutes: [
+				{
+					path: '', // 管理页面
+					indexRoute: {
+						getComponent(nextState, cb) {
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/Main.jsx'))
+							}, 'Main')
+						}
+					}
+				},
+				{
+					path: 'index', // 系统信息
+					indexRoute: {
+						getComponent(nextState, cb) {
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/Main.jsx'))
+							}, 'Main')
+						}
+					}
+				},
+				{
+					path: 'setup', // 系统设置
+					indexRoute: {
+						getComponent(nextState, cb) {
+							if (!retView && !nextState.location.query.operate) { // 如果没有登录, 限制访问
+								window.location.href = '/#/login';
+								return;
+							}
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/Setup.jsx'))
+							}, 'Setup')
+						}
+					}
+				},
+				{
+					path: 'user', // 用户管理
+					indexRoute: {
+						getComponent(nextState, cb) {
+							if (!retView && !nextState.location.query.operate) { // 如果没有登录, 限制访问
+								window.location.href = '/#/login';
+								return;
+							}
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/User.jsx'))
+							}, 'User')
+						}
+					}
+				},
+				{
+					path: 'artical', // 文章管理
+					indexRoute: {
+						getComponent(nextState, cb) {
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/Artical.jsx'))
+							}, 'Artical')
+						}
+					}
+				},
+				{
+					path: 'book', // 专栏管理
+					indexRoute: {
+						getComponent(nextState, cb) {
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/Book.jsx'))
+							}, 'Book')
+						}
+					}
+				},
+				{
+					path: 'category', // 分类管理
+					indexRoute: {
+						getComponent(nextState, cb) {
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/Category.jsx'))
+							}, 'Category')
+						}
+					}
+				},
+				{
+					path: 'email', // 系统信件
+					indexRoute: {
+						getComponent(nextState, cb) {
+							require.ensure([], (require) => {
+								cb(null, require('./src/Pages/Admin/Email.jsx'))
+							}, 'Email')
+						}
+					}
+				}
+			]
 		},
 		{ // 404 页面
 			path: '404',

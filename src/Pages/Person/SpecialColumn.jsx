@@ -18,7 +18,7 @@ class SpecialColumn extends Component {
             total: 0
         }
         this.current = 1;
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryData();
     }
 
@@ -52,8 +52,8 @@ class SpecialColumn extends Component {
         })
     }
 
-    delete(artical) {
-        Dialog.warn({
+    delete(book) {
+        Dialog.confirm({
             content: '确定要删除该栏目么,删除后不能恢复?',
             submit: () => {
                 if (this.userInfo.userCode !== book.userCode) {
@@ -65,7 +65,7 @@ class SpecialColumn extends Component {
                     data: {
                         method: 'deleteBookByCode',
                         rpcname: 'book',
-                        articalCode: book.articalCode,
+                        bookCode: book.bookCode,
                     },
                     dataType: 'json',
                     success: (res) => {
@@ -100,51 +100,53 @@ class SpecialColumn extends Component {
                         bookList && bookList.length ? bookList.map((book) => (
                             <li className="person-book-item">
                                 <div className="person-book-photo">
-                                    <Link to={{ pathname: 'index/articaldetail', query: { articalCode: book.articalCode } }} target={'_blank'}>
-                                        <img src={window.hostname + book.articalPhoto.url} alt={book.articalTitle} />
+                                    <Link to={{
+                                        pathname: 'index/book/bookdetail', query: { bookCode: book.bookCode }
+                                    }} target={'_blank'}>
+                                        <img src={window.hostname + book.bookPhoto.url} alt={book.bookName} />
                                     </Link>
                                 </div>
                                 <div className="person-book-content">
                                     <div className="person-book-title">
-                                        <Link to={{ pathname: 'index/articaldetail', query: { articalCode: book.articalCode } }} target={'_blank'}>
+                                        <Link to={{ pathname: 'index/book/bookdetail', query: { bookCode: book.bookCode } }} target={'_blank'}>
                                             <h3>{book.articalTitle}</h3>
                                         </Link>
-                                        <p><span className="title">创作时间:</span><span className="value">{this.formatDate(book.articalCreateDate)}</span></p>
-                                        <p><span className="title">查看:</span><span className="value">{book.articalView}</span></p>
-                                        <p><span className="title">点赞:</span><span className="value">{book.articalMark}</span></p>
-                                        <p><span className="title">评论:</span><span className="value">{book.articalCommentNum}</span></p>
+                                        <p><span className="title">创作时间:</span><span className="value">{this.formatDate(book.bookCreateDate)}</span></p>
+                                        <p><span className="title">查看:</span><span className="value">{book.bookView}</span></p>
+                                        <p><span className="title">点赞:</span><span className="value">{book.bookMark}</span></p>
+                                        <p><span className="title">评论:</span><span className="value">{book.bookCommentNum}</span></p>
                                     </div>
                                     <div className="person-book-desc-wrap">
-                                        <div className="person-book-desc" dangerouslySetInnerHTML={{ __html: decodeHTML(book.articalContent) }} />
+                                        <div className="person-book-desc" dangerouslySetInnerHTML={{ __html: decodeHTML(book.bookDesc) }} />
                                     </div>
                                 </div>
                                 <ul className="person-book-operate">
                                     {
                                         readOnly ? <li>&nbsp;</li> :
-                                            <Link to={{ pathname: 'index/articaledit' }} target={'_blank'}>
+                                            <Link to={{ pathname: 'index/book/bookedit' }} target={'_blank'}>
                                                 <li>新建</li>
                                             </Link>
                                     }
                                     {
                                         readOnly ?
-                                            <Link to={{ pathname: 'index/articaledit' }} target={'_blank'}>
+                                            <Link to={{ pathname: 'index/book/bookEdit' }} target={'_blank'}>
                                                 <li>新建</li>
                                             </Link> :
-                                            <Link to={{ pathname: 'index/articaldetail', query: { articalCode: book.articalCode } }} target={'_blank'}>
+                                            <Link to={{ pathname: 'index/book/bookdetail', query: { bookCode: book.bookCode } }} target={'_blank'}>
                                                 <li>查看</li>
                                             </Link>
                                     }
                                     {
                                         readOnly ?
-                                            <Link to={{ pathname: 'index/articaldetail', query: { articalCode: book.articalCode } }} target={'_blank'}>
+                                            <Link to={{ pathname: 'index/book/bookdetail', query: { bookCode: book.bookCode } }} target={'_blank'}>
                                                 <li>查看</li>
                                             </Link> :
-                                            <Link to={{ pathname: 'index/articaledit', query: { articalCode: book.articalCode } }} target={'_blank'}>
+                                            <Link to={{ pathname: 'index/book/bookedit', query: { bookCode: book.bookCode } }} target={'_blank'}>
                                                 <li>编辑</li>
                                             </Link>
                                     }
                                     {
-                                        readOnly ? <li>&nbsp;</li> : <li onClick={this.delete.bind(this, artical)}>删除</li>
+                                        readOnly ? <li>&nbsp;</li> : <li onClick={this.delete.bind(this, book)}>删除</li>
                                     }
                                 </ul>
                             </li>

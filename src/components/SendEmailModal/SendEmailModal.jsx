@@ -11,24 +11,49 @@ class SendEmailModal extends Component {
         this.state = {
             show: props.show
         }
-        this.data = {};
+        this.data = props.data || {};
+        this.read();
+    }
+
+    componentWillreceiveProps(nextProps) {
+        this.data = nextProps.data || {};
+        this.state.show = nextProps.show;
+        this.render();
+        this.read();
+    }
+
+    read() {
+        // 已读邮件
+        const { receiveUserCode, receiveName, type, emailCode, emailStatus } = this.props.data;
+        if (type === 'view' && !receiveUserCode && !receiveName && emailStatus == 0) {
+            Ajax.get({
+                url: window.hostname + 'yingview.php',
+                data: {
+                    rpcname: 'email',
+                    method: 'readEmail',
+                    emailCode,
+                    emailStatus: 1
+                },
+                dataType: 'json'
+            })
+        }
     }
 
     sendEmail(opera) {
-        if (opera === 'cancel') {
-            this.setState({ show: false});
-            return;
-        }
         if (opera === 'submit') {
             this.data.emailStatus = 0;
         } else if (opera === 'save') {
             this.data.emailStatus = 2;
         }
-        const { sendUserCode, ReceiveUserCode } = this.props;
-        const { eamilTitle, eamilContent, emailStatus } = this.data;
+        const { eamilTitle, eamilContent, emailStatus, sendUserCode, receiveUserCode, type, emailCode } = this.data;
+
+        if (opera === 'cancel' || type === 'view') {
+            this.setState({ show: false });
+            return;
+        }
 
         let message = null;
-        if (!ReceiveUserCode && emailStatus != 2) {
+        if (!receiveUserCode && emailStatus != 2) {
             message = '请填写收件人';
         }
         if (!eamilContent) {
@@ -47,7 +72,8 @@ class SendEmailModal extends Component {
                 rpcname: 'email',
                 method: 'addEmail',
                 sendUserCode,
-                ReceiveUserCode,
+                emailCode,
+                receiveUserCode,
                 eamilTitle,
                 eamilContent,
                 emailStatus
@@ -56,53 +82,71 @@ class SendEmailModal extends Component {
             success: (res) => {
                 const { content } = res;
                 if (content.isSuccess) {
-                    Dialog.success({ content: '发送成功！'});
+                    Dialog.success({ content: '发送成功！' });
                 } else {
-                    Dialog.success({ content: '发送失败！'});
+                    Dialog.success({ content: '发送失败！' });
                 }
             }
         })
     }
 
     render() {
-        const { sendUserCode, ReceiveUserCode, editReceive, receiveName } = this.props;
+        const { sendUserCode, receiveUserCode, receiveName, eamilContent, eamilTitle, type } = this.props.data;
         return (
             <Modal
                 show={this.state.show}
                 title={'写邮件'}
                 width={'580px'}
-                height={'410px'}
+                height={type === 'view' && !receiveUserCode && !receiveName ? '345px' : '410px'}
+                submitText={type === 'view' ? '关闭' : '发送'}
                 onSubmit={this.sendEmail.bind(this, 'submit')}
-                otherButton={[
-                    {
-                        text: '暂存',
-                        onClick: this.sendEmail.bind(this, 'save')
-                    },
-                    {
-                        text: '取消',
-                        onClick: this.sendEmail.bind(this, 'cancel')
-                    }
-                ]}
+                otherButton={
+                    type === 'view' ? [] :
+                        [
+                            {
+                                text: '暂存',
+                                onClick: this.sendEmail.bind(this, 'save')
+                            },
+                            {
+                                text: '取消',
+                                onClick: this.sendEmail.bind(this, 'cancel')
+                            }
+                        ]
+                }
             >
                 <div className="ying-view-send-email">
                     <table className="ying-view-email-wrap">
-                        <tr className="email-line">
-                            <td className="email-title">收件人</td>
-                            <td className="email-recevice">
-                                {
-                                    editReceive ? <Input /> :
-                                        <span style={{ lineHeight: '48px', color: '#24d0fb' }} onClick={() => { window.open('/#/index/person?operate=view&userCode=' + ReceiveUserCode, '_blakn') }}>
-                                            {receiveName}
-                                        </span>
-                                }
+                        {
+                            receiveName && receiveUserCode ?
+                                <tr className="email-line">
+                                    <td className="email-title">收件人</td>
+                                    {
+                                        type === 'view' ?
+                                            <td className="email-recevice">
+                                                <span style={{ lineHeight: '48px', color: '#24d0fb', cursor: 'pointer' }} onClick={() => { window.open('/#/index/person?operate=view&userCode=' + receiveUserCode, '_blakn') }}>
+                                                    {receiveName}
+                                                </span>
+                                            </td> :
+                                            <td className="email-recevice">
+                                                <Input
+                                                    value={receiveName}
+                                                    disabled={type === 'view'}
+                                                />
+                                                <span style={{ lineHeight: '22px', color: '#24d0fb', cursor: 'pointer' }} onClick={() => { window.open('/#/index/person?operate=view&userCode=' + receiveUserCode, '_blakn') }}>
+                                                    {receiveName}
+                                                </span>
+                                            </td>
+                                    }
 
-                            </td>
-                        </tr>
+                                </tr> : null
+                        }
                         <tr className="email-line">
                             <td className="email-title">主题</td>
                             <td className="email-recevice">
                                 <Input
+                                    value={eamilTitle}
                                     onChange={(value) => { this.data.eamilTitle = value; }}
+                                    disabled={type === 'view'}
                                 />
                             </td>
                         </tr>
@@ -112,6 +156,8 @@ class SendEmailModal extends Component {
                                 <Textarea
                                     width={'456px'}
                                     height={'170px'}
+                                    disabled={type === 'view'}
+                                    value={eamilContent}
                                     onChange={(value) => { this.data.eamilContent = value; }}
                                 />
                             </td>
@@ -124,7 +170,7 @@ class SendEmailModal extends Component {
 }
 
 Modal.defaultProps = {
-    editReceive: true
+    editreceive: true
 };
 
 SendEmailModal.show = (props) => {

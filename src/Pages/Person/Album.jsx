@@ -18,7 +18,7 @@ class Album extends Component {
         }
         this.current = 1;
         this.size = 16;
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryData();
     }
 
@@ -52,7 +52,7 @@ class Album extends Component {
     }
 
     delete(data) {
-        Dialog.warn({
+        Dialog.confirm({
             content: '确定要删除该图片?',
             submit: () => {
                 if (this.userInfo.userCode !== data.userCode) {

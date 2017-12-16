@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog } from 'yingview-form';
 
 const { getCookie } = Utils;
-require('./artical.less');
+require('./category.less');
 
-class Artical extends Component {
+class Category extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,11 +42,30 @@ class Artical extends Component {
     render() {
         const { photoList, readOnly, total } = this.state;
         return (
-            <div className="admin-artical-wrap">
-               45478
+            <div className="admin-category-wrap">
+                <div className="column-className-wrap">
+                    <div className="query-form">
+                        <input type="text" className="input-text" />
+                        <button className="query-btn">查询</button>
+                    </div>
+                    <ul className="className-list">
+                        <li >
+                            <p className="name left">
+                                <input type="text" />
+                                <span>1</span>
+                            </p>
+                            <p className="right"><span>编辑</span><span >删除</span></p>
+                        </li>
+                    </ul>
+                    <div className="btn-wrap">
+                        <span>122112</span>
+                        <span>条</span>
+                        <button className="add-btn">添加</button>
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-module.exports = Artical;
+module.exports = Category;

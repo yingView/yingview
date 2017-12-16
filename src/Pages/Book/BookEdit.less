@@ -1,0 +1,112 @@
+#ying-view-book-eidt {
+    .book-edit-wrap {
+        background: #eee;
+        overflow: hidden;
+        .book-edit {
+            background: #fff;
+            width: 1200px;
+            margin: 20px auto;
+            .head-tab {
+                display: flex;
+                height: 52px;
+                background: #eee;
+                line-height: 50px;
+                .tab {
+                    font-size: 18px;
+                    width: 168px;
+                    text-align: center;
+                    color: #777;
+                    height: 50px;
+                    border-top: 2px solid #eee;
+                }
+                .info {
+                    font-size: 14px;
+                    float: right;
+                    width: 1032px;
+                    text-align: right;
+                }
+                .tab:hover {
+                    background: #fff;
+                    color: #178bf7;
+                    border-top: 2px solid #178bf7; 
+                }
+                .active {
+                    background: #fff;
+                    color: #178bf7;
+                    border-top: 2px solid #178bf7;
+                }
+            }
+            .book-content {
+                padding: 20px;
+                table {
+                    .title {
+                        width: 110px;
+                        padding: 15px;
+                        height: 40px;
+                        font-size: 16px;
+                        text-align: right;
+                        color: #333333;
+                    }
+                    .title2 {
+                        width: 110px;
+                        padding: 15px;
+                        vertical-align: middle;
+                        font-size: 16px;
+                        text-align: right;
+                        color: #333333;
+                    }
+                    .content2 {
+                        padding: 15px;
+                        padding-left: 0;
+                        .photo-wrap {
+                            height: 180px;
+                            width: 290px;
+                            border: 2px dashed #24d0fb;
+                            position: relative;
+                            .delete-photo {
+                                position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                background: rgba(255, 255, 255, 0.3);
+                                line-height: 180px;
+                                text-align: center;
+                                color: #666;
+                                top: 0;
+                                left: 0;
+                                display: none;
+                                background-image: url(../../images/delete.png);
+                                background-repeat: no-repeat;
+                                background-size: 12%;
+                                background-position: 128px 72px;
+                            }
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                display: block;
+                            }
+                        }
+                        .photo-wrap:hover {
+                            .delete-photo {
+                                display: block;
+                            }
+                        }
+                    }
+                    .content {
+                        padding: 15px;
+                        padding-left: 0;
+                        height: 40px;
+                        .book-value {
+                            height: 414px;
+                            width: 960px;
+                            overflow-y: auto;
+                        }
+                    }
+                }
+            }
+            .book-button-wrap {
+                text-align: center;
+                padding: 26px;
+            }
+        }
+    }
+}

@@ -1,0 +1,149 @@
+@import '../../font2/iconfont.css';
+.ying-view-admin-wrap {
+    #ying-vue-mange-wrap {
+        width: 1200px;
+        height: 100%;
+        margin: 0 auto;
+        background: red;
+        display: flex;
+        .vue-mange-menu {
+          width: 240px;
+          background: #282d30;
+          padding-bottom: 60px;
+          .vue-mange-top {
+            height: 240px;
+            position: relative;
+            .photo {
+              background: #fff;
+              width: 90px;
+              height: 90px;
+              position: absolute;
+              left: 75px;
+              top: 55px;
+              border: 3px solid #ccc;
+              border-radius: 50%;
+              overflow: hidden;
+              img {
+                display: block;
+                border: none;
+                width: 90px;
+                height: 90px;
+              }
+            }
+            .user-name {
+              position: absolute;
+              text-align: center;
+              color: #fff;
+              font-weight: 400;
+              bottom: 40px;
+              width: 240px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+          .vue-menu-list {
+            .vue-menu-item {
+              height: 48px;
+              line-height: 48px;
+              position: relative;
+              color: #ddd;
+              padding-left: 65px;
+              letter-spacing: 3px;
+              font-size: 14px;
+              .mark,
+              .icon {
+                position: absolute;
+              }
+              .iconfont {
+                margin-right: 6px;
+              }
+              .menu-text {
+                height: 48px;
+                line-height: 48px;
+                position: relative;
+                color: #ddd;
+                letter-spacing: 3px;
+                font-size: 14px;
+              }
+              .mark {
+                height: 48px;
+                width: 8px;
+                background: #f1c40f;
+                right: 0px;
+                display: none
+              }
+              a {
+                color: #ddd;
+              }
+            }
+            .vue-menu-item:hover {
+              background: #1d2125;
+              .mark {
+                display: inline-block;
+              }
+            }
+          }
+          .on-mark {
+            background: #1d2125;
+            .mark {
+              display: inline-block!important;
+            }
+          }
+        }
+        .vue-mange-content {
+          width: 960px;
+          background: #e8e8e8;
+          .time-and-user {
+            height: 40px;
+            background: #fff;
+            .time {
+              float: left;
+              line-height: 40px;
+              padding-left: 20px;
+              color: #aaa;
+            }
+            .user {
+              float: right;
+              height: 40px;
+              width: 150px;
+              display: flex;
+              line-height: 40px;
+              position: relative;
+              .photo {
+                width: 30px;
+                height: 30px;
+                background: #ccc;
+                border-radius: 50%;
+                position: relative;
+                overflow: hidden;
+                margin: 5px;
+                img {
+                  display: block;
+                  border: none;
+                  width: 30px;
+                  height: 30px;
+                }
+              }
+              .name {
+                line-height: 40px;
+                width: 70px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+              .out {
+                position: absolute;
+                right: 5px;
+              }
+            }
+          }
+          .content {
+            width: 100%;
+            height: 100%;
+            padding: 15px 20px;
+            box-sizing: border-box;
+          }
+        }
+      }
+}

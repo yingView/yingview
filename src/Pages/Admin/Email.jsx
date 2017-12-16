@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog } from 'yingview-form';
 
 const { getCookie } = Utils;
-require('./user.less');
+require('./email.less');
 
-class User extends Component {
+class Email extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,36 +39,38 @@ class User extends Component {
             }
         })
     }
+    
     render() {
         const { photoList, readOnly, total } = this.state;
         return (
-            <div className="admin-user-wrap">
+            <div className="admin-email-wrap">
                 <div className="user-content-wrap">
                     <nav className="user-nav">
-                        <p>初级会员</p>
+                        <p>4578</p>
                     </nav>
                     <div className="add-user">
                         <div className="message">
-                            <span>总人数：</span>
+                            <span>总消息：</span>
                             <span>4578</span>
+                            <span>条</span>
                         </div>
-                        <button className="add-user-btn">添加用户</button>
+                        <button className="add-user-btn">发站内信</button>
                     </div>
                     <div className="user-list">
                         <ul className="user-list-head">
-                            <li>姓名</li>
-                            <li>性别</li>
-                            <li>职业</li>
+                            <li>标题</li>
+                            <li>用户</li>
                             <li>电话</li>
                             <li>邮箱</li>
+                            <li>日期</li>
                             <li style={{ textIndent: '30px' }}>操作</li>
                         </ul>
-                        <ul className="user-list-item">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                        <ul className="user-list-item" >
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
                             <li>
                                 <i className="iconfont"></i>
                             </li>
@@ -80,4 +82,4 @@ class User extends Component {
     }
 }
 
-module.exports = User;
+module.exports = Email;

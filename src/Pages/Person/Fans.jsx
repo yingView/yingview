@@ -18,7 +18,7 @@ class Fans extends Component {
         }
         this.current = 1;
         this.size = 16;
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : null;
+        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
         this.queryData();
     }
     queryData() {
