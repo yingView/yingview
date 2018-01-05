@@ -96,8 +96,8 @@ class Carousel extends Component {
             }
           }}
         >
-          <div className="next" style={{ top: height/2 + 'px'}} onClick={this.next.bind(this)}>下一个</div>
-          <div className="prev" style={{ top: height/2 + 'px'}} onClick={this.prev.bind(this)}>前一个</div>
+          { tab ? <div className="next" style={{ top: height/2 + 'px'}} onClick={this.next.bind(this)}>下一个</div> : null}
+          { tab ? <div className="prev" style={{ top: height/2 + 'px'}} onClick={this.prev.bind(this)}>前一个</div> : null}
           <ul className={this.state.className} style={{ transform: `translateX(-${width * this.state.nowImgIdx}px)`, height: height + 'px' }}>
             {
               banners && banners.map((item, idx) => {
@@ -145,7 +145,7 @@ Carousel.defaultProps = {
   width: 1200,
   height: 400,
   time: 3000,
-  tab: true,
+  tab: false,
   banners: [
     { imgUrl: banner, href: 'http://www.yingview.com', target: '_blank' },
     { imgUrl: banner, href: 'http://www.yingview.com', target: '_blank' },

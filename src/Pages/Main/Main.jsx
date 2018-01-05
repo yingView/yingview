@@ -95,7 +95,7 @@ class Main extends React.Component {
     return (
       <div id="ying-view-home">
         <div style={{ padding: '10px 0' }}>
-          <Carousel />
+          <Carousel banners={bannerList} />
         </div>
         <div className="ying-view-content">
           <div className="content-title clearfix">

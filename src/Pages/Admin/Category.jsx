@@ -1,71 +1,147 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog } from 'yingview-form';
+import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog, Input } from 'yingview-form';
 
-const { getCookie } = Utils;
+const { getCookie, deepCopy } = Utils;
 require('./category.less');
 
 class Category extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-        this.current = 1;
-        this.size = 16;
-        this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
     }
+    this.current = 1;
+    this.size = 16;
+    this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
+    this.line = {
+      categoryCode: '',
+      categoryName: '',
+      parentCategoryId: null,
+      categoryStatus: 1
+    }
+    if (!this.state.data.length) {
+      this.state.data.push(deepCopy(this.line));
+    }
+    this.queryData();
+  }
 
-    queryData() {
-        let { userCode, operate } = this.props.location.query;
-        Ajax.get({
-            url: window.hostname + 'yingview.php',
-            data: {
-                method: 'queryByUserCode',
-                rpcname: 'file',
-                userCode: userCode,
-                current: this.current,
-                size: this.size,
-            },
-            dataType: 'json',
-            success: (res) => {
-                const { content } = res;
-                if (content.isSuccess) {
-                    this.setState({
-                        photoList: content.fileList,
-                        total: content.total,
-                        readOnly: this.state.readOnly
-                    });
-                }
-            }
-        })
+  queryData() {
+    let { userCode, operate } = this.props.location.query;
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        method: 'quertCategory',
+        rpcname: 'category'
+      },
+      dataType: 'json',
+      success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          this.setState({
+            data: content.categoryList
+          });
+        }
+      }
+    })
+  }
+
+  addLine() {
+    this.state.data.push(deepCopy(this.line));
+    this.setState({ data: this.state.data });
+  }
+
+  deleteItem(code) {
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        method: 'deletetCategoryByCode',
+        rpcname: 'category',
+        categoryCode: code
+      },
+      dataType: 'json',
+      success: (res) => {
+      }
+    })
+  }
+
+  saveData(item) {
+    if (!item.categoryName) {
+      return;
     }
-    render() {
-        const { photoList, readOnly, total } = this.state;
-        return (
-            <div className="admin-category-wrap">
-                <div className="column-className-wrap">
-                    <div className="query-form">
+    Ajax.get({
+      url: window.hostname + 'yingview.php',
+      data: {
+        method: 'editCategory',
+        rpcname: 'category',
+        categoryCode: item.categoryCode,
+        categoryName: item.categoryName,
+        categoryStatus: item.categoryStatus,
+        parentCategoryId: item.parentCategoryId
+      },
+      dataType: 'json',
+      success: (res) => {
+      }
+    })
+  }
+
+  render() {
+    const { data, readOnly, total } = this.state;
+    return (
+      <div className="admin-category-wrap">
+        <div className="column-className-wrap">
+          {/* <div className="query-form">
                         <input type="text" className="input-text" />
                         <button className="query-btn">查询</button>
-                    </div>
-                    <ul className="className-list">
-                        <li >
-                            <p className="name left">
-                                <input type="text" />
-                                <span>1</span>
-                            </p>
-                            <p className="right"><span>编辑</span><span >删除</span></p>
-                        </li>
-                    </ul>
-                    <div className="btn-wrap">
-                        <span>122112</span>
-                        <span>条</span>
-                        <button className="add-btn">添加</button>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+                    </div> */}
+          <ul className="className-list">
+            {
+              data.map((item, index) => {
+                return (
+                  <li key={index}>
+                    <p className="name left">
+                      <span>品类名称:</span>
+                      <span>
+                        <Input
+                          value={item.categoryName}
+                          width={'600px'}
+                          onChange={(value) => {
+                            item.categoryName = value;
+                          }}
+                        />
+                      </span>
+                    </p>
+                    <p className="right">
+                      <span
+                        onClick={this.saveData.bind(this, item)}
+                      >保存</span>
+                      <span
+                        onClick={() => {
+                          this.state.data.splice(index, 1);
+                          this.setState({ data: this.state.data });
+                          if (item.categoryCode) {
+                            this.deleteItem(item.categoryCode);
+                          }
+                        }}
+                      >删除</span>
+                    </p>
+                  </li>
+                )
+              })
+            }
+          </ul>
+          <div className="btn-wrap">
+            <span>{this.state.data.length}</span>
+            <span>条</span>
+            <button
+              className="add-btn"
+              onClick={this.addLine.bind(this)}
+            >添加</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 module.exports = Category;

@@ -66,7 +66,7 @@ class Setup extends Component {
     }
 
     submitSystem() {
-        Ajax.get({
+        Ajax.post({
             url: window.hostname + 'yingview.php',
             data: {
                 method: 'updateSystem',
@@ -103,7 +103,7 @@ class Setup extends Component {
     }
 
     submitBanner() {
-        Ajax.get({
+        Ajax.post({
             url: window.hostname + 'yingview.php',
             data: {
                 method: 'editBanner',
