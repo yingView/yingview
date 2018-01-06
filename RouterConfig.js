@@ -72,6 +72,14 @@ export default {
 					}
 				},
 				{
+					path: 'searchlist',
+					getComponent(nextState, cb) {
+						require.ensure([], (require) => {
+							cb(null, require('./src/Pages/Artical/SearchList'))
+						}, 'SearchList').default
+					}
+				},
+				{
 					path: 'person',
 					getComponent(nextState, cb) {
 						if (!retView && !nextState.location.query.operate) { // 如果没有登录, 限制访问

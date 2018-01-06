@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination, Ajax } from 'yingview-form';
+import { Pagination, Ajax, Carousel } from 'yingview-form';
 
-import Carousel from '../../components/Carousel';
 import ArticalLine from '../../components/ArticalLine';
 
 class Main extends React.Component {

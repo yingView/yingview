@@ -10,7 +10,7 @@
       border-radius: 3px;
       overflow: hidden;
       p {
-        width: 25%;
+        width: 20%;
         font-weight: 300;
         padding: 0px;
         margin: 0px;
@@ -25,6 +25,29 @@
         color: #31373b;
         cursor: pointer;
       }
+    }
+    .query-user {
+      padding-bottom: 10px;
+      display: flex;
+      .search-botton {
+        height: 38px;
+        border: none;
+        width: 38px;
+        outline: none;
+        background: #24d0fb;
+        padding-top: 11px;
+        box-sizing: border-box;
+        cursor: pointer;
+        border-radius: 3px;
+        margin-left: 6px;
+        span {
+            display: block;
+            width: 16px;
+            height: 16px;
+            margin: auto;
+            background: url(../../images/icon_16.png) no-repeat 0 -32px;
+        }
+    }
     }
     .add-user {
       height: 34px;
@@ -73,9 +96,12 @@
           width: 16.66%;
           text-indent: 15px;
         }
-        .iconfont {
-          margin: 0 8px;
-          cursor: pointer;
+        .operate-wrap {
+          span {
+            padding: 0 3px;
+            cursor: pointer;
+            color: #68abf1;
+          }
         }
       }
       .user-list-item:nth-of-type(even) {
@@ -83,6 +109,10 @@
       }
       .user-list-item:nth-of-type(odd) {
         background: #f2f2f2;
+      }
+      .page-wrap {
+        padding: 15px 0;
+        text-align: center;
       }
     }
   }

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-const logo = require('./../../images/logo2.png');
+import { Ajax, Utils } from 'yingview-form';
+const { getCookie } = Utils;
 class Footer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {}
+        this.systemInfo = getCookie('systemInfo') ? JSON.parse(getCookie('systemInfo')) : {};
+    }
     render() {
         return (
             <div id="ying-view-footer">
                 <div className="content">
                     <div className="part-one">
-                        <img src={logo} alt="logo" />
+                        <img src={window.hostname + this.systemInfo.logo2} alt="logo2" />
                         <span></span>
                     </div>
                     <div className="part-two">
@@ -36,16 +42,14 @@ class Footer extends Component {
                     <div className="part-three">
                         <dl>
                             <dt>平台简介</dt>
-                            <dd>
-                                致设计(zhisheji.com）,专业的电商设计师交流平台。最活跃的电商设计师学习交流分享社区。集原创作品+灵感图库+经验教程+设计专访+设计培训+社群活动为一体，全方位服务电商设计师。成立3年来，聚集20万电商设计师，定期线下设计沙龙，覆盖北京、上海、广州、杭州等城市，在电商设计领域收到广泛关注和好评。 我们是80，90电商设计师，不是淘宝美工---致设计
-                            </dd>
+                            <dd>{this.systemInfo.desc || ''}</dd>
                         </dl>
                     </div>
                 </div>
                 <div className="foot-line">
                     <div className="content-footer">
-                        <span className="left">©2017鹰视觉 (学习交流平台)</span>
-                        <span className="right">网站建设中....</span>
+                        <span className="left">{this.systemInfo.markLeft || ''}</span>
+                        <span className="right">{this.systemInfo.markRight || ''}</span>
                     </div>
                 </div>
             </div>

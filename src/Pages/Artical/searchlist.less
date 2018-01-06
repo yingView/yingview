@@ -1,0 +1,124 @@
+#ying-view-search-list-warp {
+    width: 1200px;
+    margin: 0 auto;
+    .search-list {
+        float: left;
+    }
+    .search-list {
+        float: left;
+        width: 900px;
+        box-sizing: border-box;
+        padding: 10px 0;
+        .list-item {
+            padding: 10px 0;
+            .item-title {
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 28px;
+            }
+            .item-desc {
+                font-size: 12px;
+                line-height: 22px;
+                max-height: 240px;
+                overflow: hidden;
+            }
+            .time-and-author {
+                border: 1px solid #eee;
+                border-left: none;
+                border-right: none;
+                line-height: 32px;
+                .time {
+                    color: green;
+                }
+                .author {
+                    padding-left: 10px;
+                    color: #1a87f3;
+                }
+            }
+        }
+        .page-wrap {
+            text-align: center;
+            width: 100%;
+            padding: 20px 0;
+        }
+    }
+    .hot-artical-list {
+        float: right;
+        width: 290px;
+        box-sizing: border-box;
+        padding: 10px 0;
+        dl {
+            background: #fff;
+            width: 290px;
+            margin-bottom: 13px;
+            dt {
+                width: 290;
+                height: 180px;
+                .artical-photo {
+                    width: 290px;
+                    height: 180px;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+            }
+            dd {
+                padding-left: 16px;
+                h3 {
+                    height: 32px;
+                    padding-top: 6px;
+                    line-height: 32px;
+                    font-weight: normal;
+                    a {
+                        font-size: 16px;
+                        color: #666;
+                    }
+                }
+            }
+            dd:nth-of-type(2) {
+                display: flex;
+                height: 26px;
+                text-indent: 30px;
+                line-height: 26px;
+                div {
+                    padding-right: 20px;
+                    color: #666;
+                }
+                .look {
+                    background: url(../../images/icon_25.png) no-repeat 0 -700px;
+                }
+                .mark {
+                    background: url(../../images/icon_25.png) no-repeat 0 -749px;
+                }
+                .say {
+                    background: url(../../images/icon_25.png) no-repeat 0 -798px;
+                }
+            }
+            dd:nth-of-type(3) {
+                border-top: 1px solid #eee;
+                height: 28px;
+                padding: 13px 16px;
+                line-height: 28px;
+                .user {
+                    float: left;
+                    display: flex;
+                    .user-photo {
+                        width: 28px;
+                        height: 28px;
+                        border-radius: 50%;
+                        background: #eee;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    }
+                    .name {
+                        padding-left: 10px;
+                        color: #666;
+                    }
+                }
+                .time {
+                    float: right;
+                    color: #666;
+                }
+            }
+        }
+    }
+}

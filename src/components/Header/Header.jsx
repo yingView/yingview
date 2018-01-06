@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Pagination, Ajax, Utils, Dialog } from 'yingview-form';
 import { Link } from 'react-router';
 const { getCookie, setCookie } = Utils;
-const logo = require('./../../images/logo.jpg');
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -11,6 +10,7 @@ class Header extends Component {
             navList: []
         }
         this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
+        this.systemInfo = getCookie('systemInfo') ? JSON.parse(getCookie('systemInfo')) : {};
         this.queryNavList();
     }
 
@@ -33,6 +33,13 @@ class Header extends Component {
         });
     }
 
+    searchBtn() {
+        if (!this.queryData && this.queryData !== '0') {
+            return;
+        }
+        window.open('/#/index/searchlist?keyword=' + encodeURIComponent(this.queryData), '_blank');
+    }
+
     logOut() {
         setCookie('user', '', -1);
         Ajax.get({
@@ -53,15 +60,25 @@ class Header extends Component {
             <div id="ying-view-header">
                 <div className="logo-title">
                     <div className="logo-name">
-                        <a href="#"><img src={logo} alt="login" /></a>
+                        <a href="#"><img src={window.hostname + this.systemInfo.logo} alt="login" /></a>
                     </div>
                     <div className="search-part">
                         <div className="select">
-                            <span>全站</span><span className="icon"></span>
+                            <span>文章</span><span className="icon"></span>
                         </div>
-                        <input type="text" className="search-input" />
-                        <button className="search-botton">
-                            <span></span>
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder={'请输入...'}
+                            onChange={(e) => {
+                                this.queryData = e.target.value;
+                            }}
+                        />
+                        <button
+                            className="search-botton"
+                            onClick={this.searchBtn.bind(this)}
+                        >
+                            <span/>
                         </button>
                     </div>
                     <div className="login-or-sign">

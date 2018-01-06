@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import { Ajax, Utils } from 'yingview-form';
 
-const { getCookie } = Utils;
+const { getCookie, setCookie } = Utils;
 
 
 class Admin extends Component {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Clipboard from 'clipboard';
 import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog, Input, Textarea } from 'yingview-form';
 
-const { getCookie } = Utils;
+const { getCookie, deepCopy } = Utils;
 require('./setup.less');
 
 class Setup extends Component {
@@ -66,12 +66,19 @@ class Setup extends Component {
     }
 
     submitSystem() {
+        const data = deepCopy(this.state.system);
+        if (typeof data.logo === 'object') {
+            data.logo = data.logo.viewAdd;
+        }
+        if (typeof data.logo2 === 'object') {
+            data.logo2 = data.logo2.viewAdd;
+        }
         Ajax.post({
             url: window.hostname + 'yingview.php',
             data: {
                 method: 'updateSystem',
                 p: 'admin',
-                system: JSON.stringify(this.state.system)
+                system: JSON.stringify(data)
             },
             dataType: 'json',
             success: (res) => {
@@ -233,7 +240,7 @@ class Setup extends Component {
                     <tr>
                         <td className="set-title">LOGO预览</td>
                         <td className="set-value">
-                            <img src={window.hostname + system.logo} alt="" className="logo" />
+                            <img src={window.hostname + system.logo.viewAdd} alt="" className="logo" />
                         </td>
                     </tr>
                     <tr>
@@ -244,6 +251,7 @@ class Setup extends Component {
                                 showFiles={false}
                                 tip={'图片尺寸： 313 * 49 px单个文件最大支持200k超过将无法显示'}
                                 accept={['.jpg', '.jpeg', '.gif', '.png']}
+                                data={[system.logo]}
                                 params={{ type: 3 }}
                                 onChange={(value) => {
                                     system.logo = value[value.length - 1].url;
@@ -263,11 +271,20 @@ class Setup extends Component {
                         </td>
                     </tr>
                     <tr>
-                        <td className="set-title">底部标记</td>
+                        <td className="set-title">底部标记-左</td>
                         <td className="set-value">
                             <Input
-                                value={system.mark}
-                                onChange={(value) => { system.mark = value; }}
+                                value={system.markLeft}
+                                onChange={(value) => { system.markLeft = value; }}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="set-title">底部标记-右</td>
+                        <td className="set-value">
+                            <Input
+                                value={system.markRight}
+                                onChange={(value) => { system.markRight = value; }}
                             />
                         </td>
                     </tr>
@@ -279,6 +296,7 @@ class Setup extends Component {
                                 tip={'图片尺寸： 136 * 64 px单个文件最大支持150k超过将无法显示'}
                                 accept={['.jpg', '.jpeg', '.gif', '.png']}
                                 params={{ type: 3 }}
+                                data={[system.logo2]}
                                 onChange={(value) => {
                                     system.logo2 = value[value.length - 1].url;
                                 }}
@@ -480,7 +498,7 @@ class Setup extends Component {
                     </div>
                 </div>
                 <div className="set-content">
-                    <h3 style={{ padding: '10px', fontSize: '14px', color: '#000' }}>其他设置</h3>
+                    <h3 style={{ padding: '10px', fontSize: '14px', color: '#000' }}>友情关联</h3>
                     <tr>
                         <td className="set-title">网站标题</td>
                         <td className="set-value"><Input /></td>

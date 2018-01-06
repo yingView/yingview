@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog } from 'yingview-form';
+import { Radio, FileUpload, Ajax, Button, Utils, Dialog } from 'yingview-form';
 
 const { getCookie } = Utils;
 require('./artical.less');
