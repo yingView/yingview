@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Pagination, Ajax, Utils, Dialog } from 'yingview-form';
 import { Link } from 'react-router';
+const logo = require('./../../images/logo.jpg');
 const { getCookie, setCookie } = Utils;
 class Header extends Component {
     constructor(props) {
@@ -60,7 +61,7 @@ class Header extends Component {
             <div id="ying-view-header">
                 <div className="logo-title">
                     <div className="logo-name">
-                        <a href="#"><img src={window.hostname + this.systemInfo.logo} alt="login" /></a>
+                        <a href="#"><img src={this.systemInfo.logo ? (window.hostname + this.systemInfo.logo) : logo} alt="login" /></a>
                     </div>
                     <div className="search-part">
                         <div className="select">

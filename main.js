@@ -17,6 +17,7 @@ Ajax.get({
 	success: (res) => {
 		const { content } = res;
 		if (content.isSuccess) {
+			content.system = content.system || {};
 			const systemInfo = {
 				desc: content.system.desc,
 				host: content.system.host,

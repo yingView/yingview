@@ -240,7 +240,7 @@ class Setup extends Component {
                     <tr>
                         <td className="set-title">LOGO预览</td>
                         <td className="set-value">
-                            <img src={window.hostname + system.logo.viewAdd} alt="" className="logo" />
+                            <img src={window.hostname + (system.logo ? system.logo.viewAdd : '')} alt="" className="logo" />
                         </td>
                     </tr>
                     <tr>
@@ -251,7 +251,7 @@ class Setup extends Component {
                                 showFiles={false}
                                 tip={'图片尺寸： 313 * 49 px单个文件最大支持200k超过将无法显示'}
                                 accept={['.jpg', '.jpeg', '.gif', '.png']}
-                                data={[system.logo]}
+                                data={system.logo ? [system.logo] : []}
                                 params={{ type: 3 }}
                                 onChange={(value) => {
                                     system.logo = value[value.length - 1].url;
@@ -296,7 +296,7 @@ class Setup extends Component {
                                 tip={'图片尺寸： 136 * 64 px单个文件最大支持150k超过将无法显示'}
                                 accept={['.jpg', '.jpeg', '.gif', '.png']}
                                 params={{ type: 3 }}
-                                data={[system.logo2]}
+                                data={system.logo2 ? [system.logo2] : []}
                                 onChange={(value) => {
                                     system.logo2 = value[value.length - 1].url;
                                 }}
