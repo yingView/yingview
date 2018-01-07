@@ -12,11 +12,10 @@ const config = {
         chunkFilename: '[name].[chunkhash:6].chunk.js'
     },
     module: {
-        rules: [
-            {
-                test: /\.(css|less)$/, use: ExtractTextPlugin.extract({
-                    use: [
-                        {
+        rules: [{
+                test: /\.(css|less)$/,
+                use: ExtractTextPlugin.extract({
+                    use: [{
                             loader: 'css-loader',
                             options: {
                                 minimize: true
@@ -48,7 +47,8 @@ const config = {
                 ]
             },
             {
-                test: /\.(woff|woff2|eot|ttf|otf)$/, loader: 'file-loader'
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                loader: 'file-loader'
             },
             {
                 test: /\.(js|jsx)$/,
@@ -86,8 +86,8 @@ const config = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './index.html',
-            inject:'true',
-            hasg:'true'
+            inject: 'true',
+            hasg: 'true'
         })
     ]
 }

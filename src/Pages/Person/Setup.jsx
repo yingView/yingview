@@ -81,7 +81,10 @@ class Setup extends Component {
                         passCode: userInfo.passCode,
                         userPhoto: userInfo.userPhoto,
                         userCode: userInfo.userCode,
-                        userJob: content.userInfo.userJob
+                        userJob: content.userInfo.userJob,
+                        userPower: content.user.userPower,
+                        userStatus: content.user.userStatus,
+                        userLevel: content.user.userLevel
                     }
                     const time = 1000 * 60 * 60;
                     setCookie('user', JSON.stringify(cookie), time);

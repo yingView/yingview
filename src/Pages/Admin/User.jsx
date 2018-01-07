@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Ajax, Pagination, Utils, Dialog, Input } from 'yingview-form';
 import EditUser from '../../components/EditUser';
 
@@ -66,7 +65,7 @@ class User extends Component {
                     Dialog.success({ content: '修改失败！' });
                 }
             }
-        })
+        });
     }
 
     deleteUser(userCode) {
