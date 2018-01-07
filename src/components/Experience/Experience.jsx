@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Button, Ajax, Utils, Textarea, Calendar } from 'yingview-form';
+import { Textarea, Calendar } from 'yingview-form';
 
 
 class Experience extends Component {
@@ -13,13 +12,13 @@ class Experience extends Component {
                         <Calendar
                             width={'128px'}
                         />
-                         <span style={{ padding: '0 3px'}}>--</span> 
+                        <span style={{ padding: '0 3px' }}>--</span>
                         <Calendar
                             width={'128px'}
                         />
                     </div>
                     <div className="experience-desc">
-                        <Textarea 
+                        <Textarea
                             width={'280px'}
                             height={'40px'}
                             fontSize={'12px'}

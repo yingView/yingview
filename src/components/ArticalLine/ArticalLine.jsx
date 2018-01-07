@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-class ArticalLine extends Component {
-  constructor(props) {
-    super(props);
-  }
 
+class ArticalLine extends Component {
   beforeDate(time) {
     this.now = (new Date()).getTime();
-    let day = Math.round((this.now - time * 1000)/86400000);
+    let day = Math.round((this.now - (time * 1000)) / 86400000);
     if (day > 0) {
       day += '天前';
     } else {
@@ -19,7 +15,7 @@ class ArticalLine extends Component {
 
   render() {
     const { data } = this.props;
-    
+
     if (!data || !data.length) {
       return null;
     }
@@ -31,7 +27,7 @@ class ArticalLine extends Component {
       } else {
         items.push(item);
       }
-    })
+    });
     return (
       <div className="artical-line">
         {
@@ -42,15 +38,15 @@ class ArticalLine extends Component {
                   return (
                     <dl className={idx === 3 && 'last'}>
                       <dt>
-                        <Link to={{ pathname: 'index/articaldetail', query: { articalCode: item.articalCode } }} target='_blank'>
-                          <div className="artical-photo" style={{ backgroundImage: `url(${window.hostname + item.articalPhoto})`}}/>
+                        <Link to={{ pathname: 'index/articaldetail', query: { articalCode: item.articalCode } }} target={'_blank'}>
+                          <div className="artical-photo" style={{ backgroundImage: `url(${window.hostname + item.articalPhoto})` }} />
                         </Link>
                       </dt>
                       <dd>
                         <h3>
-                          <Link to={{ pathname: 'index/articaldetail', query: { articalCode: item.articalCode } }} target='_blank'>
+                          <Link to={{ pathname: 'index/articaldetail', query: { articalCode: item.articalCode } }} target={'_blank'}>
                             {item.articalTitle}
-                        </Link>
+                          </Link>
                         </h3>
                       </dd>
                       <dd>
@@ -59,10 +55,9 @@ class ArticalLine extends Component {
                         <div className="say">{item.articalCommentNum}</div>
                       </dd>
                       <dd className="clearfix">
-                        <a href="#" target="_blank">
+                        <a href="#" target={'_blank'}>
                           <div className="user">
-                            <div className="user-photo" style={{ backgroundImage: `url(${window.hostname + item.userPhoto})`}}>
-                            </div>
+                            <div className="user-photo" style={{ backgroundImage: `url(${window.hostname + item.userPhoto})` }} />
                             <div className="name">{item.nickName}</div>
                           </div>
                         </a>

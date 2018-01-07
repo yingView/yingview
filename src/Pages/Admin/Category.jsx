@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Radio, FileUpload, Ajax, Button, Pagination, Utils, Dialog, Input } from 'yingview-form';
+import { Ajax, Utils, Input } from 'yingview-form';
 
 const { getCookie, deepCopy } = Utils;
 require('./category.less');
@@ -10,7 +9,7 @@ class Category extends Component {
     super(props);
     this.state = {
       data: []
-    }
+    };
     this.current = 1;
     this.size = 16;
     this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
@@ -19,7 +18,7 @@ class Category extends Component {
       categoryName: '',
       parentCategoryId: null,
       categoryStatus: 1
-    }
+    };
     if (!this.state.data.length) {
       this.state.data.push(deepCopy(this.line));
     }
@@ -27,7 +26,6 @@ class Category extends Component {
   }
 
   queryData() {
-    let { userCode, operate } = this.props.location.query;
     Ajax.get({
       url: window.hostname + 'yingview.php',
       data: {
@@ -43,7 +41,7 @@ class Category extends Component {
           });
         }
       }
-    })
+    });
   }
 
   addLine() {
@@ -82,18 +80,14 @@ class Category extends Component {
       dataType: 'json',
       success: (res) => {
       }
-    })
+    });
   }
 
   render() {
-    const { data, readOnly, total } = this.state;
+    const { data } = this.state;
     return (
       <div className="admin-category-wrap">
         <div className="column-className-wrap">
-          {/* <div className="query-form">
-                        <input type="text" className="input-text" />
-                        <button className="query-btn">查询</button>
-                    </div> */}
           <ul className="className-list">
             {
               data.map((item, index) => {
@@ -126,7 +120,7 @@ class Category extends Component {
                       >删除</span>
                     </p>
                   </li>
-                )
+                );
               })
             }
           </ul>
@@ -140,7 +134,7 @@ class Category extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

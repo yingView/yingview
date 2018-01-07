@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Radio, FileUpload, Button, EditText, Ajax, Utils, Dialog, Input, Textarea } from 'yingview-form';
-
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 
 const { getCookie, decodeHTML } = Utils;
 
@@ -18,7 +14,7 @@ class ArticalEdit extends Component {
       photoIdx: 1,
       categoryList: [],
       bookList: []
-    }
+    };
     this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
     if (props.location.query.articalCode) {
       this.queryDetail();
@@ -42,15 +38,15 @@ class ArticalEdit extends Component {
               categoryList.push({
                 key: item.categoryCode,
                 value: item.categoryName
-              })
-            })
+              });
+            });
             this.setState({ categoryList });
           }
         } else {
           Dialog.info({ content: content.message });
         }
       }
-    })
+    });
     Ajax.get({
       url: window.hostname + 'yingview.php',
       data: {
@@ -65,11 +61,11 @@ class ArticalEdit extends Component {
           content.bookList.forEach((item) => {
             item.key = item.bookCode;
             item.value = item.bookName;
-          })
+          });
           this.setState({ bookList: content.bookList });
         }
       }
-    })
+    });
   }
 
   queryDetail() {
@@ -90,7 +86,7 @@ class ArticalEdit extends Component {
           content.articalInfo.articalContent = decodeHTML(content.articalInfo.articalContent);
           let page = 'artical';
           if (content.articalInfo.articalType === '1') {
-            content.articalInfo.articalDesc = content.articalInfo.articalContent
+            content.articalInfo.articalDesc = content.articalInfo.articalContent;
             page = 'img';
           } else if (content.articalInfo.articalType === '2') {
             page = 'book';
@@ -103,7 +99,7 @@ class ArticalEdit extends Component {
           Dialog.info({ content: content.message });
         }
       }
-    })
+    });
   }
 
   deletePhoto() {
@@ -145,7 +141,7 @@ class ArticalEdit extends Component {
     }
 
     const arr = [];
-    data.articalImages && data.articalImages.forEach(item => {
+    data.articalImages && data.articalImages.forEach((item) => {
       arr.push(item.fileName);
     });
 
@@ -174,12 +170,12 @@ class ArticalEdit extends Component {
       success: (res) => {
         const { content } = res;
         if (content.isSuccess) {
-          Dialog.success({ content: content.message, submit: () => { window.location.href = '/#/index/articallist?keyword=new' } });
+          Dialog.success({ content: content.message, submit: () => { window.location.href = '/#/index/articallist?keyword=new'; } });
         } else {
           Dialog.error({ content: content.message });
         }
       }
-    })
+    });
   }
 
   render() {
@@ -244,11 +240,11 @@ class ArticalEdit extends Component {
                 }
                 {
                   page === 'book' ? null :
-                    <tr>
+                    (<tr>
                       <td className="title">上传封面</td>
                       <td className="content">
                         <FileUpload
-                          text='上传封面'
+                          text={'上传封面'}
                           showFiles={false}
                           tip={'图片尺寸： 290 * 180 px单个文件最大支持200k超过将无法显示'}
                           accept={['.jpg', '.jpeg', '.gif', '.png']}
@@ -261,11 +257,11 @@ class ArticalEdit extends Component {
                           }}
                         />
                       </td>
-                    </tr>
+                    </tr>)
                 }
                 {
                   page === 'book' ? null :
-                    <tr>
+                    (<tr>
                       <td className="title2">封面预览</td>
                       <td className="content2">
                         <div className="photo-wrap" key={this.state.photoIdx}>
@@ -277,7 +273,7 @@ class ArticalEdit extends Component {
                           }
                         </div>
                       </td>
-                    </tr>
+                    </tr>)
                 }
                 {
                   page === 'artical' ?
@@ -315,7 +311,7 @@ class ArticalEdit extends Component {
                       <td className="title">上传作品</td>
                       <td className="content">
                         <FileUpload
-                          text='上传作品'
+                          text={'上传作品'}
                           tip={'支持格式jpg、jpeg、git、png, 最多可上传20张'}
                           accept={['.jpg', '.jpeg', '.gif', '.png']}
                           showFiles
@@ -355,7 +351,7 @@ class ArticalEdit extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
 }

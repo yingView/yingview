@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Ajax, Utils, Textarea, Button, Modal, Input, Select, Calendar, Radio, FileUpload } from 'yingview-form';
+import { Utils, Textarea, Modal, Input, Select, Calendar, Radio } from 'yingview-form';
 
-const { decodeHTML, deepCopy } = Utils;
+const { deepCopy } = Utils;
 
 class EditUser extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class EditUser extends Component {
     const { data, show } = this.state;
     return (
       <Modal
-        show={this.state.show}
+        show={show}
         width={'800px'}
         height={'auto'}
         onSubmit={() => {

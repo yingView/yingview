@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { Pagination, Ajax, Carousel } from 'yingview-form';
 
@@ -14,7 +13,7 @@ class Main extends React.Component {
       hotData: [],
       total: 0,
       bannerList: []
-    }
+    };
     this.current = 1;
     this.queryBanner();
   }
@@ -41,7 +40,7 @@ class Main extends React.Component {
           });
         }
       }
-    })
+    });
   }
 
   queryhotData() {
@@ -65,7 +64,7 @@ class Main extends React.Component {
           this.current = content.retValue.current;
         }
       }
-    })
+    });
   }
 
   queryBanner() {
@@ -81,13 +80,13 @@ class Main extends React.Component {
           content.bannerList.forEach((item) => {
             item.imgUrl = window.hostname + item.imgUrl;
             item.href = item.toUrl;
-          })
+          });
           this.setState({
             bannerList: content.bannerList
           });
         }
       }
-    })
+    });
   }
   render() {
     const { newData, greatData, hotData, total, bannerList } = this.state;
@@ -140,7 +139,7 @@ class Main extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

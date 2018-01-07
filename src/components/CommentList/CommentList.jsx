@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
-import { Pagination, Ajax, Utils, Dialog, Textarea, Button } from 'yingview-form';
+import { Ajax, Utils, Dialog, Textarea, Button } from 'yingview-form';
 
-const { decodeHTML, getCookie } = Utils;
+const { getCookie } = Utils;
 
 class Comment extends Component {
     constructor(props) {
@@ -205,7 +204,7 @@ class Comment extends Component {
                                                         text={'评 论'}
                                                         type={'submit'}
                                                         size={'small'}
-                                                        onClick={this.operaComment.bind(this, 'add',item)}
+                                                        onClick={this.operaComment.bind(this, 'add', item)}
                                                     />
                                                 </div>
                                             </div> : null
