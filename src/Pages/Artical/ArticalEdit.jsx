@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Radio, FileUpload, Button, EditText, Ajax, Utils, Dialog, Input, Textarea } from 'yingview-form';
+import { Link } from 'react-router';
 
 const { getCookie, decodeHTML } = Utils;
 
@@ -216,15 +217,28 @@ class ArticalEdit extends Component {
                     <tr>
                       <td className="title">专栏选择</td>
                       <td className="content">
-                        <Radio
-                          options={bookList}
-                          value={data.bookCode}
-                          onChange={(value) => {
-                            data.categoryCode = value.categoryCode;
-                            data.articalPhoto = value.bookPhoto;
-                            data.bookCode = value.key;
-                          }}
-                        />
+                        {
+                          bookList && bookList.length ?
+                            <Radio
+                              options={bookList}
+                              value={data.bookCode}
+                              onChange={(value) => {
+                                data.categoryCode = value.categoryCode;
+                                data.articalPhoto = value.bookPhoto;
+                                data.bookCode = value.key;
+                              }}
+                            /> :
+                            <span>
+                              <span>
+                                您还没有专栏,&nbsp;&nbsp;
+                              </span>
+                              <Link to={{ pathname: 'index/book/bookEdit' }} target={'_blank'} style={{ color: '#24d0fb' }}>
+                                立即创建
+                              </Link>
+                            </span>
+
+                        }
+
                       </td>
                     </tr> :
                     <tr>

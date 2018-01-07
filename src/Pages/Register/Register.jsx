@@ -74,7 +74,7 @@ class Register extends Component {
           };
           const time = this.sendData.remain ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60;
           setCookie('user', JSON.stringify(cookie), time);
-          Dialog.success({ content: content.message, submit: () => { window.location.href = '/' } });
+          Dialog.success({ content: content.message, submit: () => { window.location.href = '/'; } });
         } else {
           setCookie('user', '', -1);
           Dialog.info({ content: content.message });

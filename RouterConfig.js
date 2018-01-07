@@ -311,14 +311,14 @@ export default {
       path: 'admin',
       getComponent(nextState, cb) {
         if (!USER_INFO) { // 如果没有登录, 限制访问
-          window.location.href = '/#/login';
+          window.location.href = '/';
           return;
         }
         const {
           userPower
         } = USER_INFO;
         if (userPower !== '6' && userPower !== '7' && userPower !== '8' && userPower !== '9') {
-          window.location.href = '/#/login';
+          window.location.href = '/';
           return;
         }
         require.ensure([], (require) => {
@@ -330,7 +330,7 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               if (!USER_INFO) { // 如果没有登录, 限制访问
-                window.location.href = '/#/login';
+                window.location.href = '/';
                 return;
               }
               require.ensure([], (require) => {
@@ -354,7 +354,7 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               if (!USER_INFO) { // 如果没有登录, 限制访问
-                window.location.href = '/#/login';
+                window.location.href = '/';
                 return;
               }
               const {
@@ -374,7 +374,7 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               if (!USER_INFO) { // 如果没有登录, 限制访问
-                window.location.href = '/#/login';
+                window.location.href = '/';
                 return;
               }
               const {
@@ -394,7 +394,7 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               if (!USER_INFO) { // 如果没有登录, 限制访问
-                window.location.href = '/#/login';
+                window.location.href = '/';
                 return;
               }
               const {
@@ -414,7 +414,7 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               if (!USER_INFO) { // 如果没有登录, 限制访问
-                window.location.href = '/#/login';
+                window.location.href = '/';
                 return;
               }
               const {
@@ -434,7 +434,7 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               if (!USER_INFO) { // 如果没有登录, 限制访问
-                window.location.href = '/#/login';
+                window.location.href = '/';
                 return;
               }
               const {
@@ -454,7 +454,7 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               if (!USER_INFO) { // 如果没有登录, 限制访问
-                window.location.href = '/#/login';
+                window.location.href = '/';
                 return;
               }
               const {

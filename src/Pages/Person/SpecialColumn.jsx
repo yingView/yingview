@@ -150,10 +150,12 @@ class SpecialColumn extends Component {
               </li>
             )) :
               (<li className="person-book-empty">
-                您还没有创建专栏&nbsp;&nbsp;
-                                <Link to={{ pathname: 'index/articaledit' }} target={'_blank'}>
+                <span>
+                  您还没有创建专栏,&nbsp;&nbsp;
+                </span>
+                <Link to={{ pathname: 'index/book/bookEdit' }} target={'_blank'} style={{ color: '#24d0fb' }}>
                   立即创建
-                                </Link>
+                </Link>
               </li>)
           }
         </ul>
