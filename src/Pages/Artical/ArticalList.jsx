@@ -59,25 +59,25 @@ class ArticalList extends Component {
               onClick={this.setKeyWord.bind(this, '')}
             >
               所有文章
-                        </div>
+            </div>
             <div
               className={`${keyword === 'new' ? 'checked ' : ''}new-artical nav-button`}
               onClick={this.setKeyWord.bind(this, 'new')}
             >
               最新作品
-                        </div>
+            </div>
             <div
               className={`${keyword === 'great' ? 'checked ' : ''}great-artical nav-button`}
               onClick={this.setKeyWord.bind(this, 'great')}
             >
               精品推荐
-                        </div>
+            </div>
             <div
               className={`${keyword === 'hot' ? 'checked ' : ''}hot-artical nav-button`}
               onClick={this.setKeyWord.bind(this, 'hot')}
             >
               热门文章
-                        </div>
+            </div>
             <Link to="/index/articaledit" target={'_blank'}>
               <div className="add-artical">发布作品</div>
             </Link>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Ajax, Utils, Input } from 'yingview-form';
+import { Ajax, Utils, Input, Dialog } from 'yingview-form';
 
 const { getCookie, deepCopy } = Utils;
 require('./category.less');
@@ -59,8 +59,14 @@ class Category extends Component {
       },
       dataType: 'json',
       success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          Dialog.success({ content: '删除成功！' });
+        } else {
+          Dialog.success({ content: '删除失败！' });
+        }
       }
-    })
+    });
   }
 
   saveData(item) {
@@ -79,6 +85,12 @@ class Category extends Component {
       },
       dataType: 'json',
       success: (res) => {
+        const { content } = res;
+        if (content.isSuccess) {
+          Dialog.success({ content: '删除成功！' });
+        } else {
+          Dialog.success({ content: '删除失败！' });
+        }
       }
     });
   }

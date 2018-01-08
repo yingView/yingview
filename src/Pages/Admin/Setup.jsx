@@ -17,6 +17,8 @@ class Setup extends Component {
     };
     this.userInfo = getCookie('user') ? JSON.parse(getCookie('user')) : {};
     this.current = 1;
+  }
+  componentDidMount() {
     this.queryNavList();
     this.queryBannerList();
     this.querySystem();

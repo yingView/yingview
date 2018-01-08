@@ -24,7 +24,7 @@ class BookDetail extends Component {
       url: window.hostname + 'yingview.php',
       data: {
         rpcname: 'category',
-        method: 'category'
+        method: 'quertCategory'
       },
       dataType: 'json',
       success: (res) => {
