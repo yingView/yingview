@@ -106,7 +106,7 @@ export default {
               return;
             }
             require.ensure([], (require) => {
-              cb(null, require('./src/Pages/Person'))
+              cb(null, require('./src/Pages/Person'));
             }, 'Person').default
           },
           childRoutes: [{
@@ -250,7 +250,7 @@ export default {
           path: 'book',
           getComponent(nextState, cb) {
             require.ensure([], (require) => {
-              cb(null, require('./src/Pages/Book'))
+              cb(null, require('./src/Pages/Book'));
             }, 'Book').default
           },
           childRoutes: [{
@@ -258,8 +258,8 @@ export default {
               indexRoute: {
                 getComponent(nextState, cb) {
                   require.ensure([], (require) => {
-                    cb(null, require('./src/Pages/Book/BookDetail.jsx'))
-                  }, 'BookDetail')
+                    cb(null, require('./src/Pages/Book/BookDetail.jsx'));
+                  }, 'BookDetail');
                 }
               }
             },
@@ -282,8 +282,8 @@ export default {
                     return;
                   }
                   require.ensure([], (require) => {
-                    cb(null, require('./src/Pages/Book/BookEdit.jsx'))
-                  }, 'BookEdit')
+                    cb(null, require('./src/Pages/Book/BookEdit.jsx'));
+                  }, 'BookEdit');
                 }
               }
             }
@@ -295,7 +295,7 @@ export default {
       path: 'login',
       getComponent(nextState, cb) {
         require.ensure([], (require) => {
-          cb(null, require('./src/Pages/Login'))
+          cb(null, require('./src/Pages/Login'));
         }, 'Login').default
       }
     },
@@ -303,7 +303,7 @@ export default {
       path: 'register',
       getComponent(nextState, cb) {
         require.ensure([], (require) => {
-          cb(null, require('./src/Pages/Register'))
+          cb(null, require('./src/Pages/Register'));
         }, 'Register').default
       }
     },
@@ -322,7 +322,7 @@ export default {
           return;
         }
         require.ensure([], (require) => {
-          cb(null, require('./src/Pages/Admin'))
+          cb(null, require('./src/Pages/Admin'));
         }, 'Admin').default
       },
       childRoutes: [{
@@ -334,7 +334,7 @@ export default {
                 return;
               }
               require.ensure([], (require) => {
-                cb(null, require('./src/Pages/Admin/Main.jsx'))
+                cb(null, require('./src/Pages/Admin/Main.jsx'));
               }, 'Main')
             }
           }
@@ -344,8 +344,8 @@ export default {
           indexRoute: {
             getComponent(nextState, cb) {
               require.ensure([], (require) => {
-                cb(null, require('./src/Pages/Admin/Main.jsx'))
-              }, 'Main')
+                cb(null, require('./src/Pages/Admin/Main.jsx'));
+              }, 'Main');
             }
           }
         },
@@ -424,8 +424,8 @@ export default {
                 return;
               }
               require.ensure([], (require) => {
-                cb(null, require('./src/Pages/Admin/Book.jsx'))
-              }, 'Book')
+                cb(null, require('./src/Pages/Admin/Book.jsx'));
+              }, 'Book');
             }
           }
         },

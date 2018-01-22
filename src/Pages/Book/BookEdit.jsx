@@ -113,7 +113,7 @@ class BookDetail extends Component {
       success: (res) => {
         const { content } = res;
         if (content.isSuccess) {
-          Dialog.success({ content: content.message, submit: () => { window.location.href = '/#/index/book?bookCode' + content.bookCode; } });
+          Dialog.success({ content: content.message, submit: () => { window.location.href = '/#/index/book/bookdetail?bookCode' + content.bookCode; } });
         } else {
           Dialog.error({ content: content.message });
         }
